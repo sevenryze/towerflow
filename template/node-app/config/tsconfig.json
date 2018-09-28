@@ -13,14 +13,6 @@
     "alwaysStrict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "/home/ryze/Temp-Project/app/src",
-    "/home/ryze/Temp-Project/app/bin",
-    "/home/ryze/Temp-Project/app/typings"
-  ],
-  "exclude": [
-    "src/**/*.d.ts",
-    "bin/**/*.d.ts",
-    "typings/**/*.d.ts"
-  ]
+  "include": ["src", "bin", "typings"],
+  "exclude": ["src/**/*.d.ts", "bin/**/*.d.ts", "typings/**/*.d.ts"]
 }

@@ -52,7 +52,7 @@
       "name": "TS dev debug",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/src/workflow-test/node-app/ts-dev.js",
+      "program": "${workspaceFolder}/src/workflow-test/web-lib/tsbuild.js",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,

@@ -3,7 +3,7 @@ import Debug from "debug";
 import fsExtra from "fs-extra";
 import os from "os";
 import path from "path";
-import { tsWatch } from "./ts-watch.js";
+import { tsWatch } from "./ts-watch";
 
 const debug = Debug("towerflow:run-ts-dev");
 
@@ -13,15 +13,28 @@ export function runTsDev(
   ownPath: string,
   distPath: string
 ) {
-  // This is workaround for tsconfig cannot resolve rootDir to match context.
-  const tsconfigBaseJson = require(`${ownPath}/template/node-app/config/tsconfig-base.json`);
+  process.on("exit", code => {
+    debug(`process exit, do clean works`);
+  });
+
+  process.on("SIGINT", signal => {
+    console.log(`Towerflow get SIGINT, bye!`);
+    process.exit(0);
+  });
+
   const tsconfigPath = path
     .join(ownPath, "template/node-app/config/tsconfig.json")
+    .replace(/\\/g, "/");
+  const tsconfigJson = require(tsconfigPath);
+
+  // This is workaround for tsconfig cannot resolve rootDir to match context.
+  const tsconfigTmpPath = path
+    .join(ownPath, "tmp/tsconfig-tmp.json")
     .replace(/\\/g, "/");
 
   debug(`Watch the orphon tsc generated files`);
   const watchFiles: string[] = [];
-  tsconfigBaseJson.include.map((dir: string) => {
+  tsconfigJson.include.map((dir: string) => {
     watchFiles.push(
       (path.resolve(appPath, dir) + "/**/*.ts").replace(/\\/g, "/")
     );
@@ -46,17 +59,19 @@ export function runTsDev(
   });
 
   debug(`Generate tsconfig.json`);
-  const tsconfig = tsconfigBaseJson;
-  tsconfig.include = tsconfigBaseJson.include.map((item: string) =>
+  const tsconfig = tsconfigJson;
+  tsconfig.include = tsconfigJson.include.map((item: string) =>
     `${appPath}/${item}`.replace(/\\/g, "/")
   );
 
   debug(`tsconfig.json workaround include: ${tsconfig.include}`);
+  fsExtra.ensureFileSync(tsconfigTmpPath);
   fsExtra.writeFileSync(
-    tsconfigPath,
+    tsconfigTmpPath,
     JSON.stringify(tsconfig, null, 2) + os.EOL
   );
 
   debug(`Start ts watch files...`);
-  tsWatch(tsconfigPath);
+  tsWatch(tsconfigTmpPath);
+  //tsWatch(tsconfigPath, appPath);
 }

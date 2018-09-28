@@ -8,7 +8,7 @@ import { clearConsole } from "../helper/clear-console";
 import { createWebpackCompiler } from "../helper/create-webpack-compiler";
 import { createWebpackDevServer } from "../helper/create-webpack-dev-server";
 
-const debug = Debug("towerflow:prepare-webpack");
+const debug = Debug("towerflow:run-wds");
 
 export function runWebpackDevServer(
   appPath: string,
@@ -137,7 +137,7 @@ function getWebpackConfig(
                       ? colors.bold.yellow
                       : colors.bold.red;
                   return (
-                    "Does not compute.... " +
+                    "Towerflow pack " +
                     messageColor(
                       Object.keys(error).map(key => `${key}: ${error[key]}`)
                     )
@@ -201,7 +201,7 @@ function getWebpackConfig(
       new webpack.HotModuleReplacementPlugin()
     ],
 
-    devtool: "inline-source-map",
+    devtool: "cheap-eval-source-map",
 
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
@@ -248,7 +248,7 @@ function getWebpackDevServerConfig(
 
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
-    quiet: false,
+    quiet: true,
 
     // Reportedly, this avoids CPU overload on some systems.
     // https://github.com/facebook/create-react-app/issues/293

@@ -5,8 +5,8 @@ import commander from "commander";
 import Debug from "debug";
 import path from "path";
 import { init } from "../src/init";
-import { start as nodeAppStart } from "../src/start";
-import { start as webAppStart } from "../src/web-app/start";
+import { start } from "../src/start";
+import { build } from "../src/build";
 
 const debug = Debug("towerflow:cli");
 
@@ -65,15 +65,17 @@ commander
             fatherPath: fatherRoot,
             ownPath: ownPath,
             appType: TowerflowType.webApp,
-            appDeps: [
-              "react",
-              "@types/react",
-              "react-dom",
-              "@types/react-dom",
-              "styled-components",
-              "@types/styled-components"
-            ],
-            appDevDeps: ["towerflow"],
+            appDeps: cmdOptions.onlyTemplate
+              ? []
+              : [
+                  "react",
+                  "@types/react",
+                  "react-dom",
+                  "@types/react-dom",
+                  "styled-components",
+                  "@types/styled-components"
+                ],
+            appDevDeps: cmdOptions.onlyTemplate ? [] : ["towerflow"],
             preDefinedPackageJson: {
               name: name,
               version: "0.1.0",
@@ -99,21 +101,24 @@ commander
             ownPath: ownPath,
 
             appType: TowerflowType.webLib,
-            appDeps: [],
-            appDevDeps: [
-              "towerflow",
-              "react",
-              "@types/react",
-              "react-dom",
-              "@types/react-dom",
-              "styled-components",
-              "@types/styled-components"
-            ],
+            appDeps: cmdOptions.onlyTemplate ? [] : [],
+            appDevDeps: cmdOptions.onlyTemplate
+              ? []
+              : [
+                  "towerflow",
+                  "react",
+                  "@types/react",
+                  "react-dom",
+                  "@types/react-dom",
+                  "styled-components",
+                  "@types/styled-components"
+                ],
             preDefinedPackageJson: {
               name: name,
               version: "0.1.0",
               private: true,
-              files: ["src/component/", "!src/component/**/*.ts", "typings/"],
+              main: "src/component/index.js",
+              files: ["src/component/", "!src/component/**/*.tsx", "typings/"],
               scripts: {
                 start: "towerflow start",
                 build: "towerflow build",
@@ -134,7 +139,7 @@ commander
             fatherPath: fatherRoot,
             ownPath: ownPath,
             appType: TowerflowType.nodeApp,
-            appDeps: [],
+            appDeps: cmdOptions.onlyTemplate ? [] : [],
             appDevDeps: cmdOptions.onlyTemplate ? [] : ["towerflow"],
             preDefinedPackageJson: {
               name: name,
@@ -170,8 +175,8 @@ commander
             fatherPath: fatherRoot,
             ownPath: ownPath,
             appType: TowerflowType.nodeLib,
-            appDeps: [],
-            appDevDeps: ["towerflow"],
+            appDeps: cmdOptions.onlyTemplate ? [] : [],
+            appDevDeps: cmdOptions.onlyTemplate ? [] : ["towerflow"],
             preDefinedPackageJson: {
               name: name,
               version: "0.1.0",
@@ -212,12 +217,12 @@ commander
 
     switch (appType) {
       case TowerflowType.webApp:
-        webAppStart(appPath, appName, ownPath);
+        start({ appPath, appName, ownPath, appType });
         break;
       case TowerflowType.webLib:
         break;
       case TowerflowType.nodeApp:
-        nodeAppStart(appPath, appName, ownPath);
+        start({ appPath, appName, ownPath, appType });
         break;
       case TowerflowType.nodeLib:
         break;
@@ -231,6 +236,32 @@ commander
   .description("Build the optimised version for publish.")
   .action(() => {
     debug(`We call the build command.`);
+
+    const appPath = process.cwd();
+    const appPkgJson = require(path.join(appPath, "package.json"));
+    const appName = appPkgJson.name;
+    const appType = appPkgJson.towerflow.type;
+    const ownName = ownPkg.name;
+    const ownPath = path.join(__dirname, "../");
+
+    switch (appType) {
+      case TowerflowType.webApp:
+        break;
+      case TowerflowType.webLib:
+        build({
+          appPath,
+          ownPath,
+          appName,
+          appType
+        });
+        break;
+      case TowerflowType.nodeApp:
+        break;
+      case TowerflowType.nodeLib:
+        break;
+      default:
+        console.log(`The template argument gets Unknown type.`);
+    }
   });
 
 commander

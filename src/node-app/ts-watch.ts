@@ -46,17 +46,17 @@ export function tsWatch(configPath: string) {
   // don't need to.
   // Note that we're assuming `origCreateProgram` and `origPostProgramCreate`
   // doesn't use `this` at all.
-  const origCreateProgram = host.createProgram;
+  /*  const origCreateProgram = host.createProgram;
   host.createProgram = (rootNames, options, host, oldProgram) => {
     //onsole.log("** We're about to create the program! **");
     return origCreateProgram(rootNames, options, host, oldProgram);
-  };
-  const origPostProgramCreate = host.afterProgramCreate;
+  }; */
 
+  /*   const origPostProgramCreate = host.afterProgramCreate;
   host.afterProgramCreate = program => {
     //console.log("** We finished making the program! **");
     origPostProgramCreate!(program);
-  };
+  }; */
 
   // `createWatchProgram` creates an initial program, watches files, and updates
   // the program over time.

@@ -8,13 +8,6 @@ import { installDeps } from "./helper/install-deps";
 
 const debug = Debug("towerflow:script-init");
 
-// Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
-process.on("unhandledRejection", err => {
-  throw err;
-});
-
 /**
  * Call this function to scofflot one app.
  */
