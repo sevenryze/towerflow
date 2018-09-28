@@ -4,11 +4,10 @@ import chalk from "chalk";
 import commander from "commander";
 import Debug from "debug";
 import path from "path";
-import { init as webAppInit } from "../src/web-app/init";
-import { start as webAppStart } from "../src/web-app/start";
-import { init as nodeAppInit } from "../src/node-app/init";
-import { start as nodeAppStart } from "../src/node-app/start";
 import ownPkg from "../package.json";
+import { init } from "../src/init";
+import { start as nodeAppStart } from "../src/node-app/start";
+import { start as webAppStart } from "../src/web-app/start";
 
 const debug = Debug("towerflow:cli");
 
@@ -53,17 +52,129 @@ commander
 
     switch (cmdOptions.template) {
       case TowerflowType.webApp:
-        webAppInit(appRoot, name, fatherRoot);
+        init({
+          appPath: appRoot,
+          appName: name,
+          fatherPath: fatherRoot,
+          appType: TowerflowType.webApp,
+          appDeps: [
+            "react",
+            "@types/react",
+            "react-dom",
+            "@types/react-dom",
+            "styled-components",
+            "@types/styled-components"
+          ],
+          appDevDeps: ["towerflow"],
+          preDefinedPackageJson: {
+            name: name,
+            version: "0.1.0",
+            private: true,
+            scripts: {
+              start: "towerflow start",
+              build: "towerflow build",
+              test: "towerflow test --env=jsdom",
+              publish: "towerflow publish"
+            },
+            towerflow: {
+              type: TowerflowType.webApp
+            }
+          }
+        });
+
         break;
       case TowerflowType.webLib:
+        init({
+          appPath: appRoot,
+          appName: name,
+          fatherPath: fatherRoot,
+          appType: TowerflowType.webLib,
+          appDeps: [],
+          appDevDeps: [
+            "towerflow",
+            "react",
+            "@types/react",
+            "react-dom",
+            "@types/react-dom",
+            "styled-components",
+            "@types/styled-components"
+          ],
+          preDefinedPackageJson: {
+            name: name,
+            version: "0.1.0",
+            private: true,
+            files: ["src/component/", "!src/component/**/*.ts", "typings/"],
+            scripts: {
+              start: "towerflow start",
+              build: "towerflow build",
+              test: "towerflow test --env=jsdom",
+              publish: "towerflow publish"
+            },
+            towerflow: {
+              type: TowerflowType.webLib
+            }
+          }
+        });
+
         break;
       case TowerflowType.nodeApp:
-        nodeAppInit(appRoot, name, fatherRoot);
+        init({
+          appPath: appRoot,
+          appName: name,
+          fatherPath: fatherRoot,
+          appType: TowerflowType.nodeApp,
+          appDeps: [],
+          appDevDeps: ["towerflow"],
+          preDefinedPackageJson: {
+            name: name,
+            version: "0.1.0",
+            private: true,
+            bin: {
+              [name]: "index.js"
+            },
+            files: ["bin/", "!bin/**/*.ts", "src/", "!src/**/*.ts", "typings/"],
+            scripts: {
+              start: "towerflow start",
+              build: "towerflow build",
+              test: "towerflow test --env=jsdom",
+              publish: "towerflow publish"
+            },
+            towerflow: {
+              type: TowerflowType.nodeApp
+            }
+          }
+        });
+
         break;
       case TowerflowType.nodeLib:
+        init({
+          appPath: appRoot,
+          appName: name,
+          fatherPath: fatherRoot,
+          appType: TowerflowType.nodeLib,
+          appDeps: [],
+          appDevDeps: ["towerflow"],
+          preDefinedPackageJson: {
+            name: name,
+            version: "0.1.0",
+            private: true,
+            files: ["src/", "!src/**/*.ts", "typings/"],
+            scripts: {
+              start: "towerflow start",
+              build: "towerflow build",
+              test: "towerflow test --env=jsdom",
+              publish: "towerflow publish"
+            },
+            towerflow: {
+              type: TowerflowType.nodeLib
+            }
+          }
+        });
         break;
       default:
-        console.log(`The template argument gets Unknown type.`);
+        console.log(
+          `The template argument gets Unknown type, valid type: Fuck you! dummy suck loser, you gonna typing everything wrong?`
+        );
     }
   });
 
