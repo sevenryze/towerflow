@@ -1,0 +1,13 @@
+node_modules/
+
+dist/
+
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
+
+bin/**/*.js
+bin/**/*.js.map
+bin/**/*.d.ts
+bin/**/*.d.ts.map
