@@ -48,13 +48,13 @@ export function tsWatch(configPath: string) {
   // doesn't use `this` at all.
   const origCreateProgram = host.createProgram;
   host.createProgram = (rootNames, options, host, oldProgram) => {
-    console.log("** We're about to create the program! **");
+    //onsole.log("** We're about to create the program! **");
     return origCreateProgram(rootNames, options, host, oldProgram);
   };
   const origPostProgramCreate = host.afterProgramCreate;
 
   host.afterProgramCreate = program => {
-    console.log("** We finished making the program! **");
+    //console.log("** We finished making the program! **");
     origPostProgramCreate!(program);
   };
 
@@ -70,8 +70,7 @@ function reportDiagnostic(diagnostic: ts.Diagnostic) {
     ":",
     ts.flattenDiagnosticMessageText(
       diagnostic.messageText,
-      //formatHost.getNewLine()
-      "/n"
+      formatHost.getNewLine()
     )
   );
 }
@@ -82,5 +81,5 @@ function reportDiagnostic(diagnostic: ts.Diagnostic) {
  */
 function reportWatchStatusChanged(diagnostic: ts.Diagnostic) {
   let message = ts.formatDiagnostic(diagnostic, formatHost);
-  console.log(message);
+  console.log(`Towerflow ${message}`);
 }

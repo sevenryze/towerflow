@@ -18,10 +18,11 @@ process.on("unhandledRejection", err => {
 /**
  * Call this function to scofflot one app.
  */
-export async function init(options: {
+export function init(options: {
   appPath: string;
   appName: string;
   fatherPath: string;
+  ownPath: string;
   appType: TowerflowType;
   appDeps: string[];
   appDevDeps: string[];
@@ -71,13 +72,20 @@ export async function init(options: {
   debug(`Copy README.md`);
   fsExtra.existsSync(path.join(options.appPath, "README.md"));
 
-  debug(`Copy template files to app folder`);
-  const ownPath = path.join(options.appPath, "node_modules", "towerflow");
-  const templatePath = path.join(ownPath, "template", TowerflowType.nodeApp);
+  const templatePath = path.join(options.ownPath, "template", options.appType);
 
+  debug(`Copy template files to app folder, templateDir: ${templatePath}`);
   if (fsExtra.existsSync(templatePath)) {
     try {
-      fsExtra.copySync(templatePath, options.appPath);
+      fsExtra.copySync(templatePath, options.appPath, {
+        filter: (src, dest) => {
+          if (/node-app\/config/.test(src)) {
+            return false;
+          }
+
+          return true;
+        }
+      });
     } catch (error) {
       console.log(error);
       return;

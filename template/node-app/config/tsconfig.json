@@ -14,9 +14,9 @@
     "skipLibCheck": true
   },
   "include": [
-    "c:/Users/duguagua/Project/towerflow/template/node-app/src",
-    "c:/Users/duguagua/Project/towerflow/template/node-app/bin",
-    "c:/Users/duguagua/Project/towerflow/template/node-app/typings"
+    "/home/ryze/Temp-Project/app/src",
+    "/home/ryze/Temp-Project/app/bin",
+    "/home/ryze/Temp-Project/app/typings"
   ],
   "exclude": [
     "src/**/*.d.ts",

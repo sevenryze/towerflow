@@ -1,7 +1,8 @@
 import Debug from "debug";
 import path from "path";
-import { checkRequiredFiles } from "../helper/check-required-files";
-import { runTsDev } from "./run-ts-dev";
+import { checkRequiredFiles } from "./helper/check-required-files";
+import { runTsDev } from "./node-app/run-ts-dev";
+import { runWebpackDevServer } from "./web-app/run-wds";
 
 const debug = Debug("towerflow:script-start");
 
@@ -26,5 +27,5 @@ export async function start(appPath: string, appName: string, ownPath: string) {
     process.exit(1);
   }
 
-  runTsDev(appPath, appName, "", "");
+  runTsDev(appPath, appName, ownPath, "");
 }
