@@ -72,7 +72,11 @@ export function init(options: {
     try {
       fsExtra.copySync(templatePath, options.appPath, {
         filter: (src, dest) => {
-          if (/node-app\/config/.test(src)) {
+          if (
+            new RegExp(`template\/${options.appType}\/config`).test(
+              src.replace(/\\/g, "/")
+            )
+          ) {
             return false;
           }
 
