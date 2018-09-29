@@ -1,6 +1,6 @@
 {
   "name": "towerflow",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "The dev workflow used by The Great Tower Edu Inc. ",
   "files": [
     "bin/",

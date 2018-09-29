@@ -1,23 +1,19 @@
 {
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.js",
+  "files": ["src/", "!src/**/*.ts", "typings/"],
   "scripts": {
     "start": "towerflow start",
     "build": "towerflow build",
     "test": "towerflow test --env=jsdom",
-    "publish": "towerflow publish"
+    "generate-configs": "towerflow config-files --generate",
+    "remove-configs": "towerflow config-files --remove"
   },
   "towerflow": {
-    "type": "web-app"
+    "type": "node-app"
   },
-  "dependencies": {
-    "@types/react": "",
-    "@types/react-dom": "",
-    "@types/styled-component": "",
-    "react": "",
-    "react-dom": "",
-    "styled-component": ""
-  },
+  "dependencies": {},
   "devDependencies": {
     "towerflow": ""
   }

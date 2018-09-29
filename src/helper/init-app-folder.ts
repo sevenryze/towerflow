@@ -64,7 +64,7 @@ export function initAppFolder(options: {
   }
 
   debug(`Create package.json`);
-  const tempPkgPath = parsePath(templatePath, "package.json");
+  const tempPkgPath = parsePath(templatePath, "tmp-package.json");
   let tempPkgJson = require(tempPkgPath);
 
   debug(`Get dependencies from template package.json`);
@@ -117,7 +117,7 @@ export function initAppFolder(options: {
 }
 
 function checkBypassFiles(appType: TowerflowType, src: string) {
-  return new RegExp(`template\/${appType}\/config|package.json$`).test(
+  return new RegExp(`template\/${appType}\/config|tmp-package.json$`).test(
     parsePath(src)
   );
 }
