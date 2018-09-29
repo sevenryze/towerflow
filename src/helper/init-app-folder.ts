@@ -4,7 +4,6 @@ import os from "os";
 import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
 import { installDeps } from "./install-deps";
-import { normalPath } from "./normal-path";
 import { parsePath } from "./parse-path";
 
 const debug = Debug(__filename);
@@ -119,6 +118,6 @@ export function initAppFolder(options: {
 
 function checkBypassFiles(appType: TowerflowType, src: string) {
   return new RegExp(`template\/${appType}\/config|package.json$`).test(
-    normalPath(src)
+    parsePath(src)
   );
 }

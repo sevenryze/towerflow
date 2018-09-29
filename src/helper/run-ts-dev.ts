@@ -12,29 +12,24 @@ export function runTsDev(
   appType: TowerflowType,
   ownPath: string
 ) {
-  const tsconfigPath = parsePath(
+  let tsconfigPath = parsePath(
     ownPath,
     `template/${appType}/config/tsconfig.json`
   );
 
-  let actualUseTsconfigPath = tsconfigPath;
-
-  debug(`Read tsconfig.json content: ${tsconfigPath}`);
-  const tsconfigJson = require(tsconfigPath);
-
   debug(`Watch the orphon tsc generated files`);
-  watchAndcleanGeneratedFiles(appPath, tsconfigJson, true);
+  watchAndcleanGeneratedFiles(appPath, tsconfigPath, appType);
 
-  debug(`Generate tsconfig-tmp.json for workaround`);
+  debug(`Generate temp tsconfig.json for workaround`);
   const tmpTsconfigPath = generateTempTsconfigFile(
-    tsconfigJson,
+    tsconfigPath,
     appPath,
     ownPath
   );
 
   // Comment this line if we don't want to use temp tsconfig.json.
-  actualUseTsconfigPath = tmpTsconfigPath;
+  tsconfigPath = tmpTsconfigPath;
 
   debug(`Start ts watch files...`);
-  tsWatch(actualUseTsconfigPath);
+  tsWatch(tsconfigPath);
 }

@@ -26,14 +26,21 @@ export async function build(options: {
 
   switch (options.appType) {
     case TowerflowType.webApp:
-      debug(`Run webpack-dev-server`);
+      debug(`Begin to run webpack build`);
 
       break;
-    case TowerflowType.webLib:
     case TowerflowType.nodeApp:
-    case TowerflowType.nodeLib:
-      debug(`Begin the web lib process`);
+      debug(`Begin to build ts lib`);
       buildTsLib(options);
+
+      // TODO: Do some node app specify build step.
+      break;
+
+    case TowerflowType.webLib:
+    case TowerflowType.nodeLib:
+      debug(`Begin to build ts lib`);
+      buildTsLib(options);
+
       break;
     default:
       console.log(

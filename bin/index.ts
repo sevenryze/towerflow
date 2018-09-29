@@ -6,6 +6,7 @@ import { build } from "../src/build";
 import { Debug } from "../src/helper/debugger";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
+import { manageConfigFiles } from "../src/manage-config-files";
 import { start } from "../src/start";
 
 const debug = Debug(__filename);
@@ -135,6 +136,8 @@ commander
 
     switch (appType) {
       case TowerflowType.webApp:
+        // TODO: Make this one.
+
         break;
       case TowerflowType.webLib:
       case TowerflowType.nodeApp:
@@ -145,6 +148,7 @@ commander
           appName,
           appType
         });
+
         break;
       default:
         console.log(`The template argument gets Unknown type.`);
@@ -152,10 +156,35 @@ commander
   });
 
 commander
-  .command("publish")
-  .description("Publish this project.")
-  .action(() => {
-    debug(`We call the publish command.`);
+  .command("config-files")
+  .description(
+    `Generate assistant files like tsconfig.json, tslint.json and jest.config.js. Note that changing these files ${chalk.redBright(
+      "DO NOT"
+    )} affect workflow.`
+  )
+  .option("--generate", "Generate config files for IDE assistant.")
+  .option("--remove", "Delete those config files.")
+  .action((options: { generate: boolean; remove: boolean }) => {
+    debug(`We call the config-files command.`);
+
+    debug(
+      `config-files command, generate: ${options.generate}, remove: ${
+        options.remove
+      }`
+    );
+
+    const appPath = process.cwd();
+    const appPkgJson = require(parsePath(appPath, "package.json"));
+    const appType = appPkgJson.towerflow.type;
+    const ownPath = parsePath(__dirname, "../");
+
+    manageConfigFiles({
+      appPath,
+      appType,
+      ownPath,
+      isGenerate: options.generate,
+      isRemove: options.remove
+    });
   });
 
 commander

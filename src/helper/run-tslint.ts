@@ -24,7 +24,7 @@ export function runTsLint(options: {
     "npx",
     ["tslint", "-c", tslintConfigPath, "-p", tmpTsConfigPath],
     {
-      cwd: options.ownPath,
+      cwd: options.appPath,
       stdio: "inherit"
     }
   );

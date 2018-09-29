@@ -3,13 +3,12 @@ import os from "os";
 import { parsePath } from "./parse-path";
 
 export function generateTempTsconfigFile(
-  tsconfigJson: {
-    include: string[];
-    exclude: string[];
-  },
+  tsconfigPath: string,
   appPath: string,
   ownPath: string
 ) {
+  const tsconfigJson = require(tsconfigPath);
+
   tsconfigJson.include = tsconfigJson.include.map((item: string) =>
     parsePath(`${appPath}/${item}`)
   );

@@ -19,6 +19,8 @@ export function cleanSrcFolder(appPath: string, appType: TowerflowType) {
     default:
       console.log(`Not matched type`);
   }
+
+  debug(`source code folder clean complete`);
 }
 
 /**
@@ -45,7 +47,7 @@ function cleanFolder(folderPath: string[]) {
   });
 
   invalidFilePaths.forEach(filePath => {
-    debug(`Delete file: ${filePath}`);
+    debug(`Delete file: ${parsePath(filePath)}`);
     removeSync(filePath);
   });
 }
