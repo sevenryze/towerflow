@@ -1,9 +1,8 @@
-import path from "path";
 import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
 import { generateTempTsconfigFile } from "./generate-temp-tsconfig-file";
-import { normalPath } from "./normal-path";
-import { tsWatch } from "./ts-watch";
+import { parsePath } from "./parse-path";
+import { tsWatch } from "./run-ts-watch";
 import { watchAndcleanGeneratedFiles } from "./watch-and-clean-generated-files";
 
 const debug = Debug(__filename);
@@ -13,9 +12,11 @@ export function runTsDev(
   appType: TowerflowType,
   ownPath: string
 ) {
-  const tsconfigPath = normalPath(
-    path.join(ownPath, `template/${appType}/config/tsconfig.json`)
+  const tsconfigPath = parsePath(
+    ownPath,
+    `template/${appType}/config/tsconfig.json`
   );
+
   let actualUseTsconfigPath = tsconfigPath;
 
   debug(`Read tsconfig.json content: ${tsconfigPath}`);

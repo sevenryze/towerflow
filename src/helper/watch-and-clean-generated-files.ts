@@ -1,11 +1,10 @@
+import chalk from "chalk";
 import chokidar from "chokidar";
 import fsExtra from "fs-extra";
-import path from "path";
 import { Debug } from "./debugger";
-import { normalPath } from "./normal-path";
-import chalk from "chalk";
-import { checkTsFile } from "./checkTsFile";
-import { checkCompilerGeneratedFile } from "./checkCompilerGeneratedFile";
+import { matchCompilerGeneratedFile } from "./match-compiler-generated-file";
+import { matchTsFile } from "./match-ts-file";
+import { parsePath } from "./parse-path";
 
 const debug = Debug(__filename);
 
@@ -19,8 +18,7 @@ export function watchAndcleanGeneratedFiles(
 ) {
   const watchPaths: string[] = [];
   tsconfigJson.include.map((dir: string) => {
-    dir !== "typings" &&
-      watchPaths.push(normalPath(path.resolve(appPath, dir)));
+    dir !== "typings" && watchPaths.push(parsePath(appPath, dir));
   });
 
   debug(`Create watcher with watch path: ${watchPaths}`);
@@ -33,11 +31,11 @@ export function watchAndcleanGeneratedFiles(
     debug(`watching on ${filePath}`);
 
     // Match .ts and .tsx, not d.ts
-    if (checkTsFile(filePath)) {
+    if (matchTsFile(filePath)) {
       watchedTsFiles.add(filePath);
     } else {
       // Not only have we the generated files, not also the files created by users intentially.
-      if (checkCompilerGeneratedFile(filePath)) {
+      if (matchCompilerGeneratedFile(filePath)) {
         watchedOtherFiles.add(filePath);
       } else {
         // Not not allow user to create some wired files.
@@ -67,7 +65,7 @@ export function watchAndcleanGeneratedFiles(
   }
 
   watcher.on("unlink", (filePath: string) => {
-    if (!checkTsFile(filePath)) {
+    if (!matchTsFile(filePath)) {
       return;
     }
 
@@ -95,5 +93,3 @@ export function watchAndcleanGeneratedFiles(
     watcher && watcher.close();
   });
 }
-
-

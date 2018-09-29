@@ -2,11 +2,11 @@
 
 import chalk from "chalk";
 import commander from "commander";
-import path from "path";
-import { init } from "../src/init";
-import { start } from "../src/start";
 import { build } from "../src/build";
 import { Debug } from "../src/helper/debugger";
+import { parsePath } from "../src/helper/parse-path";
+import { init } from "../src/init";
+import { start } from "../src/start";
 
 const debug = Debug(__filename);
 
@@ -64,9 +64,9 @@ commander
         }, force: ${cmdOptions.force}, bypassNpm: ${cmdOptions.bypassNpm}`
       );
 
-      const fatherRoot = path.resolve(process.cwd());
-      const appRoot = path.join(fatherRoot, name);
-      const ownPath = path.join(__dirname, "../");
+      const fatherRoot = parsePath(process.cwd());
+      const appRoot = parsePath(fatherRoot, name);
+      const ownPath = parsePath(__dirname, "../");
       const appType = cmdOptions.template;
 
       debug(
@@ -111,11 +111,11 @@ commander
     debug(`We call the start command.`);
 
     const appPath = process.cwd();
-    const appPkgJson = require(path.join(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
     const ownName = ownPkg.name;
-    const ownPath = path.join(__dirname, "../");
+    const ownPath = parsePath(__dirname, "../");
 
     start({ appPath, appName, ownPath, appType });
   });
@@ -127,11 +127,11 @@ commander
     debug(`We call the build command.`);
 
     const appPath = process.cwd();
-    const appPkgJson = require(path.join(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
     const ownName = ownPkg.name;
-    const ownPath = path.join(__dirname, "../");
+    const ownPath = parsePath(__dirname, "../");
 
     switch (appType) {
       case TowerflowType.webApp:

@@ -1,8 +1,8 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import path from "path";
 import webpack from "webpack";
 import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
+import { parsePath } from "./parse-path";
 
 const debug = Debug(__filename);
 
@@ -35,7 +35,7 @@ export function getWebpackConfig(options: {
 
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: info =>
-        path.resolve(info.absoluteResourcePath).replace(/\\/g, "/")
+        parsePath(info.absoluteResourcePath)
     },
 
     resolve: {
@@ -50,7 +50,7 @@ export function getWebpackConfig(options: {
             {
               loader: "tslint-loader",
               options: {
-                configFile: path.resolve(
+                configFile: parsePath(
                   options.ownPath,
                   `template/${options.appType}/config/tslint.json`
                 )
@@ -71,7 +71,7 @@ export function getWebpackConfig(options: {
             {
               loader: "ts-loader",
               options: {
-                configFile: path.resolve(
+                configFile: parsePath(
                   options.ownPath,
                   `template/${options.appType}/config/tsconfig.json`
                 ),

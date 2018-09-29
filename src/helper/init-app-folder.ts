@@ -1,11 +1,11 @@
 import chalk from "chalk";
 import fsExtra from "fs-extra";
 import os from "os";
-import path from "path";
 import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
-import { normalPath } from "./normal-path";
 import { installDeps } from "./install-deps";
+import { normalPath } from "./normal-path";
+import { parsePath } from "./parse-path";
 
 const debug = Debug(__filename);
 
@@ -17,7 +17,7 @@ export function initAppFolder(options: {
   isBypassNpm: boolean;
 }) {
   debug(`Copy template files to app folder`);
-  const templatePath = path.join(options.ownPath, "template", options.appType);
+  const templatePath = parsePath(options.ownPath, "template", options.appType);
   debug(`templateDir: ${templatePath}`);
 
   if (fsExtra.existsSync(templatePath)) {
@@ -48,24 +48,24 @@ export function initAppFolder(options: {
   // See: https://github.com/npm/npm/issues/1862
   try {
     fsExtra.moveSync(
-      path.join(options.appPath, "gitignore"),
-      path.join(options.appPath, ".gitignore")
+      parsePath(options.appPath, "gitignore"),
+      parsePath(options.appPath, ".gitignore")
     );
   } catch (err) {
     // Append if there's already a `.gitignore` file there
     if (err.code === "EEXIST") {
       const data = fsExtra.readFileSync(
-        path.join(options.appPath, "gitignore")
+        parsePath(options.appPath, "gitignore")
       );
-      fsExtra.appendFileSync(path.join(options.appPath, ".gitignore"), data);
-      fsExtra.unlinkSync(path.join(options.appPath, "gitignore"));
+      fsExtra.appendFileSync(parsePath(options.appPath, ".gitignore"), data);
+      fsExtra.unlinkSync(parsePath(options.appPath, "gitignore"));
     } else {
       throw err;
     }
   }
 
   debug(`Create package.json`);
-  const tempPkgPath = path.join(templatePath, "package.json");
+  const tempPkgPath = parsePath(templatePath, "package.json");
   let tempPkgJson = require(tempPkgPath);
 
   debug(`Get dependencies from template package.json`);
@@ -86,7 +86,7 @@ export function initAppFolder(options: {
 
   debug(`Write to app folder`);
   fsExtra.writeFileSync(
-    path.join(options.appPath, "package.json"),
+    parsePath(options.appPath, "package.json"),
     JSON.stringify(tempPkgJson, null, 2) + os.EOL
   );
 

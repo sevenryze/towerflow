@@ -1,11 +1,9 @@
-import path from "path";
 import escape from "escape-string-regexp";
+import { parsePath } from "./parse-path";
 
 export function ignoredFiles(appSrcPath: string) {
   return new RegExp(
-    `^(?!${escape(
-      path.normalize(appSrcPath + "/").replace(/[\\]+/g, "/")
-    )}).+/node_modules/`,
+    `^(?!${escape(parsePath(appSrcPath + "/"))}).+/node_modules/`,
     "g"
   );
 }

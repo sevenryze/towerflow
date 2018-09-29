@@ -1,7 +1,6 @@
 import fsExtra from "fs-extra";
 import os from "os";
-import path from "path";
-import { normalPath } from "./normal-path";
+import { parsePath } from "./parse-path";
 
 export function generateTempTsconfigFile(
   tsconfigJson: {
@@ -12,13 +11,13 @@ export function generateTempTsconfigFile(
   ownPath: string
 ) {
   tsconfigJson.include = tsconfigJson.include.map((item: string) =>
-    normalPath(`${appPath}/${item}`)
+    parsePath(`${appPath}/${item}`)
   );
   tsconfigJson.exclude = tsconfigJson.exclude.map((item: string) =>
-    normalPath(`${appPath}/${item}`)
+    parsePath(`${appPath}/${item}`)
   );
 
-  const tmpTsconfigPath = normalPath(path.join(ownPath, "tmp/tsconfig.json"));
+  const tmpTsconfigPath = parsePath(ownPath, "tmp/tsconfig.json");
 
   fsExtra.ensureFileSync(tmpTsconfigPath);
   fsExtra.writeFileSync(

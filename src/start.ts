@@ -1,7 +1,7 @@
-import path from "path";
 import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
+import { parsePath } from "./helper/parse-path";
 import { runTsDev } from "./helper/run-ts-dev";
 import { runWebpackDevServer } from "./helper/run-wds";
 
@@ -36,7 +36,7 @@ export async function start(options: {
         options.appName,
         options.appType,
         options.ownPath,
-        path.resolve(options.appPath, "dist"),
+        parsePath(options.appPath, "dist"),
         options.appType === TowerflowType.webApp
           ? `${options.appPath}/public`
           : `${options.appPath}/human-test/public`,

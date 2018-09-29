@@ -3,7 +3,7 @@ import { Debug } from "./debugger";
 
 const debug = Debug(__filename);
 
-export async function tsCompile(tsconfigPath: string, appPath: string) {
+export function tsCompile(tsconfigPath: string, appPath: string) {
   const parsedConfigJson = ts.parseJsonConfigFileContent(
     require(tsconfigPath),
     ts.sys,
