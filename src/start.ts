@@ -40,11 +40,10 @@ export async function start(options: {
       );
       break;
     case TowerflowType.nodeApp:
+    case TowerflowType.nodeLib:
       debug(`Run ts watch server`);
 
-      runTsDev(options.appPath, options.appName, options.ownPath, "");
-      break;
-    case TowerflowType.nodeLib:
+      runTsDev(options.appPath, options.appType, options.ownPath);
       break;
     default:
       console.log(

@@ -1,4 +1,5 @@
 import path from "path";
+import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
 import { generateTempTsconfigFile } from "./generate-temp-tsconfig-file";
 import { normalPath } from "./normal-path";
@@ -9,12 +10,11 @@ const debug = Debug(__filename);
 
 export function runTsDev(
   appPath: string,
-  appName: string,
-  ownPath: string,
-  distPath: string
+  appType: TowerflowType,
+  ownPath: string
 ) {
   const tsconfigPath = normalPath(
-    path.join(ownPath, "template/node-app/config/tsconfig.json")
+    path.join(ownPath, `template/${appType}/config/tsconfig.json`)
   );
   let actualUseTsconfigPath = tsconfigPath;
 
@@ -37,5 +37,3 @@ export function runTsDev(
   debug(`Start ts watch files...`);
   tsWatch(actualUseTsconfigPath);
 }
-
-

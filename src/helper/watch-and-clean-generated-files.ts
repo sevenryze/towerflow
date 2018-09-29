@@ -3,6 +3,7 @@ import fsExtra from "fs-extra";
 import path from "path";
 import { Debug } from "./debugger";
 import { normalPath } from "./normal-path";
+import chalk from "chalk";
 
 const debug = Debug(__filename);
 
@@ -37,7 +38,12 @@ export function watchAndcleanGeneratedFiles(
         watchedOtherFiles.add(filePath);
       } else {
         // Not not allow user to create some wired files.
-        fsExtra.removeSync(filePath);
+        console.log(
+          chalk.red(
+            `You have created an illigal file: ${filePath}, we will delete it when you terminate this dev process`
+          )
+        );
+        watchedOtherFiles.add(filePath);
       }
     }
   });
