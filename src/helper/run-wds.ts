@@ -1,12 +1,12 @@
 import chalk from "chalk";
 import webpackDevServer from "webpack-dev-server";
 import { TowerflowType } from "../../bin";
-import { getWebpackConfig } from "./get-webpack-config";
 import { clearConsole } from "./clear-console";
 import { createWebpackCompiler } from "./create-webpack-compiler";
 import { createWebpackDevServer } from "./create-webpack-dev-server";
 import { Debug } from "./debugger";
 import { getWebpackDevServerConfig } from "./get-wds-config";
+import { getWebpackConfig } from "./get-webpack-config";
 
 const debug = Debug(__filename);
 
@@ -16,19 +16,22 @@ export function runWebpackDevServer(
   appType: TowerflowType,
   ownPath: string,
   distPath: string,
-  publicDirPath: string;
+  publicDirPath: string,
+  appEntryPath: string
 ) {
   const isInteractive = process.stdout.isTTY;
   debug(`isInteractive: ${isInteractive}`);
 
   debug(`Gnerate webpack config file`);
-  const webpackConfig = getWebpackConfig(
+  const webpackConfig = getWebpackConfig({
     appPath,
     appName,
     appType,
     ownPath,
-    distPath
-  );
+    distPath,
+    appEntryPath,
+    publicDirPath
+  });
 
   debug(`Get webpack-dev-server config file`);
   const webpackDevServerConfig = getWebpackDevServerConfig(appPath);
@@ -65,4 +68,3 @@ export function runWebpackDevServer(
     });
   });
 }
-

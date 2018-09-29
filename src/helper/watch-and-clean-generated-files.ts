@@ -4,6 +4,8 @@ import path from "path";
 import { Debug } from "./debugger";
 import { normalPath } from "./normal-path";
 import chalk from "chalk";
+import { checkTsFile } from "./checkTsFile";
+import { checkCompilerGeneratedFile } from "./checkCompilerGeneratedFile";
 
 const debug = Debug(__filename);
 
@@ -12,7 +14,8 @@ export function watchAndcleanGeneratedFiles(
   tsconfigJson: {
     include: string[];
     exclude: string[];
-  }
+  },
+  isWatch: boolean
 ) {
   const watchPaths: string[] = [];
   tsconfigJson.include.map((dir: string) => {
@@ -34,7 +37,7 @@ export function watchAndcleanGeneratedFiles(
       watchedTsFiles.add(filePath);
     } else {
       // Not only have we the generated files, not also the files created by users intentially.
-      if (checkCompiledFile(filePath)) {
+      if (checkCompilerGeneratedFile(filePath)) {
         watchedOtherFiles.add(filePath);
       } else {
         // Not not allow user to create some wired files.
@@ -47,6 +50,21 @@ export function watchAndcleanGeneratedFiles(
       }
     }
   });
+
+  if (!isWatch) {
+    return new Promise((resolve, reject) => {
+      watcher.on("ready", () => {
+        watchedOtherFiles.forEach(filePath => {
+          debug(`delete file: ${filePath}`);
+          fsExtra.removeSync(filePath);
+        });
+
+        debug(`close chokidar watcher`);
+        watcher.close();
+        resolve();
+      });
+    });
+  }
 
   watcher.on("unlink", (filePath: string) => {
     if (!checkTsFile(filePath)) {
@@ -78,10 +96,4 @@ export function watchAndcleanGeneratedFiles(
   });
 }
 
-function checkCompiledFile(filePath: string) {
-  return /\.d\.ts$|\.js$|\.map$/.test(filePath);
-}
 
-function checkTsFile(filePath: string) {
-  return /(^.?|\.[^d]|[^.]d|[^.][^d])\.tsx?$/.test(filePath);
-}

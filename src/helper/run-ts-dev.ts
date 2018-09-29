@@ -22,7 +22,7 @@ export function runTsDev(
   const tsconfigJson = require(tsconfigPath);
 
   debug(`Watch the orphon tsc generated files`);
-  watchAndcleanGeneratedFiles(appPath, tsconfigJson);
+  watchAndcleanGeneratedFiles(appPath, tsconfigJson, true);
 
   debug(`Generate tsconfig-tmp.json for workaround`);
   const tmpTsconfigPath = generateTempTsconfigFile(

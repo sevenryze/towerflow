@@ -31,6 +31,12 @@ export enum TowerflowType {
   nodeLib = "node-lib"
 }
 
+export enum ErrorCode {
+  noError = 0,
+  tscError,
+  tslintError
+}
+
 commander
   .name(ownPkg.name)
   .description(chalk.cyan("The workflow used by The Tower Edu Inc."))
@@ -111,22 +117,7 @@ commander
     const ownName = ownPkg.name;
     const ownPath = path.join(__dirname, "../");
 
-    switch (appType) {
-      case TowerflowType.webApp:
-        start({ appPath, appName, ownPath, appType });
-        break;
-      case TowerflowType.webLib:
-        start({ appPath, appName, ownPath, appType });
-        break;
-      case TowerflowType.nodeApp:
-        start({ appPath, appName, ownPath, appType });
-        break;
-      case TowerflowType.nodeLib:
-        start({ appPath, appName, ownPath, appType });
-        break;
-      default:
-        console.log(`The template argument gets Unknown type.`);
-    }
+    start({ appPath, appName, ownPath, appType });
   });
 
 commander
@@ -146,16 +137,14 @@ commander
       case TowerflowType.webApp:
         break;
       case TowerflowType.webLib:
+      case TowerflowType.nodeApp:
+      case TowerflowType.nodeLib:
         build({
           appPath,
           ownPath,
           appName,
           appType
         });
-        break;
-      case TowerflowType.nodeApp:
-        break;
-      case TowerflowType.nodeLib:
         break;
       default:
         console.log(`The template argument gets Unknown type.`);

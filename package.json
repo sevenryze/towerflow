@@ -18,6 +18,9 @@
     "build": "tsc",
     "test": "DEBUG=towerflow:* node src/workflow-test/node-app/ts-dev.js"
   },
+  "towerflow": {
+    "type": "node-app"
+  },
   "keywords": [
     "Tower Edu Inc.",
     "Workflow"
@@ -33,6 +36,7 @@
     "@types/fs-extra": "^5.0.4",
     "@types/html-webpack-plugin": "^3.2.0",
     "@types/jest": "^23.3.2",
+    "@types/klaw-sync": "^5.0.0",
     "@types/node": "^10.11.2",
     "@types/webpack": "^4.4.13",
     "@types/webpack-dev-server": "^3.1.1",
@@ -47,12 +51,10 @@
     "fs-extra": "^7.0.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
-    "nodemon": "^1.18.4",
-    "npm-run-all": "^4.1.3",
+    "klaw-sync": "^6.0.0",
     "prettier": "^1.14.3",
     "react-hot-loader": "^4.3.11",
     "style-loader": "^0.23.0",
-    "supports-color": "^5.5.0",
     "ts-jest": "^23.10.2",
     "ts-loader": "^5.2.1",
     "ts-node": "^7.0.1",

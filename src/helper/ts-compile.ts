@@ -1,6 +1,9 @@
 import ts from "typescript";
+import { Debug } from "./debugger";
 
-export function tsCompile(tsconfigPath: string, appPath: string) {
+const debug = Debug(__filename);
+
+export async function tsCompile(tsconfigPath: string, appPath: string) {
   const parsedConfigJson = ts.parseJsonConfigFileContent(
     require(tsconfigPath),
     ts.sys,
@@ -36,4 +39,8 @@ export function tsCompile(tsconfigPath: string, appPath: string) {
       );
     }
   });
+
+  return {
+    hasError: allDiagnostics.length > 0
+  };
 }

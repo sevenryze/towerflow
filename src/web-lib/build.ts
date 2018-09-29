@@ -1,49 +1,43 @@
-import chokidar from "chokidar";
-import fsExtra from "fs-extra";
 import path from "path";
-import { TowerflowType } from "../../bin";
+import { TowerflowType, ErrorCode } from "../../bin";
 import { Debug } from "../helper/debugger";
 import { tsCompile } from "../helper/ts-compile";
+import { watchAndcleanGeneratedFiles } from "../helper/watch-and-clean-generated-files";
+import { normalPath } from "../helper/normal-path";
+import { runTsLint } from "../helper/run-tslint";
 
 const debug = Debug(__filename);
 
-export function build(options: { appPath: string; ownPath: string }) {
-  const tsconfigPath = path
-    .join(
+export async function buildWebLib(options: {
+  appPath: string;
+  ownPath: string;
+  appType: TowerflowType;
+}) {
+  const tsconfigPath = normalPath(
+    path.join(
       options.ownPath,
-      `template/${TowerflowType.webLib}/config/tsconfig.json`
+      `template/${options.appType}/config/tsconfig.json`
     )
-    .replace(/\\/g, "/");
+  );
+
   const tsconfigJson = require(tsconfigPath);
 
-  debug(`Watch the orphon tsc generated files`);
-  const watchFiles: string[] = [];
-  tsconfigJson.include.map((dir: string) => {
-    watchFiles.push(
-      (path.resolve(options.appPath, dir) + "/**/*.ts").replace(/\\/g, "/")
-    );
-  });
-
-  const watcher = chokidar.watch(watchFiles, {
-    ignored: "**/*.d.ts"
-  });
-
-  watcher.on("add", (filePath: string) => {
-    debug(`.ts removed: ${path.relative(options.appPath, filePath)}`);
-
-    debug(`Start to delete tsc generated files.`);
-    const generatedFileSuffix = [".d.ts", ".d.ts.map", ".js", ".js.map"];
-
-    generatedFileSuffix.map(suffix => {
-      const delFile = filePath.replace(/\.ts$/g, suffix);
-
-      debug(`Delete file: ${path.relative(options.appPath, delFile)}`);
-      fsExtra.removeSync(delFile);
-    });
-  });
-
-  watcher.close();
+  debug(`Clean the src folder`);
+  await watchAndcleanGeneratedFiles(options.appPath, tsconfigJson, false);
 
   debug(`Start single pase ts compile`);
-  tsCompile(tsconfigPath, options.appPath);
+  let { hasError } = await tsCompile(tsconfigPath, options.appPath);
+  if (hasError) {
+    debug(`tsc cannot makes your code pass, clean src folder`);
+    await watchAndcleanGeneratedFiles(options.appPath, tsconfigJson, false);
+    return;
+  }
+
+  debug(`Start tslint`);
+  hasError = runTsLint(options).hasError;
+  if (hasError) {
+    debug(`tslint cannot makes your code pass, clean src folder`);
+    await watchAndcleanGeneratedFiles(options.appPath, tsconfigJson, false);
+    return;
+  }
 }

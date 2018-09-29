@@ -11,13 +11,9 @@ export function installDeps(
   let args: string[];
 
   if (dependencies.length > 0) {
-    let args = [
-      "install",
-      "--save",
-      "--save-exact",
-      "--loglevel",
-      "error"
-    ].concat(dependencies);
+    let args = ["install", "--save", "--loglevel", "error"].concat(
+      dependencies
+    );
 
     if (verbose) {
       args.push("--verbose");
@@ -34,14 +30,9 @@ export function installDeps(
   }
 
   if (devDependencies.length > 0) {
-    args = [
-      "install",
-      "-D",
-      "--save",
-      "--save-exact",
-      "--loglevel",
-      "error"
-    ].concat(devDependencies);
+    args = ["install", "-D", "--save", "--loglevel", "error"].concat(
+      devDependencies
+    );
 
     if (verbose) {
       args.push("--verbose");

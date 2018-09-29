@@ -36,9 +36,16 @@ export async function start(options: {
         options.appName,
         options.appType,
         options.ownPath,
-        path.resolve(options.appPath, "dist")
+        path.resolve(options.appPath, "dist"),
+        options.appType === TowerflowType.webApp
+          ? `${options.appPath}/public`
+          : `${options.appPath}/human-test/public`,
+        options.appType === TowerflowType.webApp
+          ? `${options.appPath}/src/index.tsx`
+          : `${options.appPath}/lib/index.tsx`
       );
       break;
+
     case TowerflowType.nodeApp:
     case TowerflowType.nodeLib:
       debug(`Run ts watch server`);

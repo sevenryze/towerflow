@@ -6,22 +6,24 @@ import { Debug } from "./debugger";
 
 const debug = Debug(__filename);
 
-export function getWebpackConfig(
-  appPath: string,
-  appName: string,
-  appType: TowerflowType,
-  ownPath: string,
-  distPath: string
-): webpack.Configuration {
+export function getWebpackConfig(options: {
+  appPath: string;
+  appName: string;
+  appType: TowerflowType;
+  ownPath: string;
+  distPath: string;
+  appEntryPath: string;
+  publicDirPath: string;
+}): webpack.Configuration {
   return {
     mode: "development",
 
     entry: {
-      main: `${appPath}/src/index.tsx`
+      main: `${options.appEntryPath}`
     },
 
     output: {
-      path: distPath,
+      path: options.distPath,
 
       pathinfo: true,
       // This does not produce a real file. It's just the virtual path that is
@@ -49,8 +51,8 @@ export function getWebpackConfig(
               loader: "tslint-loader",
               options: {
                 configFile: path.resolve(
-                  ownPath,
-                  `template/${appType}/config/tslint.json`
+                  options.ownPath,
+                  `template/${options.appType}/config/tslint.json`
                 )
               }
             }
@@ -70,10 +72,10 @@ export function getWebpackConfig(
               loader: "ts-loader",
               options: {
                 configFile: path.resolve(
-                  ownPath,
-                  `template/${appType}/config/tsconfig.json`
+                  options.ownPath,
+                  `template/${options.appType}/config/tsconfig.json`
                 ),
-                context: appPath, // 必须提供app项目的目录，参见ts-loader说明
+                context: options.appPath, // 必须提供app项目的目录，参见ts-loader说明
                 errorFormatter: (
                   error: {
                     code: number;
@@ -137,8 +139,8 @@ export function getWebpackConfig(
     plugins: [
       new HtmlWebpackPlugin({
         filename: "index.html",
-        template: `${appPath}/public/index.html`,
-        favicon: `${appPath}/public/favicon.ico`
+        template: `${options.publicDirPath}/index.html`,
+        favicon: `${options.publicDirPath}/favicon.ico`
       }),
 
       new webpack.DefinePlugin({

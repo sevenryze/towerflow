@@ -1,7 +1,7 @@
 import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
-import { build as webLibBuild } from "./web-lib/build";
+import { buildWebLib } from "./web-lib/build";
 
 const debug = Debug(__filename);
 
@@ -30,15 +30,10 @@ export async function build(options: {
 
       break;
     case TowerflowType.webLib:
-      debug(`Begin the web lib process`);
-      webLibBuild(options);
-      break;
-
     case TowerflowType.nodeApp:
-      debug(`Run ts watch server`);
-
-      break;
     case TowerflowType.nodeLib:
+      debug(`Begin the web lib process`);
+      buildWebLib(options);
       break;
     default:
       console.log(
