@@ -1,22 +1,13 @@
 import chokidar from "chokidar";
-import Debug from "debug";
 import fsExtra from "fs-extra";
 import path from "path";
 import { TowerflowType } from "../../bin";
-import { tsCompile } from "./ts-compile";
+import { Debug } from "../helper/debugger";
+import { tsCompile } from "../helper/ts-compile";
 
-const debug = Debug("towerflow:web-lib-build");
+const debug = Debug(__filename);
 
 export function build(options: { appPath: string; ownPath: string }) {
-  process.on("exit", code => {
-    debug(`process exit, do clean works`);
-  });
-
-  process.on("SIGINT", signal => {
-    console.log(`Towerflow get SIGINT, bye!`);
-    process.exit(1);
-  });
-
   const tsconfigPath = path
     .join(
       options.ownPath,

@@ -1,10 +1,10 @@
 import chalk from "chalk";
-import Debug from "debug";
-import { clearConsole } from "./clear-console";
-import { formatWebpackMessages } from "./format-webpack-messages";
 import webpack from "webpack";
+import { clearConsole } from "./clear-console";
+import { Debug } from "./debugger";
+import { formatWebpackMessages } from "./format-webpack-messages";
 
-const debug = Debug("towerflow:create-webpack-compiler");
+const debug = Debug(__filename);
 
 const isInteractive = process.stdout.isTTY;
 let handleCompile: webpack.Compiler.Handler;

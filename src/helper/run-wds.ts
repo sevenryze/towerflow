@@ -1,18 +1,20 @@
 import chalk from "chalk";
-import Debug from "debug";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
-import { clearConsole } from "../helper/clear-console";
-import { createWebpackCompiler } from "../helper/create-webpack-compiler";
-import { createWebpackDevServer } from "../helper/create-webpack-dev-server";
+import { TowerflowType } from "../../bin";
+import { clearConsole } from "./clear-console";
+import { createWebpackCompiler } from "./create-webpack-compiler";
+import { createWebpackDevServer } from "./create-webpack-dev-server";
+import { Debug } from "./debugger";
 
-const debug = Debug("towerflow:run-wds");
+const debug = Debug(__filename);
 
 export function runWebpackDevServer(
   appPath: string,
   appName: string,
+  appType: TowerflowType,
   ownPath: string,
   distPath: string
 ) {
@@ -20,7 +22,13 @@ export function runWebpackDevServer(
   debug(`isInteractive: ${isInteractive}`);
 
   debug(`Gnerate webpack config file`);
-  const webpackConfig = getWebpackConfig(appPath, appName, ownPath, distPath);
+  const webpackConfig = getWebpackConfig(
+    appPath,
+    appName,
+    appType,
+    ownPath,
+    distPath
+  );
 
   debug(`Get webpack-dev-server config file`);
   const webpackDevServerConfig = getWebpackDevServerConfig(appPath);
@@ -61,6 +69,7 @@ export function runWebpackDevServer(
 function getWebpackConfig(
   appPath: string,
   appName: string,
+  appType: TowerflowType,
   ownPath: string,
   distPath: string
 ): webpack.Configuration {
@@ -99,7 +108,10 @@ function getWebpackConfig(
             {
               loader: "tslint-loader",
               options: {
-                configFile: path.resolve(__dirname, "config/tslint.json")
+                configFile: path.resolve(
+                  ownPath,
+                  `template/${appType}/config/tslint.json`
+                )
               }
             }
           ]
@@ -117,7 +129,10 @@ function getWebpackConfig(
             {
               loader: "ts-loader",
               options: {
-                configFile: path.resolve(__dirname, "config/tsconfig.json"),
+                configFile: path.resolve(
+                  ownPath,
+                  `template/${appType}/config/tsconfig.json`
+                ),
                 context: appPath, // 必须提供app项目的目录，参见ts-loader说明
                 errorFormatter: (
                   error: {

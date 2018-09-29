@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.js",
+  "files": [
+    "src/",
+    "!src/**/*.ts",
+    "typings/"
+  ],
+  "scripts": {
+    "start": "towerflow start",
+    "build": "towerflow build",
+    "test": "towerflow test --env=jsdom",
+    "publish": "towerflow publish"
+  },
+  "towerflow": {
+    "type": "node-app"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "towerflow": ""
+  }
+}

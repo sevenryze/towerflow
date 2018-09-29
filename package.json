@@ -1,6 +1,6 @@
 {
   "name": "towerflow",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "The dev workflow used by The Great Tower Edu Inc. ",
   "files": [
     "bin/",
@@ -22,10 +22,11 @@
     "Tower Edu Inc.",
     "Workflow"
   ],
+  "repository": {},
   "author": "sevenryze",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.1.0",
+    "@babel/core": "^7.1.2",
     "@types/chokidar": "^1.7.5",
     "@types/cross-spawn": "^6.0.0",
     "@types/debug": "0.0.30",

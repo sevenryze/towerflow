@@ -1,6 +1,6 @@
 import * as React from "react";
 import { hot } from "react-hot-loader";
-import { MyComponent } from "./component";
+import { MyComponent } from "../src";
 
 class App extends React.Component {
   public render() {

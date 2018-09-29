@@ -1,10 +1,9 @@
-import Debug from "debug";
-import path from "path";
-import { checkRequiredFiles } from "./helper/check-required-files";
 import { TowerflowType } from "../bin";
+import { checkRequiredFiles } from "./helper/check-required-files";
+import { Debug } from "./helper/debugger";
 import { build as webLibBuild } from "./web-lib/build";
 
-const debug = Debug("towerflow:script-build");
+const debug = Debug(__filename);
 
 export async function build(options: {
   appPath: string;

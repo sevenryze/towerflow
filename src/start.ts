@@ -1,11 +1,11 @@
-import Debug from "debug";
 import path from "path";
-import { checkRequiredFiles } from "./helper/check-required-files";
-import { runTsDev } from "./node-app/run-ts-dev";
-import { runWebpackDevServer } from "./web-app/run-wds";
 import { TowerflowType } from "../bin";
+import { checkRequiredFiles } from "./helper/check-required-files";
+import { Debug } from "./helper/debugger";
+import { runTsDev } from "./helper/run-ts-dev";
+import { runWebpackDevServer } from "./helper/run-wds";
 
-const debug = Debug("towerflow:script-start");
+const debug = Debug(__filename);
 
 export async function start(options: {
   appPath: string;
@@ -28,21 +28,13 @@ export async function start(options: {
 
   switch (options.appType) {
     case TowerflowType.webApp:
-      debug(`Run webpack-dev-server`);
-
-      runWebpackDevServer(
-        options.appPath,
-        options.appName,
-        options.ownPath,
-        path.resolve(options.appPath, "dist")
-      );
-      break;
     case TowerflowType.webLib:
       debug(`Run webpack-dev-server`);
 
       runWebpackDevServer(
         options.appPath,
         options.appName,
+        options.appType,
         options.ownPath,
         path.resolve(options.appPath, "dist")
       );

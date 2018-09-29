@@ -14,5 +14,5 @@
     "skipLibCheck": true
   },
   "include": ["src", "bin", "typings"],
-  "exclude": ["src/**/*.d.ts", "bin/**/*.d.ts", "typings/**/*.d.ts"]
+  "exclude": ["src/**/*.d.ts", "bin/**/*.d.ts"]
 }

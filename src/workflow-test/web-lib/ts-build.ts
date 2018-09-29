@@ -1,4 +1,4 @@
-import { tsCompile } from "../../web-lib/ts-compile";
+import { tsCompile } from "../../helper/ts-compile";
 import path from "path";
 
 const appPath = path.resolve(__dirname, "../../../web-lib");

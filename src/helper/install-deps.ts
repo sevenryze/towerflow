@@ -1,7 +1,7 @@
 import crossSpawn from "cross-spawn";
-import Debug from "debug";
+import { Debug } from "./debugger";
 
-const debug = Debug("towerflow:install-deps");
+const debug = Debug(__filename);
 
 export function installDeps(
   dependencies: string[],
