@@ -1,6 +1,6 @@
 import fsExtra from "fs-extra";
 import os from "os";
-import { parsePath } from "./parse-path";
+import { parsePath } from "../helper/parse-path";
 
 export function generateTempTsconfigFile(
   tsconfigPath: string,

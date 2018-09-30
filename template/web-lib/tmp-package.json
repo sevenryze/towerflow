@@ -17,10 +17,10 @@
   "devDependencies": {
     "@types/react": "",
     "@types/react-dom": "",
-    "@types/styled-component": "",
+    "@types/styled-components": "",
     "react": "",
     "react-dom": "",
-    "styled-component": "",
+    "styled-components": "",
     "towerflow": ""
   }
 }

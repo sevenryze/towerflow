@@ -2,7 +2,7 @@ import chokidar from "chokidar";
 import fsExtra from "fs-extra";
 import path from "path";
 import { TowerflowType } from "../../bin";
-import { tsCompile } from "../helper/run-ts-compile";
+import { tsCompile } from "../tsc/run-ts-compile";
 import { Debug } from "../helper/debugger";
 
 const debug = Debug(__filename);

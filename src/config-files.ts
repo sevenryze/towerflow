@@ -9,7 +9,7 @@ import path from "path";
 
 const debug = Debug(__filename);
 
-export async function manageConfigFiles(options: {
+export async function configFiles(options: {
   appPath: string;
   ownPath: string;
   appType: TowerflowType;

@@ -99,7 +99,14 @@ export function initAppFolder(options: {
       dependencies.length === 0
         ? chalk.red("no-deps")
         : dependencies.map(dep => chalk.cyan(dep) + " ")
-    } and devDeps: ${devDependencies.map(dep => chalk.cyan(dep) + " ")}`
+    }`
+  );
+  console.log(
+    `Installing devDeps: ${
+      devDependencies.length === 0
+        ? chalk.red("no-deps")
+        : devDependencies.map(dep => chalk.cyan(dep) + " ").join(" ")
+    }`
   );
   console.log();
 
@@ -112,7 +119,7 @@ export function initAppFolder(options: {
       return;
     }
   } else {
-    debug(`npm instal bypassed, continue to process`);
+    console.log(`npm install has been bypassed, continue to process`);
   }
 }
 

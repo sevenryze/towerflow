@@ -1,7 +1,7 @@
 import { TowerflowType } from "../../bin";
-import { cleanSrcFolder } from "./clean-src-folder";
-import { Debug } from "./debugger";
-import { parsePath } from "./parse-path";
+import { cleanSrcFolder } from "../helper/clean-src-folder";
+import { Debug } from "../helper/debugger";
+import { parsePath } from "../helper/parse-path";
 import { tsCompile } from "./run-ts-compile";
 import { runTsLint } from "./run-tslint";
 

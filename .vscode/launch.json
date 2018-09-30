@@ -25,7 +25,7 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/bin/index.js",
-      "args": ["init", "test-app", "--template", "node-app", "--bypass-npm"],
+      "args": ["init", "test-app", "--template", "web-lib", "--bypass-npm"],
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,

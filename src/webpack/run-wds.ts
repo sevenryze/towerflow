@@ -1,10 +1,10 @@
 import chalk from "chalk";
 import webpackDevServer from "webpack-dev-server";
 import { TowerflowType } from "../../bin";
-import { clearConsole } from "./clear-console";
+import { clearConsole } from "../helper/clear-console";
 import { createWebpackCompiler } from "./create-webpack-compiler";
 import { createWebpackDevServer } from "./create-webpack-dev-server";
-import { Debug } from "./debugger";
+import { Debug } from "../helper/debugger";
 import { getWebpackDevServerConfig } from "./get-wds-config";
 import { getWebpackConfig } from "./get-webpack-config";
 

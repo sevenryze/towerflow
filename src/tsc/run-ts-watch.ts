@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { Debug } from "./debugger";
+import { Debug } from "../helper/debugger";
 
 const debug = Debug(__filename);
 

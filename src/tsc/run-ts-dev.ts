@@ -1,9 +1,9 @@
 import { TowerflowType } from "../../bin";
-import { Debug } from "./debugger";
+import { Debug } from "../helper/debugger";
 import { generateTempTsconfigFile } from "./generate-temp-tsconfig-file";
-import { parsePath } from "./parse-path";
+import { parsePath } from "../helper/parse-path";
 import { tsWatch } from "./run-ts-watch";
-import { watchAndcleanGeneratedFiles } from "./watch-and-clean-generated-files";
+import { watchAndcleanGeneratedFiles } from "../helper/watch-and-clean-generated-files";
 
 const debug = Debug(__filename);
 

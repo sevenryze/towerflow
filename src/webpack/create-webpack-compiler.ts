@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import webpack from "webpack";
-import { clearConsole } from "./clear-console";
-import { Debug } from "./debugger";
+import { clearConsole } from "../helper/clear-console";
+import { Debug } from "../helper/debugger";
 import { formatWebpackMessages } from "./format-webpack-messages";
 
 const debug = Debug(__filename);

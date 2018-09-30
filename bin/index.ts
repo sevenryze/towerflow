@@ -6,12 +6,11 @@ import { build } from "../src/build";
 import { Debug } from "../src/helper/debugger";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
-import { manageConfigFiles } from "../src/manage-config-files";
+import { configFiles } from "../src/config-files";
 import { start } from "../src/start";
+import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 
 const debug = Debug(__filename);
-
-const ownPkg = require("../package.json");
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -21,23 +20,18 @@ process.on("unhandledRejection", err => {
 });
 
 process.on("SIGINT", signal => {
-  console.log(`Towerflow get SIGINT, bye!`);
+  console.log(`Towerflow get ${signal}, bye!`);
   process.exit(1);
 });
 
-export enum TowerflowType {
+export const enum TowerflowType {
   webApp = "web-app",
   webLib = "web-lib",
   nodeApp = "node-app",
   nodeLib = "node-lib"
 }
 
-export enum ErrorCode {
-  noError = 0,
-  tscError,
-  tslintError
-}
-
+const ownPkg = require("../package.json");
 commander
   .name(ownPkg.name)
   .description(chalk.cyan("The workflow used by The Tower Edu Inc."))
@@ -48,8 +42,12 @@ commander
   .command("init <name>")
   .description("Initialize the project: [name] with the specific template.")
   .option("--template [template]", "The template should we use to manipulate.")
-  .option("--force", "Force delete and re-init the target directory.")
-  .option("--bypass-npm", "Bypass the npm install step")
+  .option(
+    "--force",
+    "Force delete and re-init the target directory. " +
+      chalk.redBright("USE WITH HEART")
+  )
+  .option("--bypass-npm", "Bypass the npm install step.")
   .action(
     (
       name: string,
@@ -57,31 +55,41 @@ commander
         force: boolean;
         template: TowerflowType;
         bypassNpm: boolean;
+      } = {
+        force: false,
+        template: TowerflowType.webLib,
+        bypassNpm: true
       }
     ) => {
-      debug(
-        `Init command, app name: ${name}, template: ${
-          cmdOptions.template
-        }, force: ${cmdOptions.force}, bypassNpm: ${cmdOptions.bypassNpm}`
-      );
+      debug(`Init command, app name: ${name}`);
 
-      const fatherRoot = parsePath(process.cwd());
-      const appRoot = parsePath(fatherRoot, name);
-      const ownPath = parsePath(__dirname, "../");
-      const appType = cmdOptions.template;
+      const {
+        bypassNpm: isBypassNpm,
+        template: appType,
+        force: isForce
+      } = cmdOptions;
+      if (!matchTowerflowTypes(appType)) {
+        console.error(`Not support the template: ${appType}, exit.`);
+        process.exit(1);
+      }
+
+      const fatherPath = parsePath(process.cwd());
+      const appPath = parsePath(fatherPath, name);
+      const ownPath = parsePath(__dirname, "..");
+      const appName = name;
 
       debug(
-        `appRoot: ${appRoot}, fatherRoot: ${fatherRoot}, ownPath: ${ownPath}`
+        `appPath: ${appPath}, fatherPath: ${fatherPath}, ownPath: ${ownPath}`
       );
 
       const preDefinedPackageJson = Object.assign(
         {},
         {
-          name: name
+          name: appName
         },
-        ["node-app", "node-lib"].includes(appType) && {
+        ["node-app"].includes(appType) && {
           bin: {
-            [name]: "index.js"
+            [appName]: "bin/index.js"
           }
         }
       );
@@ -94,13 +102,14 @@ commander
       );
 
       init({
-        appPath: appRoot,
-        appName: name,
-        fatherPath: fatherRoot,
-        ownPath: ownPath,
-        appType: cmdOptions.template,
+        appPath,
+        appName,
+        fatherPath,
+        ownPath,
+        appType,
         preDefinedPackageJson,
-        isBypassNpm: cmdOptions.bypassNpm
+        isBypassNpm,
+        isForce
       });
     }
   );
@@ -109,14 +118,15 @@ commander
   .command("start")
   .description("Start to develop this project.")
   .action(() => {
-    debug(`We call the start command.`);
-
     const appPath = process.cwd();
     const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownName = ownPkg.name;
-    const ownPath = parsePath(__dirname, "../");
+    const ownPath = parsePath(__dirname, "..");
+
+    debug(
+      `Start command. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
+    );
 
     start({ appPath, appName, ownPath, appType });
   });
@@ -178,7 +188,7 @@ commander
     const appType = appPkgJson.towerflow.type;
     const ownPath = parsePath(__dirname, "../");
 
-    manageConfigFiles({
+    configFiles({
       appPath,
       appType,
       ownPath,

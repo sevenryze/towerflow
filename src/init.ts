@@ -3,29 +3,64 @@ import fsExtra from "fs-extra";
 import { TowerflowType } from "../bin";
 import { Debug } from "./helper/debugger";
 import { initAppFolder } from "./helper/init-app-folder";
+import { waitSecond } from "./helper/wait-time";
 
 const debug = Debug(__filename);
 
 /**
  * Call this function to scofflot one app.
  */
-export function init(options: {
+export async function init(options: {
   appPath: string;
   appName: string;
   fatherPath: string;
   ownPath: string;
   appType: TowerflowType;
   isBypassNpm: boolean;
+  isForce: boolean;
   preDefinedPackageJson: object;
 }) {
-  debug(`Enter init script, type: ${options.appType}`);
+  const {
+    appName,
+    ownPath,
+    appType,
+    isBypassNpm,
+    preDefinedPackageJson,
+    appPath,
+    isForce,
+    fatherPath
+  } = options;
+
+  debug(`Check if target app folder exists.`);
+  if (fsExtra.existsSync(appPath)) {
+    if (isForce) {
+      console.log(
+        `You will delete the ${appName} folder, I give you ${chalk.redBright(
+          "5 seconds to CTRL-C"
+        )} this process.`
+      );
+
+      await waitSecond(5, restSeconds => {
+        console.log(
+          `You have ${chalk.green(restSeconds.toString())} rest seconds.`
+        );
+      });
+
+      console.log(
+        `OK, you know what you are doing. Now, deleting the ${appName} folder.`
+      );
+
+      fsExtra.removeSync(appPath);
+    } else {
+      console.log(`The ${appName} folder is not empty, exit.`);
+      process.exit(1);
+    }
+  }
 
   debug(`Create app directory`);
-  fsExtra.ensureDirSync(options.appName);
+  fsExtra.ensureDirSync(appName);
 
-  console.log(
-    `Creating type: ${options.appType} in ${chalk.green(options.appPath)}.`
-  );
+  console.log(`Creating type: ${appType} in ${chalk.green(appPath)}.`);
   console.log();
 
   debug(`Initialize the app folder with template`);
@@ -34,30 +69,28 @@ export function init(options: {
   let displayedCommand = "npm";
 
   console.log();
-  console.log(`Success! Created ${options.appName} at ${options.appPath}`);
+  console.log(`Success! Created ${appName} at ${appPath}`);
   console.log("Inside that directory, you can run several commands:");
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} start`));
-  console.log("    Starts the development server.");
+  console.log("    Starts the development process.");
   console.log();
   console.log(chalk.cyan(`  npm run build`));
-  console.log("    Bundles the app into static files for production.");
+  console.log("    Bundles the app into static files.");
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} test`));
-  console.log("    Starts the test runner.");
+  console.log("    Starts the test suits.");
   console.log();
-  console.log(chalk.cyan(`  ${displayedCommand} run eject`));
+  console.log(chalk.cyan(`  ${displayedCommand} run config-files`));
   console.log(
-    "    Removes this tool and copies build dependencies, configuration files"
-  );
-  console.log(
-    "    and scripts into the app directory. If you do this, you can’t go back!"
+    "    Show the using configuration files of this process, additionally, you could use " +
+      `${chalk.green("--generate")} or ${chalk.green("--remove")} flag.`
   );
   console.log();
   console.log("We suggest that you begin by typing:");
   console.log();
-  console.log(chalk.cyan("  cd"), options.appName);
+  console.log(chalk.cyan("  cd"), appName);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
   console.log();
-  console.log("Happy hacking!");
+  console.log("Towerflow hopes you happy hacking!");
 }

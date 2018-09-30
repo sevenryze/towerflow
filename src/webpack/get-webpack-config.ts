@@ -1,8 +1,9 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
 import webpack from "webpack";
 import { TowerflowType } from "../../bin";
-import { Debug } from "./debugger";
-import { parsePath } from "./parse-path";
+import { Debug } from "../helper/debugger";
+import { parsePath } from "../helper/parse-path";
 
 const debug = Debug(__filename);
 
@@ -15,6 +16,17 @@ export function getWebpackConfig(options: {
   appEntryPath: string;
   publicDirPath: string;
 }): webpack.Configuration {
+  const {
+    appType,
+    ownPath,
+    publicDirPath,
+    appPath,
+    appEntryPath,
+    distPath
+  } = options;
+
+  debug(`Get the appPath: ${appPath}, distPath: ${distPath}`);
+
   return {
     mode: "development",
 
@@ -23,7 +35,7 @@ export function getWebpackConfig(options: {
     },
 
     output: {
-      path: options.distPath,
+      path: path.join(options.distPath), // This path must be platform specific!
 
       pathinfo: true,
       // This does not produce a real file. It's just the virtual path that is

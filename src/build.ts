@@ -1,5 +1,5 @@
 import { TowerflowType } from "../bin";
-import { buildTsLib } from "./helper/build-ts-lib";
+import { buildTsLib } from "./tsc/build-ts-lib";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 

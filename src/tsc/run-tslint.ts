@@ -1,7 +1,7 @@
 import crossSpawn from "cross-spawn";
 import { TowerflowType } from "../../bin";
-import { Debug } from "./debugger";
-import { parsePath } from "./parse-path";
+import { Debug } from "../helper/debugger";
+import { parsePath } from "../helper/parse-path";
 
 const debug = Debug(__filename);
 

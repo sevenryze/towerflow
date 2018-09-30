@@ -2,8 +2,8 @@ import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
-import { runTsDev } from "./helper/run-ts-dev";
-import { runWebpackDevServer } from "./helper/run-wds";
+import { runTsDev } from "./tsc/run-ts-dev";
+import { runWebpackDevServer } from "./webpack/run-wds";
 
 const debug = Debug(__filename);
 
@@ -21,7 +21,7 @@ export async function start(options: {
   debug(`isInteractive: ${isInteractive}`);
 
   debug(`Check required files exists`);
-  // Warn and crash if required files are missing
+  // TODO: Warn and crash if required files are missing
   if (!checkRequiredFiles()) {
     process.exit(1);
   }
