@@ -16,10 +16,15 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
+    "webpack-watch": "webpack --watch",
+    "webpack-stats": "webpack --profile --json > stats.json",
     "test": "DEBUG=towerflow:* node src/workflow-test/node-app/ts-dev.js"
   },
   "towerflow": {
-    "type": "node-app"
+    "type": "node-app",
+    "asset": [
+      "template"
+    ]
   },
   "keywords": [
     "Tower Edu Inc.",
@@ -44,6 +49,7 @@
     "babel-loader": "^8.0.4",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
+    "clean-webpack-plugin": "^0.1.19",
     "commander": "^2.18.0",
     "cross-spawn": "^6.0.5",
     "debug": "^4.0.1",
@@ -66,7 +72,9 @@
     "typescript-styled-plugin": "^0.11.0",
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "@types/react": "^16.4.14",

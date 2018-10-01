@@ -31,11 +31,12 @@ export function getWebpackConfig(options: {
     mode: "development",
 
     entry: {
-      main: `${options.appEntryPath}`
+      main: `${appEntryPath}`
     },
 
     output: {
-      path: path.join(options.distPath), // This path must be platform specific!
+      // This path must be platform specific!
+      path: path.join(distPath),
 
       pathinfo: true,
       // This does not produce a real file. It's just the virtual path that is
@@ -63,8 +64,8 @@ export function getWebpackConfig(options: {
               loader: "tslint-loader",
               options: {
                 configFile: parsePath(
-                  options.ownPath,
-                  `template/${options.appType}/config/tslint.json`
+                  ownPath,
+                  `template/${appType}/config/tslint.json`
                 )
               }
             }
@@ -84,10 +85,10 @@ export function getWebpackConfig(options: {
               loader: "ts-loader",
               options: {
                 configFile: parsePath(
-                  options.ownPath,
-                  `template/${options.appType}/config/tsconfig.json`
+                  ownPath,
+                  `template/${appType}/config/tsconfig.json`
                 ),
-                context: options.appPath, // 必须提供app项目的目录，参见ts-loader说明
+                context: appPath, // 必须提供app项目的目录，参见ts-loader说明
                 errorFormatter: (
                   error: {
                     code: number;
@@ -151,8 +152,8 @@ export function getWebpackConfig(options: {
     plugins: [
       new HtmlWebpackPlugin({
         filename: "index.html",
-        template: `${options.publicDirPath}/index.html`,
-        favicon: `${options.publicDirPath}/favicon.ico`
+        template: `${publicDirPath}/index.html`,
+        favicon: `${publicDirPath}/favicon.ico`
       }),
 
       new webpack.DefinePlugin({
@@ -171,12 +172,6 @@ export function getWebpackConfig(options: {
     ],
 
     devtool: "cheap-eval-source-map",
-
-    // Turn off performance processing because we utilize
-    // our own hints via the FileSizeReporter
-    performance: {
-      // hints: false
-    },
 
     watchOptions: {
       ignored: [

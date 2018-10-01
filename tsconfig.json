@@ -8,7 +8,7 @@
     "sourceMap": true,
     "removeComments": true,
     "strict": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "alwaysStrict": true
   },
   "include": ["bin", "src", "typings"]

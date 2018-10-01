@@ -1,7 +1,5 @@
 import webpackDevServer from "webpack-dev-server";
 
-const host = process.env.HOST || "0.0.0.0";
-
 export function getWebpackDevServerConfig(
   appPath: string
 ): webpackDevServer.Configuration {
@@ -37,7 +35,7 @@ export function getWebpackDevServerConfig(
       ignored: ignoredFiles(`${appPath}/src`)
     }, */
 
-    host: host,
+    host: "0.0.0.0",
     port: 8080,
 
     historyApiFallback: {

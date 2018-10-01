@@ -6,7 +6,6 @@ import { formatWebpackMessages } from "./format-webpack-messages";
 
 const debug = Debug(__filename);
 
-const isInteractive = process.stdout.isTTY;
 let handleCompile: webpack.Compiler.Handler;
 
 // You can safely remove this after ejecting.
@@ -26,13 +25,18 @@ export function createWebpackCompiler(
   config: webpack.Configuration,
   appName: string
 ) {
+  debug(`Start to create webpack instance`);
+  const isInteractive = process.stdout.isTTY;
+
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
   let compiler!: webpack.Compiler;
   try {
     compiler = webpack(config, handleCompile) as webpack.Compiler;
   } catch (err) {
-    console.log(chalk.red("Failed to compile."));
+    console.log(
+      chalk.red("Failed to create webpack instance, exit this process")
+    );
     console.log();
     console.log(err.message || err);
     console.log();
@@ -73,7 +77,7 @@ export function createWebpackCompiler(
     }
     if (isSuccessful && (isInteractive || isFirstCompile)) {
       printInstructions(appName, {
-        lanUrlForTerminal: "http://192.168.3.1:8080",
+        lanUrlForTerminal: "http://your-local-ip:8080",
         localUrlForTerminal: "http://localhost:8080"
       });
     }
@@ -96,15 +100,9 @@ export function createWebpackCompiler(
       console.log(chalk.yellow("Compiled with warnings.\n"));
       console.log(messages.warnings.join("\n\n"));
 
-      // Teach some ESLint tricks.
-      console.log(
-        "\nSearch for the " +
-          chalk.underline(chalk.yellow("keywords")) +
-          " to learn more about each warning."
-      );
       console.log(
         "To ignore, add " +
-          chalk.cyan("// eslint-disable-next-line") +
+          chalk.cyan("// tslint:disable-next-line") +
           " to the line before.\n"
       );
     }

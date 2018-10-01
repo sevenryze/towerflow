@@ -1,14 +1,14 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 
 import chalk from "chalk";
 import commander from "commander";
 import { build } from "../src/build";
+import { configFiles } from "../src/config-files";
 import { Debug } from "../src/helper/debugger";
+import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
-import { configFiles } from "../src/config-files";
 import { start } from "../src/start";
-import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 
 const debug = Debug(__filename);
 
@@ -20,7 +20,7 @@ process.on("unhandledRejection", err => {
 });
 
 process.on("SIGINT", signal => {
-  console.log(`Towerflow get ${signal}, bye!`);
+  console.log(`Towerflow get the signal ${signal}, bye!`);
   process.exit(1);
 });
 
@@ -191,9 +191,9 @@ commander
     configFiles({
       appPath,
       appType,
-      ownPath,
       isGenerate: options.generate,
-      isRemove: options.remove
+      isRemove: options.remove,
+      ownPath
     });
   });
 

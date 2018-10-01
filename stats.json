@@ -1,0 +1,296 @@
+{
+  "errors": [],
+  "warnings": [
+    "./bin/index.ts\nModule Warning (from ./node_modules/tslint-loader/index.js):\n[23, 3]: Calls to 'console.log' are not allowed.\n[72, 9]: Calls to 'console.error' are not allowed.\n[164, 9]: Calls to 'console.log' are not allowed.\n[34, 16]: require statement not part of an import statement\n[61, 9]: The key 'bypassNpm' is not sorted alphabetically\n[106, 9]: The key 'appName' is not sorted alphabetically\n[158, 11]: The key 'appName' is not sorted alphabetically\n",
+    "./src/start.ts\nModule Warning (from ./node_modules/tslint-loader/index.js):\n[54, 7]: Calls to 'console.log' are not allowed.\n"
+  ],
+  "version": "4.20.2",
+  "hash": "c675855965be65cb4764",
+  "time": 3505,
+  "builtAt": 1538326141751,
+  "publicPath": "",
+  "outputPath": "c:\\Users\\duguagua\\Project\\towerflow\\dist",
+  "assetsByChunkName": {
+    "bin/index": ["bin/index.js", "bin/index.js.map"],
+    "src/start": ["src/start.js", "src/start.js.map"]
+  },
+  "assets": [
+    {
+      "name": "bin/index.js",
+      "size": 9315,
+      "chunks": ["bin/index"],
+      "chunkNames": ["bin/index"],
+      "emitted": true
+    },
+    {
+      "name": "src/start.js",
+      "size": 5783,
+      "chunks": ["src/start"],
+      "chunkNames": ["src/start"],
+      "emitted": true
+    },
+    {
+      "name": "bin/index.js.map",
+      "size": 4714,
+      "chunks": ["bin/index"],
+      "chunkNames": ["bin/index"],
+      "emitted": true
+    },
+    {
+      "name": "src/start.js.map",
+      "size": 1788,
+      "chunks": ["src/start"],
+      "chunkNames": ["src/start"],
+      "emitted": true
+    }
+  ],
+  "filteredAssets": 0,
+  "entrypoints": {
+    "bin/index": {
+      "chunks": ["bin/index"],
+      "assets": ["bin/index.js", "bin/index.js.map"],
+      "children": {},
+      "childAssets": {}
+    },
+    "src/start": {
+      "chunks": ["src/start"],
+      "assets": ["src/start.js", "src/start.js.map"],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "namedChunkGroups": {
+    "bin/index": {
+      "chunks": ["bin/index"],
+      "assets": ["bin/index.js", "bin/index.js.map"],
+      "children": {},
+      "childAssets": {}
+    },
+    "src/start": {
+      "chunks": ["src/start"],
+      "assets": ["src/start.js", "src/start.js.map"],
+      "children": {},
+      "childAssets": {}
+    }
+  },
+  "chunks": [
+    {
+      "id": "bin/index",
+      "rendered": true,
+      "initial": true,
+      "entry": true,
+      "size": 5474,
+      "names": ["bin/index"],
+      "files": ["bin/index.js", "bin/index.js.map"],
+      "hash": "6fb0bf414c3a2c7d77c9",
+      "siblings": [],
+      "parents": [],
+      "children": [],
+      "childrenByOrder": {},
+      "modules": [
+        {
+          "id": "./bin/index.ts",
+          "identifier": "c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\ts-loader\\index.js??ref--5-0!c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\tslint-loader\\index.js!c:\\Users\\duguagua\\Project\\towerflow\\bin\\index.ts",
+          "name": "./bin/index.ts",
+          "index": 0,
+          "index2": 0,
+          "size": 5474,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": ["bin/index"],
+          "issuer": null,
+          "issuerId": null,
+          "issuerName": null,
+          "issuerPath": null,
+          "profile": {
+            "factory": 48,
+            "building": 3119
+          },
+          "failed": false,
+          "errors": 0,
+          "warnings": 1,
+          "assets": [],
+          "reasons": [
+            {
+              "moduleId": null,
+              "moduleIdentifier": null,
+              "module": null,
+              "moduleName": null,
+              "type": "single entry",
+              "userRequest": "c:\\Users\\duguagua\\Project\\towerflow\\bin\\index.ts",
+              "loc": "bin/index"
+            }
+          ],
+          "providedExports": null,
+          "optimizationBailout": [],
+          "depth": 0,
+          "source": "\"use strict\";\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst chalk_1 = __importDefault(require(\"chalk\"));\r\nconst commander_1 = __importDefault(require(\"commander\"));\r\nconst build_1 = require(\"../src/build\");\r\nconst config_files_1 = require(\"../src/config-files\");\r\nconst debugger_1 = require(\"../src/helper/debugger\");\r\nconst match_towerflow_types_1 = require(\"../src/helper/match-towerflow-types\");\r\nconst parse_path_1 = require(\"../src/helper/parse-path\");\r\nconst init_1 = require(\"../src/init\");\r\nconst start_1 = require(\"../src/start\");\r\nconst debug = debugger_1.Debug(__filename);\r\nprocess.on(\"unhandledRejection\", err => {\r\n    throw err;\r\n});\r\nprocess.on(\"SIGINT\", signal => {\r\n    console.log(`Towerflow get the signal ${signal}, bye!`);\r\n    process.exit(1);\r\n});\r\nconst ownPkg = require(\"../package.json\");\r\ncommander_1.default\r\n    .name(ownPkg.name)\r\n    .description(chalk_1.default.cyan(\"The workflow used by The Tower Edu Inc.\"))\r\n    .version(ownPkg.version, \"-v, --version\")\r\n    .usage(chalk_1.default.greenBright(\"[global-options] <command> [command-options]\"));\r\ncommander_1.default\r\n    .command(\"init <name>\")\r\n    .description(\"Initialize the project: [name] with the specific template.\")\r\n    .option(\"--template [template]\", \"The template should we use to manipulate.\")\r\n    .option(\"--force\", \"Force delete and re-init the target directory. \" +\r\n    chalk_1.default.redBright(\"USE WITH HEART\"))\r\n    .option(\"--bypass-npm\", \"Bypass the npm install step.\")\r\n    .action((name, cmdOptions = {\r\n    force: false,\r\n    template: \"web-lib\",\r\n    bypassNpm: true\r\n}) => {\r\n    debug(`Init command, app name: ${name}`);\r\n    const { bypassNpm: isBypassNpm, template: appType, force: isForce } = cmdOptions;\r\n    if (!match_towerflow_types_1.matchTowerflowTypes(appType)) {\r\n        console.error(`Not support the template: ${appType}, exit.`);\r\n        process.exit(1);\r\n    }\r\n    const fatherPath = parse_path_1.parsePath(process.cwd());\r\n    const appPath = parse_path_1.parsePath(fatherPath, name);\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"..\");\r\n    const appName = name;\r\n    debug(`appPath: ${appPath}, fatherPath: ${fatherPath}, ownPath: ${ownPath}`);\r\n    const preDefinedPackageJson = Object.assign({}, {\r\n        name: appName\r\n    }, [\"node-app\"].includes(appType) && {\r\n        bin: {\r\n            [appName]: \"bin/index.js\"\r\n        }\r\n    });\r\n    debug(`preDefinedPackageJson: ${JSON.stringify(preDefinedPackageJson, null, 2)}`);\r\n    init_1.init({\r\n        appPath,\r\n        appName,\r\n        fatherPath,\r\n        ownPath,\r\n        appType,\r\n        preDefinedPackageJson,\r\n        isBypassNpm,\r\n        isForce\r\n    });\r\n});\r\ncommander_1.default\r\n    .command(\"start\")\r\n    .description(\"Start to develop this project.\")\r\n    .action(() => {\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appName = appPkgJson.name;\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"..\");\r\n    debug(`Start command. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);\r\n    start_1.start({ appPath, appName, ownPath, appType });\r\n});\r\ncommander_1.default\r\n    .command(\"build\")\r\n    .description(\"Build the optimised version for publish.\")\r\n    .action(() => {\r\n    debug(`We call the build command.`);\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appName = appPkgJson.name;\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownName = ownPkg.name;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"../\");\r\n    switch (appType) {\r\n        case \"web-app\":\r\n            break;\r\n        case \"web-lib\":\r\n        case \"node-app\":\r\n        case \"node-lib\":\r\n            build_1.build({\r\n                appPath,\r\n                ownPath,\r\n                appName,\r\n                appType\r\n            });\r\n            break;\r\n        default:\r\n            console.log(`The template argument gets Unknown type.`);\r\n    }\r\n});\r\ncommander_1.default\r\n    .command(\"config-files\")\r\n    .description(`Generate assistant files like tsconfig.json, tslint.json and jest.config.js. Note that changing these files ${chalk_1.default.redBright(\"DO NOT\")} affect workflow.`)\r\n    .option(\"--generate\", \"Generate config files for IDE assistant.\")\r\n    .option(\"--remove\", \"Delete those config files.\")\r\n    .action((options) => {\r\n    debug(`We call the config-files command.`);\r\n    debug(`config-files command, generate: ${options.generate}, remove: ${options.remove}`);\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"../\");\r\n    config_files_1.configFiles({\r\n        appPath,\r\n        appType,\r\n        isGenerate: options.generate,\r\n        isRemove: options.remove,\r\n        ownPath\r\n    });\r\n});\r\ncommander_1.default\r\n    .command(\"test\")\r\n    .description(\"Run the test suits.\")\r\n    .option(\"--env <env>\", \"The environment on which the test suits run.\")\r\n    .action(() => {\r\n    debug(`We call the test command.`);\r\n});\r\ncommander_1.default.parse(process.argv);\r\n"
+        }
+      ],
+      "filteredModules": 0,
+      "origins": [
+        {
+          "module": "",
+          "moduleIdentifier": "",
+          "moduleName": "",
+          "loc": "bin/index",
+          "request": "c:\\Users\\duguagua\\Project\\towerflow\\bin\\index.ts",
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "id": "src/start",
+      "rendered": true,
+      "initial": true,
+      "entry": true,
+      "size": 1942,
+      "names": ["src/start"],
+      "files": ["src/start.js", "src/start.js.map"],
+      "hash": "109e47d212ba27b938ba",
+      "siblings": [],
+      "parents": [],
+      "children": [],
+      "childrenByOrder": {},
+      "modules": [
+        {
+          "id": "./src/start.ts",
+          "identifier": "c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\ts-loader\\index.js??ref--5-0!c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\tslint-loader\\index.js!c:\\Users\\duguagua\\Project\\towerflow\\src\\start.ts",
+          "name": "./src/start.ts",
+          "index": 1,
+          "index2": 1,
+          "size": 1942,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": ["src/start"],
+          "issuer": null,
+          "issuerId": null,
+          "issuerName": null,
+          "issuerPath": null,
+          "profile": {
+            "factory": 322,
+            "building": 2722
+          },
+          "failed": false,
+          "errors": 0,
+          "warnings": 1,
+          "assets": [],
+          "reasons": [
+            {
+              "moduleId": null,
+              "moduleIdentifier": null,
+              "module": null,
+              "moduleName": null,
+              "type": "single entry",
+              "userRequest": "c:\\Users\\duguagua\\Project\\towerflow\\src\\start.ts",
+              "loc": "src/start"
+            }
+          ],
+          "providedExports": null,
+          "optimizationBailout": [],
+          "depth": 0,
+          "source": "\"use strict\";\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst chalk_1 = __importDefault(require(\"chalk\"));\r\nconst check_required_files_1 = require(\"./helper/check-required-files\");\r\nconst debugger_1 = require(\"./helper/debugger\");\r\nconst parse_path_1 = require(\"./helper/parse-path\");\r\nconst run_ts_dev_1 = require(\"./tsc/run-ts-dev\");\r\nconst run_webpack_dev_server_1 = require(\"./webpack/run-webpack-dev-server\");\r\nconst debug = debugger_1.Debug(__filename);\r\nasync function start(options) {\r\n    process.env.BABEL_ENV = \"development\";\r\n    process.env.NODE_ENV = \"development\";\r\n    debug(`Check required files exists`);\r\n    if (!check_required_files_1.checkRequiredFiles()) {\r\n        process.exit(1);\r\n    }\r\n    switch (options.appType) {\r\n        case \"web-app\":\r\n        case \"web-lib\":\r\n            debug(`Run webpack-dev-server`);\r\n            run_webpack_dev_server_1.runWebpackDevServer(options.appPath, options.appName, options.appType, options.ownPath, parse_path_1.parsePath(options.appPath, \"dist\"), options.appType === \"web-app\"\r\n                ? `${options.appPath}/public`\r\n                : `${options.appPath}/human-test/public`, options.appType === \"web-app\"\r\n                ? `${options.appPath}/src/index.tsx`\r\n                : `${options.appPath}/human-test/index.tsx`);\r\n            break;\r\n        case \"node-app\":\r\n        case \"node-lib\":\r\n            debug(`Run ts watch server`);\r\n            run_ts_dev_1.runTsDev(options.appPath, options.appType, options.ownPath);\r\n            break;\r\n        default:\r\n            console.log(`The template argument gets Unknown type, valid type: ${chalk_1.default.green(\"Fuck you! dummy suck loser, you gonna typing everything wrong?\")}`);\r\n            process.exit(1);\r\n    }\r\n}\r\nexports.start = start;\r\n"
+        }
+      ],
+      "filteredModules": 0,
+      "origins": [
+        {
+          "module": "",
+          "moduleIdentifier": "",
+          "moduleName": "",
+          "loc": "src/start",
+          "request": "c:\\Users\\duguagua\\Project\\towerflow\\src\\start.ts",
+          "reasons": []
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "./bin/index.ts",
+      "identifier": "c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\ts-loader\\index.js??ref--5-0!c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\tslint-loader\\index.js!c:\\Users\\duguagua\\Project\\towerflow\\bin\\index.ts",
+      "name": "./bin/index.ts",
+      "index": 0,
+      "index2": 0,
+      "size": 5474,
+      "cacheable": true,
+      "built": true,
+      "optional": false,
+      "prefetched": false,
+      "chunks": ["bin/index"],
+      "issuer": null,
+      "issuerId": null,
+      "issuerName": null,
+      "issuerPath": null,
+      "profile": {
+        "factory": 48,
+        "building": 3119
+      },
+      "failed": false,
+      "errors": 0,
+      "warnings": 1,
+      "assets": [],
+      "reasons": [
+        {
+          "moduleId": null,
+          "moduleIdentifier": null,
+          "module": null,
+          "moduleName": null,
+          "type": "single entry",
+          "userRequest": "c:\\Users\\duguagua\\Project\\towerflow\\bin\\index.ts",
+          "loc": "bin/index"
+        }
+      ],
+      "providedExports": null,
+      "optimizationBailout": [],
+      "depth": 0,
+      "source": "\"use strict\";\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst chalk_1 = __importDefault(require(\"chalk\"));\r\nconst commander_1 = __importDefault(require(\"commander\"));\r\nconst build_1 = require(\"../src/build\");\r\nconst config_files_1 = require(\"../src/config-files\");\r\nconst debugger_1 = require(\"../src/helper/debugger\");\r\nconst match_towerflow_types_1 = require(\"../src/helper/match-towerflow-types\");\r\nconst parse_path_1 = require(\"../src/helper/parse-path\");\r\nconst init_1 = require(\"../src/init\");\r\nconst start_1 = require(\"../src/start\");\r\nconst debug = debugger_1.Debug(__filename);\r\nprocess.on(\"unhandledRejection\", err => {\r\n    throw err;\r\n});\r\nprocess.on(\"SIGINT\", signal => {\r\n    console.log(`Towerflow get the signal ${signal}, bye!`);\r\n    process.exit(1);\r\n});\r\nconst ownPkg = require(\"../package.json\");\r\ncommander_1.default\r\n    .name(ownPkg.name)\r\n    .description(chalk_1.default.cyan(\"The workflow used by The Tower Edu Inc.\"))\r\n    .version(ownPkg.version, \"-v, --version\")\r\n    .usage(chalk_1.default.greenBright(\"[global-options] <command> [command-options]\"));\r\ncommander_1.default\r\n    .command(\"init <name>\")\r\n    .description(\"Initialize the project: [name] with the specific template.\")\r\n    .option(\"--template [template]\", \"The template should we use to manipulate.\")\r\n    .option(\"--force\", \"Force delete and re-init the target directory. \" +\r\n    chalk_1.default.redBright(\"USE WITH HEART\"))\r\n    .option(\"--bypass-npm\", \"Bypass the npm install step.\")\r\n    .action((name, cmdOptions = {\r\n    force: false,\r\n    template: \"web-lib\",\r\n    bypassNpm: true\r\n}) => {\r\n    debug(`Init command, app name: ${name}`);\r\n    const { bypassNpm: isBypassNpm, template: appType, force: isForce } = cmdOptions;\r\n    if (!match_towerflow_types_1.matchTowerflowTypes(appType)) {\r\n        console.error(`Not support the template: ${appType}, exit.`);\r\n        process.exit(1);\r\n    }\r\n    const fatherPath = parse_path_1.parsePath(process.cwd());\r\n    const appPath = parse_path_1.parsePath(fatherPath, name);\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"..\");\r\n    const appName = name;\r\n    debug(`appPath: ${appPath}, fatherPath: ${fatherPath}, ownPath: ${ownPath}`);\r\n    const preDefinedPackageJson = Object.assign({}, {\r\n        name: appName\r\n    }, [\"node-app\"].includes(appType) && {\r\n        bin: {\r\n            [appName]: \"bin/index.js\"\r\n        }\r\n    });\r\n    debug(`preDefinedPackageJson: ${JSON.stringify(preDefinedPackageJson, null, 2)}`);\r\n    init_1.init({\r\n        appPath,\r\n        appName,\r\n        fatherPath,\r\n        ownPath,\r\n        appType,\r\n        preDefinedPackageJson,\r\n        isBypassNpm,\r\n        isForce\r\n    });\r\n});\r\ncommander_1.default\r\n    .command(\"start\")\r\n    .description(\"Start to develop this project.\")\r\n    .action(() => {\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appName = appPkgJson.name;\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"..\");\r\n    debug(`Start command. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);\r\n    start_1.start({ appPath, appName, ownPath, appType });\r\n});\r\ncommander_1.default\r\n    .command(\"build\")\r\n    .description(\"Build the optimised version for publish.\")\r\n    .action(() => {\r\n    debug(`We call the build command.`);\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appName = appPkgJson.name;\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownName = ownPkg.name;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"../\");\r\n    switch (appType) {\r\n        case \"web-app\":\r\n            break;\r\n        case \"web-lib\":\r\n        case \"node-app\":\r\n        case \"node-lib\":\r\n            build_1.build({\r\n                appPath,\r\n                ownPath,\r\n                appName,\r\n                appType\r\n            });\r\n            break;\r\n        default:\r\n            console.log(`The template argument gets Unknown type.`);\r\n    }\r\n});\r\ncommander_1.default\r\n    .command(\"config-files\")\r\n    .description(`Generate assistant files like tsconfig.json, tslint.json and jest.config.js. Note that changing these files ${chalk_1.default.redBright(\"DO NOT\")} affect workflow.`)\r\n    .option(\"--generate\", \"Generate config files for IDE assistant.\")\r\n    .option(\"--remove\", \"Delete those config files.\")\r\n    .action((options) => {\r\n    debug(`We call the config-files command.`);\r\n    debug(`config-files command, generate: ${options.generate}, remove: ${options.remove}`);\r\n    const appPath = process.cwd();\r\n    const appPkgJson = require(parse_path_1.parsePath(appPath, \"package.json\"));\r\n    const appType = appPkgJson.towerflow.type;\r\n    const ownPath = parse_path_1.parsePath(__dirname, \"../\");\r\n    config_files_1.configFiles({\r\n        appPath,\r\n        appType,\r\n        isGenerate: options.generate,\r\n        isRemove: options.remove,\r\n        ownPath\r\n    });\r\n});\r\ncommander_1.default\r\n    .command(\"test\")\r\n    .description(\"Run the test suits.\")\r\n    .option(\"--env <env>\", \"The environment on which the test suits run.\")\r\n    .action(() => {\r\n    debug(`We call the test command.`);\r\n});\r\ncommander_1.default.parse(process.argv);\r\n"
+    },
+    {
+      "id": "./src/start.ts",
+      "identifier": "c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\ts-loader\\index.js??ref--5-0!c:\\Users\\duguagua\\Project\\towerflow\\node_modules\\tslint-loader\\index.js!c:\\Users\\duguagua\\Project\\towerflow\\src\\start.ts",
+      "name": "./src/start.ts",
+      "index": 1,
+      "index2": 1,
+      "size": 1942,
+      "cacheable": true,
+      "built": true,
+      "optional": false,
+      "prefetched": false,
+      "chunks": ["src/start"],
+      "issuer": null,
+      "issuerId": null,
+      "issuerName": null,
+      "issuerPath": null,
+      "profile": {
+        "factory": 322,
+        "building": 2722
+      },
+      "failed": false,
+      "errors": 0,
+      "warnings": 1,
+      "assets": [],
+      "reasons": [
+        {
+          "moduleId": null,
+          "moduleIdentifier": null,
+          "module": null,
+          "moduleName": null,
+          "type": "single entry",
+          "userRequest": "c:\\Users\\duguagua\\Project\\towerflow\\src\\start.ts",
+          "loc": "src/start"
+        }
+      ],
+      "providedExports": null,
+      "optimizationBailout": [],
+      "depth": 0,
+      "source": "\"use strict\";\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst chalk_1 = __importDefault(require(\"chalk\"));\r\nconst check_required_files_1 = require(\"./helper/check-required-files\");\r\nconst debugger_1 = require(\"./helper/debugger\");\r\nconst parse_path_1 = require(\"./helper/parse-path\");\r\nconst run_ts_dev_1 = require(\"./tsc/run-ts-dev\");\r\nconst run_webpack_dev_server_1 = require(\"./webpack/run-webpack-dev-server\");\r\nconst debug = debugger_1.Debug(__filename);\r\nasync function start(options) {\r\n    process.env.BABEL_ENV = \"development\";\r\n    process.env.NODE_ENV = \"development\";\r\n    debug(`Check required files exists`);\r\n    if (!check_required_files_1.checkRequiredFiles()) {\r\n        process.exit(1);\r\n    }\r\n    switch (options.appType) {\r\n        case \"web-app\":\r\n        case \"web-lib\":\r\n            debug(`Run webpack-dev-server`);\r\n            run_webpack_dev_server_1.runWebpackDevServer(options.appPath, options.appName, options.appType, options.ownPath, parse_path_1.parsePath(options.appPath, \"dist\"), options.appType === \"web-app\"\r\n                ? `${options.appPath}/public`\r\n                : `${options.appPath}/human-test/public`, options.appType === \"web-app\"\r\n                ? `${options.appPath}/src/index.tsx`\r\n                : `${options.appPath}/human-test/index.tsx`);\r\n            break;\r\n        case \"node-app\":\r\n        case \"node-lib\":\r\n            debug(`Run ts watch server`);\r\n            run_ts_dev_1.runTsDev(options.appPath, options.appType, options.ownPath);\r\n            break;\r\n        default:\r\n            console.log(`The template argument gets Unknown type, valid type: ${chalk_1.default.green(\"Fuck you! dummy suck loser, you gonna typing everything wrong?\")}`);\r\n            process.exit(1);\r\n    }\r\n}\r\nexports.start = start;\r\n"
+    }
+  ],
+  "filteredModules": 0,
+  "children": []
+}
