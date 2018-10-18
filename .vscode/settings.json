@@ -10,5 +10,6 @@
     "{src,bin}/**/*.js.map": true,
     "{src,bin}/**/*.d.ts.map": true,
     "{src,bin}/**/*.d.ts": true
-  }
+  },
+  "npm.exclude": "template/"
 }

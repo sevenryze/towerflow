@@ -1,7 +1,9 @@
-node_modules
-tmp
-test-app
-dist
+node_modules/
+tmp/
+test-app/
+dist/
+dist-declarations/
+bin-test/
 
 src/**/*.js
 src/**/*.js.map

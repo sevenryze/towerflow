@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "target": "esnext",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "declarationMap": true,
+    "resolveJsonModule": true,
+    //  "declaration": true,
+    //  "declarationMap": true,
+    // "declarationDir": "dist-declarations",
     "sourceMap": true,
     "removeComments": true,
     "strict": true,
     "alwaysStrict": true,
-    "skipLibCheck": true
+    "outDir": "dist"
   },
-  "include": ["src", "bin", "typings"],
-  "exclude": ["src/**/*.d.ts", "bin/**/*.d.ts"]
+  "include": ["src", "bin", "typings"]
 }

@@ -1,40 +1,25 @@
 const path = require("path");
 const webpack = require("webpack");
-const nodeExternals = require("webpack-node-externals");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const MyPlugin = require("./plugin/index");
+const TowerflowPlugin = require("./src/webpack-plugin/towerflow").default;
+const DeclarationBundlePlugin = require("./src/webpack-plugin/declaration-bundle-plugin")
+  .DeclarationBundlePlugin;
 
 module.exports = {
-  mode: "production",
-  target: "node",
-
-  externals: [nodeExternals()],
-
-  node: {
-    __dirname: false,
-    __filename: true,
-    process: false,
-    require: false
-  },
+  mode: "development",
 
   entry: {
     /* "bin/index": path.join(__dirname, "bin/index.ts"),
     "src/start": path.join(__dirname, "src/start.ts") */
-    "bin/test": path.join(__dirname, "bin/test.ts"),
-    "bin/ha": path.join(__dirname, "bin/ha.ts")
+    "bin-test/test": path.join(__dirname, "bin-test/test.ts"),
+    "bin-test/test-2": path.join(__dirname, "bin-test/test-2.ts")
   },
 
   output: {
     // This path must be platform specific!
     path: path.join(__dirname, "dist"),
 
-    pathinfo: true,
-    // This does not produce a real file. It's just the virtual path that is
-    // served by WebpackDevServer in development. This is the JS bundle
-    // containing code from all our entry points, and the Webpack runtime.
     filename: "[name].js",
-    // There are also additional JS chunk files if you use code splitting.
-    chunkFilename: "[name].chunk.js",
 
     // library: "MyLibrary",
     libraryTarget: "commonjs2",
@@ -45,56 +30,53 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".ts", ".tsx", "*"]
+    extensions: [".ts", ".tsx", ".json", "*"]
   },
   module: {
-    noParse: function(content) {
-      return /.ts$|.json$/.test(content);
+    noParse: function(filePath) {
+      return /.tsx?$/.test(filePath);
     },
 
     rules: [
       {
         test: /\.tsx?$/,
         enforce: "pre",
-        use: [
-          {
-            loader: "tslint-loader"
-          }
-        ]
+        loader: "tslint-loader",
+        options: {
+          configFile: path.join(
+            __dirname,
+            "template/node-app/config/tslint.json"
+          )
+        }
       },
       {
         test: /\.tsx?$/,
-        use: [
-          {
-            loader: "ts-loader",
-            options: {
-              //configFile: path.join(__dirname, "tsconfig"),
-              //context: appPath // 必须提供app项目的目录，参见ts-loader说明
-            }
-          }
-        ]
-      },
-      {
-        test: /\.txt?$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "file/[name].[ext]"
-            }
-          }
-        ]
+        loader: "ts-loader",
+        options: {
+          configFile: path.join(
+            __dirname,
+            "template/node-app/config/tsconfig.json"
+          ),
+          context: path.join(__dirname), // 必须提供app项目的目录，参见ts-loader说明,
+          onlyCompileBundledFiles: true
+        }
       }
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      // "process.env.NODE_ENV": JSON.stringify("development")
+    new CleanWebpackPlugin([
+      path.join(__dirname, "dist"),
+      path.join(__dirname, "dist-declarations")
+    ]),
+
+    new TowerflowPlugin({
+      stage: "dev"
     }),
 
-    new CleanWebpackPlugin([path.join(__dirname, "dist")]),
-
-    new MyPlugin()
+    new DeclarationBundlePlugin({
+      moduleName: "myModule",
+      outDir: "outdir"
+    })
   ],
 
   devtool: "nosources-source-map",

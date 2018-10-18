@@ -1,6 +1,0 @@
-{
-  "name": "webpack",
-  "version": "4.20.2",
-  "main": "lib/webpack.js",
-  "bin": "./bin/webpack.js"
-}
