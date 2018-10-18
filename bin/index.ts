@@ -1,7 +1,6 @@
-// #!/usr/bin/env node
-
 import chalk from "chalk";
 import commander from "commander";
+import { nodeRequire } from "../src";
 import { build } from "../src/build";
 import { configFiles } from "../src/config-files";
 import { Debug } from "../src/helper/debugger";
@@ -31,7 +30,7 @@ export const enum TowerflowType {
   nodeLib = "node-lib"
 }
 
-const ownPkg = require("../package.json");
+const ownPkg = nodeRequire("../package.json");
 commander
   .name(ownPkg.name)
   .description(chalk.cyan("The workflow used by The Tower Edu Inc."))
@@ -119,7 +118,7 @@ commander
   .description("Start to develop this project.")
   .action(() => {
     const appPath = process.cwd();
-    const appPkgJson = require(parsePath(appPath, "package.json"));
+    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
     const ownPath = parsePath(__dirname, "..");
@@ -138,7 +137,7 @@ commander
     debug(`We call the build command.`);
 
     const appPath = process.cwd();
-    const appPkgJson = require(parsePath(appPath, "package.json"));
+    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
     const ownName = ownPkg.name;
@@ -184,7 +183,7 @@ commander
     );
 
     const appPath = process.cwd();
-    const appPkgJson = require(parsePath(appPath, "package.json"));
+    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appType = appPkgJson.towerflow.type;
     const ownPath = parsePath(__dirname, "../");
 

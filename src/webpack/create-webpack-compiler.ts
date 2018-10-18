@@ -3,6 +3,7 @@ import webpack from "webpack";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
 import { formatWebpackMessages } from "./format-webpack-messages";
+import { TowerflowType } from "../../bin";
 
 const debug = Debug(__filename);
 
@@ -21,10 +22,13 @@ if (isSmokeTest) {
   };
 }
 
-export function createWebpackCompiler(
-  config: webpack.Configuration,
-  appName: string
-) {
+export function createWebpackCompiler(options: {
+  config: webpack.Configuration;
+  appName: string;
+  appType: TowerflowType;
+}) {
+  const { appName, config, appType } = options;
+
   debug(`Start to create webpack instance`);
   const isInteractive = process.stdout.isTTY;
 
@@ -75,7 +79,11 @@ export function createWebpackCompiler(
     if (isSuccessful) {
       console.log(chalk.green("Compiled successfully!"));
     }
-    if (isSuccessful && (isInteractive || isFirstCompile)) {
+    if (
+      isSuccessful &&
+      ["web-app", "web-lib"].includes(appType) &&
+      (isInteractive || isFirstCompile)
+    ) {
       printInstructions(appName, {
         lanUrlForTerminal: "http://your-local-ip:8080",
         localUrlForTerminal: "http://localhost:8080"

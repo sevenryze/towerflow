@@ -6,7 +6,7 @@ import { Debug } from "../helper/debugger";
 import { createWebpackCompiler } from "./create-webpack-compiler";
 import { createWebpackDevServer } from "./create-webpack-dev-server";
 import { getWebpackDevServerConfig } from "./get-webpack-dev-server-config";
-import { getWebpackConfig } from "./get-webpack-config";
+import { getWebpackConfig } from "./get-webpack-config-for-web";
 
 const debug = Debug(__filename);
 
@@ -43,7 +43,11 @@ export function runWebpackDevServer(
   );
 
   debug(`Create a webpack compiler that is configured with custom messages.`);
-  const compiler = createWebpackCompiler(webpackConfig, appName);
+  const compiler = createWebpackCompiler({
+    config: webpackConfig,
+    appName,
+    appType
+  });
 
   debug(`Create webpack dev server with configed webpack instance`);
   const devServer = createWebpackDevServer(compiler, webpackDevServerConfig);

@@ -5,6 +5,7 @@ import { TowerflowType } from "../../bin";
 import { Debug } from "./debugger";
 import { installDeps } from "./install-deps";
 import { parsePath } from "./parse-path";
+import { nodeRequire } from "..";
 
 const debug = Debug(__filename);
 
@@ -65,7 +66,7 @@ export function initAppFolder(options: {
 
   debug(`Create package.json`);
   const tempPkgPath = parsePath(templatePath, "tmp-package.json");
-  let tempPkgJson = require(tempPkgPath);
+  let tempPkgJson = nodeRequire(tempPkgPath);
 
   debug(`Get dependencies from template package.json`);
   const dependencies: string[] = [];

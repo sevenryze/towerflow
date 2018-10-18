@@ -11,8 +11,9 @@
     "typings/"
   ],
   "bin": {
-    "towerflow": "bin/index.js"
+    "towerflow": "dist/bin.js"
   },
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
@@ -22,10 +23,7 @@
     "test": "DEBUG=towerflow:* node src/workflow-test/node-app/ts-dev.js"
   },
   "towerflow": {
-    "type": "node-app",
-    "asset": [
-      "template"
-    ]
+    "type": "node-app"
   },
   "keywords": [
     "Tower Edu Inc.",

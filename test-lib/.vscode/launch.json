@@ -8,7 +8,7 @@
       "name": "npm start",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/bin.js",
+      "program": "${workspaceFolder}/bin/index.js",
       "args": ["start"],
       "cwd": "${workspaceFolder}/test-app",
       "sourceMaps": true,
@@ -24,8 +24,8 @@
       "name": "npm init",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/dist/bin.js",
-      "args": ["init", "test-lib", "--template", "node-lib", "--bypass-npm"],
+      "program": "${workspaceFolder}/bin/index.js",
+      "args": ["init", "test-app", "--template", "node-app", "--bypass-npm"],
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
@@ -88,26 +88,13 @@
       "name": "Random test",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/webpack-cli/bin/cli.js",
-      "args": ["--profile", "--json > stats.json"],
+      "program": "${workspaceFolder}/src/helper/run-tslint.js",
+      "args": [],
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "Random test 2",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/dist/bin/test.js",
-      "cwd": "${workspaceFolder}",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
+      "console": "integratedTerminal",
       "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
       "env": {
         "DEBUG": "towerflow:*"

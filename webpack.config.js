@@ -2,17 +2,20 @@ const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const TowerflowPlugin = require("./src/webpack-plugin/towerflow").default;
+const nodeExternals = require("webpack-node-externals");
 const DeclarationBundlePlugin = require("./src/webpack-plugin/declaration-bundle-plugin")
   .DeclarationBundlePlugin;
 
 module.exports = {
   mode: "development",
 
+  externals: [nodeExternals()],
+  target: "node",
+  node: false,
+
   entry: {
-    /* "bin/index": path.join(__dirname, "bin/index.ts"),
-    "src/start": path.join(__dirname, "src/start.ts") */
-    "bin-test/test": path.join(__dirname, "bin-test/test.ts"),
-    "bin-test/test-2": path.join(__dirname, "bin-test/test-2.ts")
+    bin: path.join(__dirname, "bin/index.ts"),
+    index: path.join(__dirname, "src/index.ts")
   },
 
   output: {
@@ -33,10 +36,6 @@ module.exports = {
     extensions: [".ts", ".tsx", ".json", "*"]
   },
   module: {
-    noParse: function(filePath) {
-      return /.tsx?$/.test(filePath);
-    },
-
     rules: [
       {
         test: /\.tsx?$/,
@@ -73,13 +72,19 @@ module.exports = {
       stage: "dev"
     }),
 
-    new DeclarationBundlePlugin({
+    new webpack.BannerPlugin({
+      banner: "#!/usr/bin/env node",
+      raw: true,
+      entryOnly: true
+    })
+
+    /*  new DeclarationBundlePlugin({
       moduleName: "myModule",
       outDir: "outdir"
-    })
+    }) */
   ],
 
-  devtool: "nosources-source-map",
+  devtool: "source-map",
 
   watchOptions: {
     ignored: [

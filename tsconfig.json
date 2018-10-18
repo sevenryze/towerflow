@@ -1,17 +1,19 @@
 {
   "compilerOptions": {
-    "module": "commonjs", // If you need to use `dynamic import` syntax, make sure to set this flag to "esnext".
+    "module": "esnext", // If you need to use `dynamic import` syntax, make sure to set this flag to "esnext".
     "moduleResolution": "node",
     "target": "esnext",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
     "strict": true,
     "skipLibCheck": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "outDir": "dist"
   },
 
   "include": ["bin", "src", "typings"]
