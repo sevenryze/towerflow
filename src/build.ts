@@ -1,5 +1,4 @@
 import { TowerflowType } from "../bin";
-import { buildTsLib } from "./tsc/build-ts-lib";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 
@@ -29,7 +28,6 @@ export async function build(options: {
       break;
     case TowerflowType.nodeApp:
       debug(`Begin to build ts lib`);
-      buildTsLib(options);
 
       // TODO: Do some node app specify build step.
       break;
@@ -37,7 +35,6 @@ export async function build(options: {
     case TowerflowType.webLib:
     case TowerflowType.nodeLib:
       debug(`Begin to build ts lib`);
-      buildTsLib(options);
 
       break;
     default:
