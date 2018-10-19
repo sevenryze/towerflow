@@ -10,7 +10,7 @@ import { getWebpackConfig } from "./get-webpack-config-for-web";
 
 const debug = Debug(__filename);
 
-export function runWebpackDevServer(
+export function startWeb(
   appPath: string,
   appName: string,
   appType: TowerflowType,
@@ -24,11 +24,11 @@ export function runWebpackDevServer(
 
   debug(`Gnerate webpack config file`);
   const webpackConfig = getWebpackConfig({
-    appPath,
     appName,
+    appPath,
     appType,
-    ownPath,
     distPath,
+    ownPath,
     appEntryPath,
     publicDirPath
   });
@@ -64,8 +64,8 @@ export function runWebpackDevServer(
     console.log(chalk.cyan("Starting the development server...\n"));
   });
 
-  ["SIGINT", "SIGTERM"].forEach(function(sig) {
-    process.on(sig as any, function() {
+  ["SIGINT", "SIGTERM"].forEach(sig => {
+    process.on(sig as any, () => {
       devServer.close();
       debug(`Webpack-dev-server is going to be closed`);
       process.exit();

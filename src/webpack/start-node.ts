@@ -1,17 +1,11 @@
-import chalk from "chalk";
-import webpackDevServer from "webpack-dev-server";
 import { TowerflowType } from "../../bin";
-import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
 import { createWebpackCompiler } from "./create-webpack-compiler";
-import { createWebpackDevServer } from "./create-webpack-dev-server";
-import { getWebpackDevServerConfig } from "./get-webpack-dev-server-config";
-import { getWebpackConfig } from "./get-webpack-config-for-web";
 import { getWebpackConfigForNode } from "./get-webpack-config-for-node";
 
 const debug = Debug(__filename);
 
-export function runWebpackForNode(options: {
+export function startNode(options: {
   appPath: string;
   appName: string;
   appType: TowerflowType;
@@ -30,6 +24,7 @@ export function runWebpackForNode(options: {
     ownPath
   } = options;
 
+  debug(`Check if in interactive environment`);
   const isInteractive = process.stdout.isTTY;
   debug(`isInteractive: ${isInteractive}`);
 
@@ -51,8 +46,12 @@ export function runWebpackForNode(options: {
     appType
   });
 
-  debug(`Start to watch nodejs build`);
-  const watcher = compiler.watch({}, (error, stats) => {});
+  debug(`Start to watch nodejs`);
+  const watcher = compiler.watch({}, (error, stats) => {
+    if (error) {
+      console.log(error);
+    }
+  });
 
   ["SIGINT", "SIGTERM"].forEach(function(sig) {
     process.on(sig as any, function() {

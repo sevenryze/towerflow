@@ -64,7 +64,7 @@ export function createWebpackCompiler(options: {
   // Whether or not you have warnings or errors, you will get this event.
   compiler.hooks.done.tap("done", (stats: webpack.Stats) => {
     if (isInteractive) {
-      clearConsole();
+      //  clearConsole();
     }
 
     // We have switched off the default Webpack output in WebpackDevServer

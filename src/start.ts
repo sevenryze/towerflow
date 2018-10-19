@@ -3,24 +3,20 @@ import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
-import { runWebpackDevServer } from "./webpack/run-webpack-dev-server";
-import { runWebpackForNode } from "./webpack/run-webpack-for-node";
+import { startWeb } from "./webpack/start-web";
+import { startNode } from "./webpack/start-node";
 
 const debug = Debug(__filename);
 
 export async function start(options: {
-  appPath: string;
   appName: string;
-  ownPath: string;
+  appPath: string;
   appType: TowerflowType;
+  ownPath: string;
 }) {
   const { appName, ownPath, appPath, appType } = options;
 
-  // Do this as the first thing so that any code reading it knows the right env.
-  //process.env.BABEL_ENV = "development";
-  //process.env.NODE_ENV = "development";
-
-  debug(`Check required files exists`);
+  debug(`Check if required files exists`);
   // TODO: Warn and crash if required files are missing
   if (!checkRequiredFiles()) {
     process.exit(1);
@@ -29,9 +25,9 @@ export async function start(options: {
   switch (options.appType) {
     case TowerflowType.webApp:
     case TowerflowType.webLib:
-      debug(`Run webpack-dev-server`);
+      debug(`Run webpack-dev-server for web dev`);
 
-      runWebpackDevServer(
+      startWeb(
         options.appPath,
         options.appName,
         options.appType,
@@ -48,16 +44,14 @@ export async function start(options: {
 
     case TowerflowType.nodeApp:
     case TowerflowType.nodeLib:
-      debug(`Run webpack for node`);
+      debug(`Run webpack for node dev`);
 
-      //runTsDev(options.appPath, options.appType, options.ownPath);
-
-      runWebpackForNode({
-        appType,
+      startNode({
         appName,
         appPath,
-        ownPath,
+        appType,
         distPath: parsePath(options.appPath, "dist"),
+        ownPath,
         indexPath:
           appType === TowerflowType.nodeApp
             ? parsePath(appPath, "src/index.ts")

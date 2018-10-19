@@ -18,8 +18,9 @@ export function getWebpackConfigForNode(options: {
   binPath: string;
 }): webpack.Configuration {
   const { appType, ownPath, appPath, indexPath, binPath, distPath } = options;
-
-  debug(`Get the appPath: ${appPath}, distPath: ${distPath}`);
+  debug(
+    `Get the appPath: ${appPath}, distPath: ${distPath}, binPath: ${binPath}, indexPath: ${indexPath}`
+  );
 
   return {
     mode: "development",
@@ -28,18 +29,19 @@ export function getWebpackConfigForNode(options: {
     target: "node",
     node: false,
 
+    context: path.join(appPath),
+
     entry:
       appType === TowerflowType.nodeApp
         ? {
-            bin: binPath,
-            index: indexPath
+            bin: path.join(binPath),
+            index: path.join(indexPath)
           }
         : {
-            index: indexPath
+            index: path.join(indexPath)
           },
 
     output: {
-      // This path must be platform specific!
       path: path.join(distPath),
 
       pathinfo: true,
@@ -107,10 +109,12 @@ export function getWebpackConfigForNode(options: {
         "process.env.NODE_ENV": JSON.stringify("development")
       }),
 
-      new CleanWebpackPlugin([
-        path.join(appPath, "dist"),
-        path.join(appPath, "dist-declarations")
-      ]),
+      new CleanWebpackPlugin(
+        [path.join(appPath, "dist"), path.join(appPath, "dist-declarations")],
+        {
+          root: path.join(appPath)
+        }
+      ),
 
       new webpack.WatchIgnorePlugin([
         /\.js$/,

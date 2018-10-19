@@ -1,10 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const TowerflowPlugin = require("./src/webpack-plugin/towerflow").default;
 const nodeExternals = require("webpack-node-externals");
-const DeclarationBundlePlugin = require("./src/webpack-plugin/declaration-bundle-plugin")
-  .DeclarationBundlePlugin;
 
 module.exports = {
   mode: "development",
@@ -68,20 +65,11 @@ module.exports = {
       path.join(__dirname, "dist-declarations")
     ]),
 
-    new TowerflowPlugin({
-      stage: "dev"
-    }),
-
     new webpack.BannerPlugin({
       banner: "#!/usr/bin/env node",
       raw: true,
       entryOnly: true
     })
-
-    /*  new DeclarationBundlePlugin({
-      moduleName: "myModule",
-      outDir: "outdir"
-    }) */
   ],
 
   devtool: "source-map",

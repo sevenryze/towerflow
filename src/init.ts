@@ -8,14 +8,14 @@ import { waitSecond } from "./helper/wait-time";
 const debug = Debug(__filename);
 
 /**
- * Call this function to scofflot one app.
+ * Call this function to make one app template.
  */
 export async function init(options: {
-  appPath: string;
   appName: string;
+  appPath: string;
+  appType: TowerflowType;
   fatherPath: string;
   ownPath: string;
-  appType: TowerflowType;
   isBypassNpm: boolean;
   isForce: boolean;
   preDefinedPackageJson: object;
@@ -47,7 +47,7 @@ export async function init(options: {
       });
 
       console.log(
-        `OK, you know what you are doing. Now, deleting the ${appName} folder.`
+        `OK, you have awared what you are doing. Now, deleting the ${appName} folder.`
       );
 
       fsExtra.removeSync(appPath);

@@ -15,6 +15,5 @@
     "alwaysStrict": true,
     "outDir": "dist"
   },
-
   "include": ["lib", "typings"]
 }

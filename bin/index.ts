@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import commander from "commander";
 import { nodeRequire } from "../src";
+import { assistant } from "../src/assistant";
 import { build } from "../src/build";
-import { configFiles } from "../src/config-files";
 import { Debug } from "../src/helper/debugger";
 import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 import { parsePath } from "../src/helper/parse-path";
@@ -18,10 +18,10 @@ process.on("unhandledRejection", err => {
   throw err;
 });
 
-process.on("SIGINT", signal => {
+/* process.on("SIGINT", signal => {
   console.log(`Towerflow get the signal ${signal}, bye!`);
   process.exit(1);
-});
+}); */
 
 export const enum TowerflowType {
   webApp = "web-app",
@@ -121,10 +121,12 @@ commander
     const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownPath = parsePath(__dirname, "..");
+    const ownPath = parsePath(__dirname, "../");
 
     debug(
-      `Start command. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
+      `${chalk.greenBright(
+        "Start command"
+      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
     );
 
     start({ appPath, appName, ownPath, appType });
@@ -132,66 +134,57 @@ commander
 
 commander
   .command("build")
-  .description("Build the optimised version for publish.")
+  .description("Build the optimized version for publish.")
   .action(() => {
-    debug(`We call the build command.`);
-
     const appPath = process.cwd();
     const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownName = ownPkg.name;
     const ownPath = parsePath(__dirname, "../");
 
-    switch (appType) {
-      case TowerflowType.webApp:
-        // TODO: Make this one.
+    debug(
+      `${chalk.greenBright(
+        "Build command"
+      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
+    );
 
-        break;
-      case TowerflowType.webLib:
-      case TowerflowType.nodeApp:
-      case TowerflowType.nodeLib:
-        build({
-          appPath,
-          ownPath,
-          appName,
-          appType
-        });
-
-        break;
-      default:
-        console.log(`The template argument gets Unknown type.`);
-    }
+    build({
+      appPath,
+      ownPath,
+      appName,
+      appType
+    });
   });
 
 commander
-  .command("config-files")
-  .description(
-    `Generate assistant files like tsconfig.json, tslint.json and jest.config.js. Note that changing these files ${chalk.redBright(
+  .command("assistant")
+  .description(`Do the assistant stuff.`)
+  .option(
+    "--generate-config",
+    `Generate config files assistanting for IDE. Note that changing these files ${chalk.redBright(
       "DO NOT"
     )} affect workflow.`
   )
-  .option("--generate", "Generate config files for IDE assistant.")
-  .option("--remove", "Delete those config files.")
-  .action((options: { generate: boolean; remove: boolean }) => {
-    debug(`We call the config-files command.`);
-
-    debug(
-      `config-files command, generate: ${options.generate}, remove: ${
-        options.remove
-      }`
-    );
-
+  .option("--remove-config", "Delete these config files.")
+  .action((options: { generateConfig: boolean; removeConfig: boolean }) => {
     const appPath = process.cwd();
     const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
     const appType = appPkgJson.towerflow.type;
     const ownPath = parsePath(__dirname, "../");
 
-    configFiles({
+    debug(
+      `${chalk.greenBright(
+        "Assistant command"
+      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}, isGenerate: ${
+        options.generateConfig
+      }, isRemove: ${options.removeConfig}`
+    );
+
+    assistant({
       appPath,
       appType,
-      isGenerate: options.generate,
-      isRemove: options.remove,
+      isGenerate: options.generateConfig,
+      isRemove: options.removeConfig,
       ownPath
     });
   });
@@ -201,7 +194,17 @@ commander
   .description("Run the test suits.")
   .option("--env <env>", "The environment on which the test suits run.")
   .action(() => {
-    debug(`We call the test command.`);
+    const appPath = process.cwd();
+    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
+    const appName = appPkgJson.name;
+    const appType = appPkgJson.towerflow.type;
+    const ownPath = parsePath(__dirname, "../");
+
+    debug(
+      `${chalk.greenBright(
+        "Test command"
+      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
+    );
   });
 
 commander.parse(process.argv);

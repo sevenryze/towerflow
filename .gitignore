@@ -1,6 +1,7 @@
 node_modules/
 tmp/
 test-app/
+test-lib/
 dist/
 dist-declarations/
 bin-test/

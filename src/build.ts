@@ -10,8 +10,6 @@ export async function build(options: {
   ownPath: string;
   appType: TowerflowType;
 }) {
-  // Do this as the first thing so that any code reading it knows the right env.
-
   const isInteractive = process.stdout.isTTY;
   debug(`isInteractive: ${isInteractive}`);
 
