@@ -5,8 +5,8 @@
   "files": [
     "dist/",
     "dist-declarations/",
-    "template/",
-    "typings/"
+    "typings/",
+    "template/"
   ],
   "bin": {
     "towerflow": "dist/bin.js"

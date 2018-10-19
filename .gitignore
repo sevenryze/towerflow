@@ -1,5 +1,7 @@
 node_modules/
-test-app/
-test-lib/
+
 dist/
 dist-declarations/
+
+test-app/
+test-lib/
