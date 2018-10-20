@@ -3,8 +3,7 @@ import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
-import { startWeb } from "./webpack/start-web";
-import { startNode } from "./webpack/start-node";
+import { BuildType, runWebpack } from "./webpack/run-webpack";
 
 const debug = Debug(__filename);
 
@@ -27,26 +26,30 @@ export async function start(options: {
     case TowerflowType.webLib:
       debug(`Run webpack-dev-server for web dev`);
 
-      startWeb(
-        options.appPath,
-        options.appName,
-        options.appType,
-        options.ownPath,
-        parsePath(options.appPath, "dist"),
-        options.appType === TowerflowType.webApp
-          ? `${options.appPath}/public`
-          : `${options.appPath}/human-test/public`,
-        options.appType === TowerflowType.webApp
-          ? `${options.appPath}/src/index.tsx`
-          : `${options.appPath}/human-test/index.tsx`
-      );
+      runWebpack({
+        type: BuildType.dev,
+        appName,
+        appPath,
+        ownPath,
+        appType,
+        distPath: parsePath(options.appPath, "dist"),
+        publicDirPath:
+          options.appType === TowerflowType.webApp
+            ? `${options.appPath}/public`
+            : `${options.appPath}/human-test/public`,
+        indexPath:
+          options.appType === TowerflowType.webApp
+            ? `${options.appPath}/src/index.tsx`
+            : `${options.appPath}/human-test/index.tsx`
+      });
       break;
 
     case TowerflowType.nodeApp:
     case TowerflowType.nodeLib:
       debug(`Run webpack for node dev`);
 
-      startNode({
+      runWebpack({
+        type: BuildType.dev,
         appName,
         appPath,
         appType,
