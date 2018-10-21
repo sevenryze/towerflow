@@ -119,7 +119,7 @@ export function createWebpackCompiler(options: {
   return compiler;
 }
 
-function printInstructions(appName: string, urls: Urls) {
+function printInstructions(appName: string, urls: IUrls) {
   console.log();
   console.log(`You can now view ${chalk.bold(appName)} in the browser.`);
   console.log();
@@ -137,7 +137,7 @@ function printInstructions(appName: string, urls: Urls) {
   console.log();
 }
 
-interface Urls {
+interface IUrls {
   localUrlForTerminal: string;
   lanUrlForTerminal: string;
 }

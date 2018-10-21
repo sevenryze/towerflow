@@ -20,16 +20,7 @@ export async function init(options: {
   isForce: boolean;
   preDefinedPackageJson: object;
 }) {
-  const {
-    appName,
-    ownPath,
-    appType,
-    isBypassNpm,
-    preDefinedPackageJson,
-    appPath,
-    isForce,
-    fatherPath
-  } = options;
+  const { appName, appType, appPath, isForce } = options;
 
   debug(`Check if target app folder exists.`);
   if (fsExtra.existsSync(appPath)) {
@@ -66,7 +57,7 @@ export async function init(options: {
   debug(`Initialize the app folder with template`);
   initAppFolder(options);
 
-  let displayedCommand = "npm";
+  const displayedCommand = "npm";
 
   console.log();
   console.log(`Success! Created ${appName} at ${appPath}`);

@@ -21,15 +21,14 @@ export function getWebpackConfig(options: {
   type: BuildType;
 }): webpack.Configuration {
   const {
+    appPath,
     appType,
     ownPath,
     publicDirPath,
-    appPath,
     indexPath,
     distPath,
     type,
-    binPath,
-    appName
+    binPath
   } = options;
 
   debug(
@@ -51,7 +50,7 @@ export function getWebpackConfig(options: {
       // This path must be platform specific!
       path: path.join(distPath),
 
-      pathinfo: true,
+      pathinfo: type === BuildType.dev,
 
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: info =>
@@ -159,9 +158,13 @@ export function getWebpackConfig(options: {
       )
     ],
 
-    devtool: matchWebCase(appType, type)
+    /*   devtool: matchWebCase(appType, type)
       ? "cheap-eval-source-map"
-      : "source-map",
+      : "source-map", */
+
+    // Opt out the sourcemap function for production
+    // as the minified version sourcemap is not matched with origin source.
+    devtool: type === BuildType.dev ? "source-map" : false,
 
     watchOptions: {
       ignored: [
@@ -240,7 +243,7 @@ function matchWebCase(appType: TowerflowType, buildType: BuildType) {
   );
 }
 
-type TSLoaderError = {
+interface TSLoaderError {
   code: number;
   severity: string;
   content: string;
@@ -249,4 +252,4 @@ type TSLoaderError = {
   character: number;
   context: string;
   [index: string]: any;
-};
+}

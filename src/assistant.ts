@@ -13,10 +13,16 @@ export async function assistant(options: {
   appPath: string;
   ownPath: string;
   appType: TowerflowType;
-  isGenerate: boolean;
-  isRemove: boolean;
+  isGenerateConfig: boolean;
+  isRemoveConfig: boolean;
 }) {
-  const { ownPath, appPath, appType, isGenerate, isRemove } = options;
+  const {
+    ownPath,
+    appPath,
+    appType,
+    isGenerateConfig,
+    isRemoveConfig
+  } = options;
 
   const isInteractive = process.stdout.isTTY;
   debug(`isInteractive: ${isInteractive}`);
@@ -30,7 +36,7 @@ export async function assistant(options: {
   const configPath = parsePath(ownPath, "template", appType, "config");
   debug(`configPath: ${configPath}`);
 
-  if (isGenerate) {
+  if (isGenerateConfig) {
     debug(`Copy config files to app folder`);
 
     if (fsExtra.existsSync(configPath)) {
@@ -58,11 +64,11 @@ export async function assistant(options: {
       filenames.add(filename);
     });
 
-    if (isRemove) {
+    if (isRemoveConfig) {
       debug(`Remove config files from app folder`);
 
       filenames.forEach(name => {
-        let delFile = parsePath(appPath, name);
+        const delFile = parsePath(appPath, name);
         debug(`Delete file: ${delFile}`);
 
         fsExtra.removeSync(delFile);

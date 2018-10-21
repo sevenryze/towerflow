@@ -7,7 +7,7 @@ import { runWebpack } from "./webpack/run-webpack";
 
 const debug = Debug(__filename);
 
-export async function build(options: {
+export async function production(options: {
   appName: string;
   appPath: string;
   appType: TowerflowType;
@@ -23,7 +23,6 @@ export async function build(options: {
 
   switch (options.appType) {
     case TowerflowType.webApp:
-    case TowerflowType.webLib:
       runWebpack({
         type: BuildType.production,
         appName,
@@ -31,19 +30,14 @@ export async function build(options: {
         ownPath,
         appType,
         distPath: parsePath(options.appPath, "dist"),
-        publicDirPath:
-          options.appType === TowerflowType.webApp
-            ? `${options.appPath}/public`
-            : `${options.appPath}/human-test/public`,
-        indexPath:
-          options.appType === TowerflowType.webApp
-            ? `${options.appPath}/src/index.tsx`
-            : `${options.appPath}/human-test/index.tsx`
+        publicDirPath: `${options.appPath}/public`,
+        indexPath: `${options.appPath}/src/index.tsx`
       });
       break;
 
     case TowerflowType.nodeApp:
     case TowerflowType.nodeLib:
+    case TowerflowType.webLib:
       runWebpack({
         type: BuildType.production,
         appName,
@@ -58,7 +52,7 @@ export async function build(options: {
         binPath:
           appType === TowerflowType.nodeApp
             ? parsePath(appPath, "bin/index.ts")
-            : ""
+            : undefined
       });
       break;
     default:

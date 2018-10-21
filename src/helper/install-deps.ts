@@ -8,10 +8,8 @@ export function installDeps(
   devDependencies: string[],
   verbose: boolean
 ) {
-  let args: string[];
-
   if (dependencies.length > 0) {
-    let args = ["install", "--save", "--loglevel", "error"].concat(
+    const args = ["install", "--save", "--loglevel", "error"].concat(
       dependencies
     );
 
@@ -20,17 +18,11 @@ export function installDeps(
     }
 
     debug(`Depndencies install args: ${args}`);
-
-    const { status } = crossSpawn.sync("npm", args, { stdio: "inherit" });
-    if (status != 0) {
-      throw {
-        command: `npm ${args.join(" ")}`
-      };
-    }
+    install(args);
   }
 
   if (devDependencies.length > 0) {
-    args = ["install", "-D", "--save", "--loglevel", "error"].concat(
+    const args = ["install", "-D", "--save", "--loglevel", "error"].concat(
       devDependencies
     );
 
@@ -39,12 +31,15 @@ export function installDeps(
     }
 
     debug(`devDepndencies install args: ${args}`);
+    install(args);
+  }
+}
 
-    const { status } = crossSpawn.sync("npm", args, { stdio: "inherit" });
-    if (status != 0) {
-      throw {
-        command: `npm ${args.join(" ")}`
-      };
-    }
+function install(npmArgs: string[]) {
+  const { status } = crossSpawn.sync("npm", npmArgs, { stdio: "inherit" });
+  if (status !== 0) {
+    throw {
+      command: `npm ${npmArgs.join(" ")}`
+    };
   }
 }

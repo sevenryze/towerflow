@@ -32,7 +32,7 @@ function cleanFolder(folderPath: string[]) {
   const invalidFilePaths = new Set<string>();
 
   folderPath.forEach(folderPath => {
-    let searchPath = parsePath(folderPath);
+    const searchPath = parsePath(folderPath);
 
     debug(`search path: ${searchPath}`);
 

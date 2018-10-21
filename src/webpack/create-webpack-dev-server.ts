@@ -1,5 +1,5 @@
-import WebpackDevServer from "webpack-dev-server";
 import webpack from "webpack";
+import WebpackDevServer from "webpack-dev-server";
 
 export function createWebpackDevServer(
   compiler: webpack.Compiler,

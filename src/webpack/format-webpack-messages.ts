@@ -25,7 +25,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Strip `ModuleWarning` head off message before parsing (because of ESLint)
   // https://github.com/webpack/webpack/blob/c77030573de96b8293c69dd396492f8e2d46561e/lib/ModuleWarning.js
-  let moduleWarningPrefix = "Module Warning: ";
+  const moduleWarningPrefix = "Module Warning: ";
   if (lines[1].indexOf(moduleWarningPrefix) === 0) {
     lines[1] = lines[1].slice(moduleWarningPrefix.length);
   } else if (lines[1].match(/Module Warning \(from.*?\):/)) {
@@ -34,7 +34,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Strip `ModuleError` header off message before parsing
   // https://github.com/webpack/webpack/blob/c77030573de96b8293c69dd396492f8e2d46561e/lib/ModuleError.js
-  let moduleErrorPrefix = "Module Error: ";
+  const moduleErrorPrefix = "Module Error: ";
   if (lines[1].indexOf(moduleErrorPrefix) === 0) {
     lines[1] = lines[1].slice(moduleErrorPrefix.length);
   } else if (lines[1].match(/Module Error \(from.*?\):/)) {
@@ -116,7 +116,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Clean up export errors.
   // TODO: we should really send a PR to Webpack for this.
-  let exportError = /\s*(.*?)\s*(?:")?export '(.+?)' was not found in '(.+?)'/;
+  const exportError = /\s*(.*?)\s*(?:")?export '(.+?)' was not found in '(.+?)'/;
   if (lines[1].match(exportError)) {
     lines[1] = lines[1].replace(
       exportError,
@@ -142,13 +142,13 @@ function formatMessage(message: any, isError: boolean) {
 }
 
 export function formatWebpackMessages(json: any) {
-  let formattedErrors = json.errors.map(function(message: any) {
+  const formattedErrors = json.errors.map(function(message: any) {
     return formatMessage(message, true);
   });
-  let formattedWarnings = json.warnings.map(function(message: any) {
+  const formattedWarnings = json.warnings.map(function(message: any) {
     return formatMessage(message, false);
   });
-  let result = {
+  const result = {
     errors: formattedErrors,
     warnings: formattedWarnings
   };

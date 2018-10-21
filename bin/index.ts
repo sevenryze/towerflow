@@ -2,12 +2,12 @@ import chalk from "chalk";
 import commander from "commander";
 import { nodeRequire } from "../src";
 import { assistant } from "../src/assistant";
-import { build } from "../src/build";
 import { Debug } from "../src/helper/debugger";
 import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
 import { TowerflowType } from "../src/interface";
+import { production } from "../src/production";
 import { start } from "../src/start";
 
 const debug = Debug(__filename);
@@ -33,7 +33,7 @@ commander
   .option(
     "--force",
     "Force delete and re-init the target directory. " +
-      chalk.redBright("USE WITH HEART")
+      chalk.redBright("USE WITH CAUTION")
   )
   .option("--bypass-npm", "Bypass the npm install step.")
   .action(
@@ -44,20 +44,18 @@ commander
         template: TowerflowType;
         bypassNpm: boolean;
       } = {
+        bypassNpm: true,
         force: false,
-        template: TowerflowType.webLib,
-        bypassNpm: true
+        template: TowerflowType.webLib
       }
     ) => {
-      debug(`Init command, app name: ${name}`);
-
       const {
         bypassNpm: isBypassNpm,
         template: appType,
         force: isForce
       } = cmdOptions;
       if (!matchTowerflowTypes(appType)) {
-        console.error(`Not support the template: ${appType}, exit.`);
+        console.error(`Not support this template: ${appType}, exit.`);
         process.exit(1);
       }
 
@@ -67,17 +65,18 @@ commander
       const appName = name;
 
       debug(
-        `appPath: ${appPath}, fatherPath: ${fatherPath}, ownPath: ${ownPath}`
+        `${chalk.greenBright(
+          "Init command"
+        )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
       );
 
       const preDefinedPackageJson = Object.assign(
-        {},
         {
           name: appName
         },
-        ["node-app"].includes(appType) && {
+        [TowerflowType.nodeApp].includes(appType) && {
           bin: {
-            [appName]: "bin/index.js"
+            [appName]: "dist/bin.js"
           }
         }
       );
@@ -90,8 +89,8 @@ commander
       );
 
       init({
-        appPath,
         appName,
+        appPath,
         fatherPath,
         ownPath,
         appType,
@@ -122,7 +121,7 @@ commander
   });
 
 commander
-  .command("build")
+  .command("production")
   .description("Build the optimized version for publish.")
   .action(() => {
     const appPath = process.cwd();
@@ -133,21 +132,21 @@ commander
 
     debug(
       `${chalk.greenBright(
-        "Build command"
+        "Production command"
       )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
     );
 
-    build({
+    production({
+      appName,
       appPath,
       ownPath,
-      appName,
       appType
     });
   });
 
 commander
   .command("assistant")
-  .description(`Do the assistant stuff.`)
+  .description(`Do the IDE assistant stuff.`)
   .option(
     "--generate-config",
     `Generate config files assistanting for IDE. Note that changing these files ${chalk.redBright(
@@ -172,8 +171,8 @@ commander
     assistant({
       appPath,
       appType,
-      isGenerate: options.generateConfig,
-      isRemove: options.removeConfig,
+      isGenerateConfig: options.generateConfig,
+      isRemoveConfig: options.removeConfig,
       ownPath
     });
   });

@@ -7,5 +7,5 @@ export const enum TowerflowType {
 
 export enum BuildType {
   production = "producation",
-  dev = "dev"
+  dev = "development"
 }
