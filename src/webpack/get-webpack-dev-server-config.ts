@@ -1,13 +1,14 @@
 import webpackDevServer from "webpack-dev-server";
+import path from "path";
 
-export function getWebpackDevServerConfig(
-  appPath: string
-): webpackDevServer.Configuration {
+export function getWebpackDevServerConfig(options: {
+  appPath: string;
+  ownPath: string;
+}): webpackDevServer.Configuration {
+  const { appPath, ownPath } = options;
+
   return {
     compress: false,
-
-    // By default files from `contentBase` will not trigger a page reload.
-    // watchContentBase: true,
 
     overlay: true,
 
@@ -21,19 +22,11 @@ export function getWebpackDevServerConfig(
 
     // Silence WebpackDevServer's own logs since they're generally not useful.
     // It will still show compile warnings and errors with this setting.
-    // clientLogLevel: "none",
+    clientLogLevel: "none",
 
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.hooks[...].tap` calls above.
     quiet: true,
-
-    // Reportedly, this avoids CPU overload on some systems.
-    // https://github.com/facebook/create-react-app/issues/293
-    // src/node_modules is not ignored to support absolute imports
-    // https://github.com/facebook/create-react-app/issues/1065
-    /*  watchOptions: {
-      ignored: ignoredFiles(`${appPath}/src`)
-    }, */
 
     host: "0.0.0.0",
     port: 8080,

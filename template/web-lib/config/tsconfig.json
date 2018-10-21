@@ -8,6 +8,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
+    "declarationDir": "dist-declarations",
     "removeComments": true,
     "strict": true,
     "alwaysStrict": true,

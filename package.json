@@ -1,6 +1,6 @@
 {
   "name": "towerflow",
-  "version": "0.1.11",
+  "version": "0.1.13",
   "description": "The dev workflow used by The Great Tower Edu Inc. ",
   "files": [
     "dist/",
@@ -57,6 +57,7 @@
     "prettier": "^1.14.3",
     "react-hot-loader": "^4.3.11",
     "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.1.0",
     "ts-jest": "^23.10.4",
     "ts-loader": "^5.2.2",
     "tslint": "^5.11.0",

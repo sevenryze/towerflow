@@ -21,11 +21,12 @@ module.exports = {
 
     filename: "[name].js",
 
-    // library: "MyLibrary",
     libraryTarget: "commonjs2",
 
+    //devtoolModuleFilenameTemplate: ".[resource-path]"
     devtoolModuleFilenameTemplate: info => {
-      return `webpack:///${info.resourcePath}?${info.loaders}`;
+      console.log(info.absoluteResourcePath);
+      return info.resourcePath;
     }
   },
 
@@ -72,7 +73,7 @@ module.exports = {
     })
   ],
 
-  devtool: "source-map",
+  devtool: "nosources-source-map",
 
   watchOptions: {
     ignored: [

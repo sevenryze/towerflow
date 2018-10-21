@@ -1,5 +1,6 @@
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
@@ -30,16 +31,22 @@ export function getWebpackConfig(options: {
     type,
     binPath
   } = options;
+  const isWebCase = matchWebCase(appType, type);
 
   debug(
-    `Get the appPath: ${appPath}, distPath: ${distPath}, isWebCase: ${matchWebCase(
-      appType,
-      type
-    )}`
+    `Get the appPath: ${appPath}, distPath: ${distPath}, isWebCase: ${isWebCase}`
   );
 
   const config: webpack.Configuration = {
     mode: type === BuildType.dev ? "development" : "production",
+
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          extractComments: true
+        })
+      ]
+    },
 
     context: path.join(appPath),
     externals: matchWebCase(appType, type) ? undefined : [nodeExternals()],
@@ -50,11 +57,7 @@ export function getWebpackConfig(options: {
       // This path must be platform specific!
       path: path.join(distPath),
 
-      pathinfo: type === BuildType.dev,
-
-      // Point sourcemap entries to original disk location (format as URL on Windows)
-      devtoolModuleFilenameTemplate: info =>
-        parsePath(info.absoluteResourcePath)
+      pathinfo: type === BuildType.dev
     },
 
     resolve: {
@@ -89,19 +92,7 @@ export function getWebpackConfig(options: {
                   ownPath,
                   `template/${appType}/config/tsconfig.json`
                 ),
-                context: appPath, // 必须提供app项目的目录，参见ts-loader说明
-                errorFormatter: (error: TSLoaderError, colors: any) => {
-                  const messageColor =
-                    error.severity === "warning"
-                      ? colors.bold.yellow
-                      : colors.bold.red;
-                  return (
-                    "Towerflow pack " +
-                    messageColor(
-                      Object.keys(error).map(key => `${key}: ${error[key]}`)
-                    )
-                  );
-                }
+                context: appPath // 必须提供app项目的目录，参见ts-loader说明
               }
             }
           ]
@@ -121,7 +112,7 @@ export function getWebpackConfig(options: {
         },
 
         {
-          // 在运行时，将vendor css添加道link tag中
+          // TODO: How to process css files?
           test: /\.css$/,
           use: [
             {
@@ -158,10 +149,6 @@ export function getWebpackConfig(options: {
       )
     ],
 
-    /*   devtool: matchWebCase(appType, type)
-      ? "cheap-eval-source-map"
-      : "source-map", */
-
     // Opt out the sourcemap function for production
     // as the minified version sourcemap is not matched with origin source.
     devtool: type === BuildType.dev ? "source-map" : false,
@@ -177,13 +164,22 @@ export function getWebpackConfig(options: {
     }
   };
 
-  if (matchWebCase(appType, type)) {
+  if (isWebCase) {
     config.entry = {
       main: `${indexPath}`
     };
 
     config.output!.filename = "js/bundle.js";
     config.output!.chunkFilename = "js/[name].chunk.js";
+    // TODO: It's a very hacky way to deal with webpack sourcemaps.
+    config.output!.devtoolModuleFilenameTemplate = info => {
+      let result = parsePath(info.absoluteResourcePath);
+      result = `file:///${result}`;
+
+      debug(`Get sourcemap source path: ${result}`);
+
+      return result;
+    };
 
     // tsx loaders
     config.module!.rules[1].use = [
@@ -221,6 +217,19 @@ export function getWebpackConfig(options: {
 
     config.output!.filename = "[name].js";
     config.output!.libraryTarget = "commonjs2";
+    config.output!.devtoolModuleFilenameTemplate = info => {
+      if (/(^webpack|^external)/.test(info.absoluteResourcePath)) {
+        debug(`Return origin path: ${info.absoluteResourcePath}`);
+        return info.absoluteResourcePath;
+      }
+
+      const result = parsePath(
+        path.relative(distPath, info.absoluteResourcePath)
+      );
+      debug(`Get sourcemap source path: ${result}`);
+
+      return result;
+    };
 
     config.plugins!.push(
       ...[
@@ -241,15 +250,4 @@ function matchWebCase(appType: TowerflowType, buildType: BuildType) {
     appType === TowerflowType.webApp ||
     (appType === TowerflowType.webLib && buildType === BuildType.dev)
   );
-}
-
-interface TSLoaderError {
-  code: number;
-  severity: string;
-  content: string;
-  file: string;
-  line: number;
-  character: number;
-  context: string;
-  [index: string]: any;
 }

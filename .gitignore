@@ -3,5 +3,7 @@ node_modules/
 dist/
 dist-declarations/
 
-test-app/
-test-lib/
+test-web-app/
+test-web-lib/
+test-node-app/
+test-node-lib/

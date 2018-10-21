@@ -4,3 +4,4 @@ declare module "memory-fs";
 declare module "escape-string-regexp";
 declare module "webpack-node-externals";
 declare module "clean-webpack-plugin";
+declare module "terser-webpack-plugin";

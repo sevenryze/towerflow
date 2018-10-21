@@ -27,3 +27,45 @@
 # 注意
 
 1. 编写代码的过程中，尽量以 template 目录下的配置文件为准。即：如果你需要使用一些与目录结构相关的功能时.
+
+"./src/app.ts
+Module Warning (from ../node_modules/tslint-loader/index.js):
+[7, 1]: unused expression, expected an assignment or function call
+"
+
+"C:\Users\duguagua\Project\towerflow\test-app\src\app.ts
+./src/app.ts
+Towerflow pack [1m[31mcode: 2304,severity: error,content: Cannot find name 'f'.,file: C:\Users\duguagua\Project\towerflow\test-app\src\app.ts,line: 7,character: 1,context: C:\Users\duguagua\Project\towerflow\test-app[39m[22m"
+
+C:\Users\duguagua\Project\towerflow\test-app\src\app.ts
+./src/app.ts
+Towerflow pack code: 2304,severity: error,content: Cannot find name 'f'.,file: C:\Users\duguagua\Project\towerflow\test-app\src\app.ts,line: 7,character: 1,context: C:\Users\duguagua\Project\towerflow\test-app
+
+c:\Users\duguagua\Project\towerflow\test-app\src\app.ts
+./src/app.ts
+[tsl] ERROR in c:\Users\duguagua\Project\towerflow\test-app\src\app.ts(7,1)
+TS2304: Cannot find name 'f'.
+
+## 原始的 tsloader 错误提示
+
+```
+ERROR in c:\Users\duguagua\Project\towerflow\src\webpack\run-webpack.ts
+./src/webpack/run-webpack.ts
+[tsl] ERROR in c:\Users\duguagua\Project\towerflow\src\webpack\run-webpack.ts(13,1)
+      TS2304: Cannot find name 'a'.
+```
+
+## 原始的 tslint 错误提示
+
+```
+WARNING in ./src/webpack/format-webpack-messages.ts
+Module Warning (from ./node_modules/tslint-loader/index.js):
+[21, 33]: Shadowed name: 'message'
+[21, 24]: non-arrow functions are forbidden
+[67, 24]: non-arrow functions are forbidden
+
+ @ ./src/webpack/create-webpack-compiler.ts 5:0-66 45:25-46
+ @ ./src/webpack/run-webpack.ts
+ @ ./src/production.ts
+ @ ./bin/index.ts
+```

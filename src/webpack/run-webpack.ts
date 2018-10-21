@@ -38,7 +38,7 @@ export function runWebpack(options: {
     [TowerflowType.webApp, TowerflowType.webLib].includes(appType)
   ) {
     debug(`Get webpack-dev-server config file`);
-    webpackDevServerConfig = getWebpackDevServerConfig(appPath);
+    webpackDevServerConfig = getWebpackDevServerConfig(options);
 
     debug(`Add wds hot module reload entry scripts`);
     webpackDevServer.addDevServerEntrypoints(
@@ -79,13 +79,13 @@ export function runWebpack(options: {
       }
     });
 
-    ["SIGINT", "SIGTERM"].forEach(function(sig) {
-      process.on(sig as any, function() {
+    ["SIGINT", "SIGTERM"].forEach(sig => {
+      process.on(sig as any, () => {
         debug(`The watching webpack is going to be closed`);
         watcher.close(() => {
           debug(`Webpack closed successfully`);
 
-          process.exit();
+          process.exit(1);
         });
       });
     });
@@ -120,9 +120,13 @@ export function runWebpack(options: {
 
     ["SIGINT", "SIGTERM"].forEach(sig => {
       process.on(sig as any, () => {
-        devServer.close();
         debug(`Webpack-dev-server is going to be closed`);
-        process.exit();
+
+        devServer.close(() => {
+          debug(`Webpack-dev-server closed successfully`);
+
+          process.exit(1);
+        });
       });
     });
   }

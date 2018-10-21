@@ -13,7 +13,6 @@ function isLikelyASyntaxError(message: any) {
 }
 
 // Cleans up webpack error messages.
-// eslint-disable-next-line no-unused-vars
 function formatMessage(message: any, isError: boolean) {
   let lines = message.split("\n");
 
@@ -142,21 +141,24 @@ function formatMessage(message: any, isError: boolean) {
 }
 
 export function formatWebpackMessages(json: any) {
-  const formattedErrors = json.errors.map(function(message: any) {
+  const formattedErrors = json.errors.map((message: string) => {
     return formatMessage(message, true);
   });
-  const formattedWarnings = json.warnings.map(function(message: any) {
+  const formattedWarnings = json.warnings.map((message: string) => {
     return formatMessage(message, false);
   });
+
   const result = {
     errors: formattedErrors,
     warnings: formattedWarnings
   };
+
   if (result.errors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     // This prevents a confusing ESLint parsing error
     // preceding a much more useful Babel syntax error.
     result.errors = result.errors.filter(isLikelyASyntaxError);
   }
+
   return result;
 }
