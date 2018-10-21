@@ -1,6 +1,6 @@
 import { removeSync } from "fs-extra";
 import klawSync from "klaw-sync";
-import { TowerflowType } from "../../bin";
+import { TowerflowType } from "../interface";
 import { Debug } from "./debugger";
 import { matchTsFile } from "./match-ts-file";
 import { parsePath } from "./parse-path";

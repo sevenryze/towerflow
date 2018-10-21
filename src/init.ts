@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import fsExtra from "fs-extra";
-import { TowerflowType } from "../bin";
 import { Debug } from "./helper/debugger";
 import { initAppFolder } from "./helper/init-app-folder";
 import { waitSecond } from "./helper/wait-time";
+import { TowerflowType } from "./interface";
 
 const debug = Debug(__filename);
 

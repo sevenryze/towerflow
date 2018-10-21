@@ -1,6 +1,6 @@
 import chokidar from "chokidar";
 import fsExtra from "fs-extra";
-import { TowerflowType } from "../../bin";
+import { TowerflowType } from "../interface";
 import { cleanSrcFolder } from "./clean-src-folder";
 import { Debug } from "./debugger";
 import { parsePath } from "./parse-path";

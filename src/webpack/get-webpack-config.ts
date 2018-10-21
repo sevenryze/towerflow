@@ -1,12 +1,11 @@
+import CleanWebpackPlugin from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
-import CleanWebpackPlugin from "clean-webpack-plugin";
-import { TowerflowType } from "../../bin";
 import { Debug } from "../helper/debugger";
 import { parsePath } from "../helper/parse-path";
-import { BuildType } from "./run-webpack";
+import { BuildType, TowerflowType } from "../interface";
 
 const debug = Debug(__filename);
 
@@ -44,14 +43,7 @@ export function getWebpackConfig(options: {
     mode: type === BuildType.dev ? "development" : "production",
 
     context: path.join(appPath),
-    externals: matchWebCase(appType, type)
-      ? undefined
-      : [
-          // Every non-relative module is external
-          // abc -> require("abc")
-          /node_modules/
-          // nodeExternals()
-        ],
+    externals: matchWebCase(appType, type) ? undefined : [nodeExternals()],
     target: matchWebCase(appType, type) ? "web" : "node",
     node: false,
 

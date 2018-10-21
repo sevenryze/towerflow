@@ -1,20 +1,15 @@
 import chalk from "chalk";
 import Webpack from "webpack";
 import webpackDevServer from "webpack-dev-server";
-import { TowerflowType } from "../../bin";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
+import { BuildType, TowerflowType } from "../interface";
 import { createWebpackCompiler } from "./create-webpack-compiler";
 import { createWebpackDevServer } from "./create-webpack-dev-server";
 import { getWebpackConfig } from "./get-webpack-config";
 import { getWebpackDevServerConfig } from "./get-webpack-dev-server-config";
 
 const debug = Debug(__filename);
-
-export enum BuildType {
-  production = "producation",
-  dev = "dev"
-}
 
 export function runWebpack(options: {
   type: BuildType;

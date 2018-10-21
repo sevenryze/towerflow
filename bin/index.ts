@@ -7,6 +7,7 @@ import { Debug } from "../src/helper/debugger";
 import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
+import { TowerflowType } from "../src/interface";
 import { start } from "../src/start";
 
 const debug = Debug(__filename);
@@ -17,18 +18,6 @@ const debug = Debug(__filename);
 process.on("unhandledRejection", err => {
   throw err;
 });
-
-/* process.on("SIGINT", signal => {
-  console.log(`Towerflow get the signal ${signal}, bye!`);
-  process.exit(1);
-}); */
-
-export const enum TowerflowType {
-  webApp = "web-app",
-  webLib = "web-lib",
-  nodeApp = "node-app",
-  nodeLib = "node-lib"
-}
 
 const ownPkg = nodeRequire("../package.json");
 commander

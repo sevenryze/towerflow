@@ -2,8 +2,8 @@ import chalk from "chalk";
 import webpack from "webpack";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
+import { TowerflowType } from "../interface";
 import { formatWebpackMessages } from "./format-webpack-messages";
-import { TowerflowType } from "../../bin";
 
 const debug = Debug(__filename);
 

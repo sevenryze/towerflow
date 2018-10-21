@@ -1,9 +1,9 @@
 import chalk from "chalk";
-import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
-import { BuildType, runWebpack } from "./webpack/run-webpack";
+import { BuildType, TowerflowType } from "./interface";
+import { runWebpack } from "./webpack/run-webpack";
 
 const debug = Debug(__filename);
 

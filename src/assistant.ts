@@ -2,10 +2,10 @@ import chalk from "chalk";
 import fsExtra from "fs-extra";
 import klawSync from "klaw-sync";
 import path from "path";
-import { TowerflowType } from "../bin";
 import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
+import { TowerflowType } from "./interface";
 
 const debug = Debug(__filename);
 
