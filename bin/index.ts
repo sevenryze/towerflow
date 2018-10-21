@@ -9,6 +9,7 @@ import { init } from "../src/init";
 import { TowerflowType } from "../src/interface";
 import { production } from "../src/production";
 import { start } from "../src/start";
+import { test } from "../src/test";
 
 const debug = Debug(__filename);
 
@@ -193,6 +194,13 @@ commander
         "Test command"
       )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
     );
+
+    test({
+      appName,
+      appPath,
+      appType,
+      ownPath
+    });
   });
 
 commander.parse(process.argv);

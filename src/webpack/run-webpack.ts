@@ -22,17 +22,7 @@ export function runWebpack(options: {
   binPath?: string;
   publicDirPath?: string;
 }) {
-  const {
-    type,
-    binPath,
-    appType,
-    appName,
-    appPath,
-    distPath,
-    indexPath,
-    ownPath,
-    publicDirPath
-  } = options;
+  const { type, appType, appName, appPath } = options;
 
   debug(`Check if on interactive TTY`);
   const isInteractive = process.stdout.isTTY;
