@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "start": "towerflow start",
-    "build": "towerflow build",
+    "production": "towerflow production",
     "test": "towerflow test --env=jsdom",
-    "generate-configs": "towerflow config-files --generate",
-    "remove-configs": "towerflow config-files --remove"
+    "generate-config": "towerflow assistant --generate-config",
+    "remove-config": "towerflow assistant --remove-config"
   },
   "towerflow": {
     "type": "web-app"

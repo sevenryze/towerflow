@@ -1,35 +1,26 @@
 import chalk from "chalk";
 import fsExtra from "fs-extra";
-import { TowerflowType } from "../bin";
 import { Debug } from "./helper/debugger";
 import { initAppFolder } from "./helper/init-app-folder";
 import { waitSecond } from "./helper/wait-time";
+import { TowerflowType } from "./interface";
 
 const debug = Debug(__filename);
 
 /**
- * Call this function to scofflot one app.
+ * Call this function to make one app template.
  */
 export async function init(options: {
-  appPath: string;
   appName: string;
+  appPath: string;
+  appType: TowerflowType;
   fatherPath: string;
   ownPath: string;
-  appType: TowerflowType;
   isBypassNpm: boolean;
   isForce: boolean;
   preDefinedPackageJson: object;
 }) {
-  const {
-    appName,
-    ownPath,
-    appType,
-    isBypassNpm,
-    preDefinedPackageJson,
-    appPath,
-    isForce,
-    fatherPath
-  } = options;
+  const { appName, appType, appPath, isForce } = options;
 
   debug(`Check if target app folder exists.`);
   if (fsExtra.existsSync(appPath)) {
@@ -47,7 +38,7 @@ export async function init(options: {
       });
 
       console.log(
-        `OK, you know what you are doing. Now, deleting the ${appName} folder.`
+        `OK, you have awared what you are doing. Now, deleting the ${appName} folder.`
       );
 
       fsExtra.removeSync(appPath);
@@ -66,7 +57,7 @@ export async function init(options: {
   debug(`Initialize the app folder with template`);
   initAppFolder(options);
 
-  let displayedCommand = "npm";
+  const displayedCommand = "npm";
 
   console.log();
   console.log(`Success! Created ${appName} at ${appPath}`);

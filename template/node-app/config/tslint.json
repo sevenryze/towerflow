@@ -1,9 +1,9 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-react"],
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
   "rules": {
     "no-unused-expression": [true, "allow-fast-null-checks"],
     "member-ordering": [
-      false,
+      true,
       {
         "order": [
           "public-static-field",
@@ -17,6 +17,7 @@
           "private-instance-method"
         ]
       }
-    ]
+    ],
+    "no-console": false
   }
 }

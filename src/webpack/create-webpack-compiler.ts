@@ -2,6 +2,7 @@ import chalk from "chalk";
 import webpack from "webpack";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
+import { TowerflowType } from "../interface";
 import { formatWebpackMessages } from "./format-webpack-messages";
 
 const debug = Debug(__filename);
@@ -21,10 +22,13 @@ if (isSmokeTest) {
   };
 }
 
-export function createWebpackCompiler(
-  config: webpack.Configuration,
-  appName: string
-) {
+export function createWebpackCompiler(options: {
+  config: webpack.Configuration;
+  appName: string;
+  appType: TowerflowType;
+}) {
+  const { appName, config, appType } = options;
+
   debug(`Start to create webpack instance`);
   const isInteractive = process.stdout.isTTY;
 
@@ -60,7 +64,7 @@ export function createWebpackCompiler(
   // Whether or not you have warnings or errors, you will get this event.
   compiler.hooks.done.tap("done", (stats: webpack.Stats) => {
     if (isInteractive) {
-      clearConsole();
+      //  clearConsole();
     }
 
     // We have switched off the default Webpack output in WebpackDevServer
@@ -75,7 +79,11 @@ export function createWebpackCompiler(
     if (isSuccessful) {
       console.log(chalk.green("Compiled successfully!"));
     }
-    if (isSuccessful && (isInteractive || isFirstCompile)) {
+    if (
+      isSuccessful &&
+      ["web-app", "web-lib"].includes(appType) &&
+      (isInteractive || isFirstCompile)
+    ) {
       printInstructions(appName, {
         lanUrlForTerminal: "http://your-local-ip:8080",
         localUrlForTerminal: "http://localhost:8080"
@@ -111,7 +119,7 @@ export function createWebpackCompiler(
   return compiler;
 }
 
-function printInstructions(appName: string, urls: Urls) {
+function printInstructions(appName: string, urls: IUrls) {
   console.log();
   console.log(`You can now view ${chalk.bold(appName)} in the browser.`);
   console.log();
@@ -129,7 +137,7 @@ function printInstructions(appName: string, urls: Urls) {
   console.log();
 }
 
-interface Urls {
+interface IUrls {
   localUrlForTerminal: string;
   lanUrlForTerminal: string;
 }

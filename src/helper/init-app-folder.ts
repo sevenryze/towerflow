@@ -1,7 +1,8 @@
 import chalk from "chalk";
 import fsExtra from "fs-extra";
 import os from "os";
-import { TowerflowType } from "../../bin";
+import { nodeRequire } from "..";
+import { TowerflowType } from "../interface";
 import { Debug } from "./debugger";
 import { installDeps } from "./install-deps";
 import { parsePath } from "./parse-path";
@@ -65,7 +66,7 @@ export function initAppFolder(options: {
 
   debug(`Create package.json`);
   const tempPkgPath = parsePath(templatePath, "tmp-package.json");
-  let tempPkgJson = require(tempPkgPath);
+  let tempPkgJson = nodeRequire(tempPkgPath);
 
   debug(`Get dependencies from template package.json`);
   const dependencies: string[] = [];

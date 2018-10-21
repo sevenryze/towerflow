@@ -1,16 +1,7 @@
-node_modules
-tmp
-test-app
-dist
-dist-declarations
+node_modules/
 
+dist/
+dist-declarations/
 
-src/**/*.js
-src/**/*.js.map
-src/**/*.d.ts
-src/**/*.d.ts.map
-
-bin/**/*.js
-bin/**/*.js.map
-bin/**/*.d.ts
-bin/**/*.d.ts.map
+test-app/
+test-lib/

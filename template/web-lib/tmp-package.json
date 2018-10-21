@@ -1,14 +1,14 @@
 {
   "version": "0.1.0",
   "private": true,
-  "main": "lib/index.js",
-  "files": ["lib/", "!lib/**/*.ts", "!lib/**/*.tsx", "typings/"],
+  "main": "dist/index.js",
+  "files": ["dist/", "dist-declarations/", "typings/"],
   "scripts": {
     "start": "towerflow start",
-    "build": "towerflow build",
+    "production": "towerflow production",
     "test": "towerflow test --env=jsdom",
-    "generate-configs": "towerflow config-files --generate",
-    "remove-configs": "towerflow config-files --remove"
+    "generate-config": "towerflow assistant --generate-config",
+    "remove-config": "towerflow assistant --remove-config"
   },
   "towerflow": {
     "type": "web-lib"

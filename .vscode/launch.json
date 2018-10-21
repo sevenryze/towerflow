@@ -8,7 +8,9 @@
       "name": "npm start",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
+      // For debug the local npm link packages.
+      "runtimeArgs": ["--preserve-symlinks"],
+      "program": "${workspaceFolder}/dist/bin.js",
       "args": ["start"],
       "cwd": "${workspaceFolder}/test-app",
       "sourceMaps": true,
@@ -24,12 +26,13 @@
       "name": "npm init",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["init", "test-app", "--template", "web-lib", "--bypass-npm"],
+      "program": "${workspaceFolder}/dist/bin.js",
+      "args": ["init", "test-app", "--template", "node-app", "--bypass-npm"],
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,
+
       "console": "integratedTerminal",
       "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
       "env": {
@@ -69,16 +72,16 @@
       }
     },
     {
-      "name": "Danger start test!",
+      "name": "Test test-app start",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["start"],
-      "cwd": "${workspaceFolder}",
+      "runtimeArgs": ["--preserve-symlinks"],
+      "program": "${cwd}/node_modules/webpack-cli/bin/cli.js",
+      "args": ["run", "start"],
+      "cwd": "${workspaceFolder}/test-app",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,
-      "console": "integratedTerminal",
       "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
       "env": {
         "DEBUG": "towerflow:*"
@@ -88,8 +91,24 @@
       "name": "Random test",
       "type": "node",
       "request": "launch",
+      "runtimeArgs": ["--preserve-symlinks"],
       "program": "${workspaceFolder}/node_modules/webpack-cli/bin/cli.js",
-      "args": [],
+      "args": ["--profile", "--json > stats.json"],
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "autoAttachChildProcesses": true,
+      "smartStep": true,
+      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
+      "env": {
+        "DEBUG": "towerflow:*"
+      }
+    },
+    {
+      "name": "Random test 2",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--preserve-symlinks"],
+      "program": "${workspaceFolder}/test-app/dist/index.js",
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,

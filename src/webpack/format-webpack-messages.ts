@@ -15,7 +15,7 @@ function isLikelyASyntaxError(message: any) {
 // Cleans up webpack error messages.
 // eslint-disable-next-line no-unused-vars
 function formatMessage(message: any, isError: boolean) {
-  var lines = message.split("\n");
+  let lines = message.split("\n");
 
   // Strip `WorkerError` header off message before parsing
   // https://github.com/webpack-contrib/thread-loader/blob/6fb5daff313c4839196cf533bdcdf14815a386d2/src/WorkerError.js
@@ -25,7 +25,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Strip `ModuleWarning` head off message before parsing (because of ESLint)
   // https://github.com/webpack/webpack/blob/c77030573de96b8293c69dd396492f8e2d46561e/lib/ModuleWarning.js
-  var moduleWarningPrefix = "Module Warning: ";
+  const moduleWarningPrefix = "Module Warning: ";
   if (lines[1].indexOf(moduleWarningPrefix) === 0) {
     lines[1] = lines[1].slice(moduleWarningPrefix.length);
   } else if (lines[1].match(/Module Warning \(from.*?\):/)) {
@@ -34,7 +34,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Strip `ModuleError` header off message before parsing
   // https://github.com/webpack/webpack/blob/c77030573de96b8293c69dd396492f8e2d46561e/lib/ModuleError.js
-  var moduleErrorPrefix = "Module Error: ";
+  const moduleErrorPrefix = "Module Error: ";
   if (lines[1].indexOf(moduleErrorPrefix) === 0) {
     lines[1] = lines[1].slice(moduleErrorPrefix.length);
   } else if (lines[1].match(/Module Error \(from.*?\):/)) {
@@ -116,7 +116,7 @@ function formatMessage(message: any, isError: boolean) {
 
   // Clean up export errors.
   // TODO: we should really send a PR to Webpack for this.
-  var exportError = /\s*(.*?)\s*(?:")?export '(.+?)' was not found in '(.+?)'/;
+  const exportError = /\s*(.*?)\s*(?:")?export '(.+?)' was not found in '(.+?)'/;
   if (lines[1].match(exportError)) {
     lines[1] = lines[1].replace(
       exportError,
@@ -142,13 +142,13 @@ function formatMessage(message: any, isError: boolean) {
 }
 
 export function formatWebpackMessages(json: any) {
-  var formattedErrors = json.errors.map(function(message: any) {
+  const formattedErrors = json.errors.map(function(message: any) {
     return formatMessage(message, true);
   });
-  var formattedWarnings = json.warnings.map(function(message: any) {
+  const formattedWarnings = json.warnings.map(function(message: any) {
     return formatMessage(message, false);
   });
-  var result = {
+  const result = {
     errors: formattedErrors,
     warnings: formattedWarnings
   };
