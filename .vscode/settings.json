@@ -1,4 +1,3 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "npm.exclude": "template/"
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

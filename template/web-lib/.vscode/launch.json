@@ -5,100 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "npm start",
-      "type": "node",
+      "type": "chrome",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["start"],
-      "cwd": "${workspaceFolder}/test-app",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
+      "name": "Launch Chrome against localhost 8080",
+      "url": "http://localhost:8080",
       "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "npm init",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["init", "test-app", "--template", "node-app", "--bypass-npm"],
-      "cwd": "${workspaceFolder}",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "npm build",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["build"],
-      "cwd": "${workspaceFolder}/test-app",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "npm config-files",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["config-files", "--remove"],
-      "cwd": "${workspaceFolder}/test-app",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "Danger start test!",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["start"],
-      "cwd": "${workspaceFolder}",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
-    },
-    {
-      "name": "Random test",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceFolder}/src/helper/run-tslint.js",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "sourceMaps": true,
-      "autoAttachChildProcesses": true,
-      "smartStep": true,
-      "console": "integratedTerminal",
-      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
+      "skipFiles": ["**/node_modules/**"]
     }
   ]
 }
