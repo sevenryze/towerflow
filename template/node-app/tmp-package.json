@@ -1,8 +1,8 @@
 {
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "files": ["dist/", "dist-declarations/", "typings/"],
+  "main": "dist/src/index.js",
+  "files": ["dist/", "typings/"],
   "scripts": {
     "start": "towerflow start",
     "production": "towerflow production",

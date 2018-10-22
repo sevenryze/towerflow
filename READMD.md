@@ -30,17 +30,21 @@
 在开发 lib 时，我们需要指定编译后的 js 版本而不是直接发布 ts 源代码以供用户源代码级编译。这是一种权衡和考量。
 我们预设发布 node-lib 的版本为`esnext`，而发布 web-lib 的版本为`es2015`。
 
-# node-app
+# 构建流程
 
-1. 编译后的**dirname 和**filename 固定为`dist`和`dist/index.js, dist/bin.js`。请注意路径应用问题。
+我们的主要构建流程分为两种：
 
-# node-lib
+1. tsc 流程。
+1. webpack 流程。
 
-1. 编译后的**dirname 和**filename 固定为`dist`和`dist/index.js, dist/bin.js`。请注意路径应用问题。
+# node-app 和 node-lib
 
-# web-app
+1. 均使用 tsc 流程进行编译。
+1. 资源文件放置在 asset 文件夹内，会被自动复制到 dist 目录下。
 
-# web-lib
+# web-app 和 web-lib
+
+1. web-lib 在开发时使用 webpack，而在发布时使用 tsc 流程。
 
 # 附录 1 - 各种 loader 的错误提示格式
 

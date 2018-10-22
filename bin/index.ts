@@ -1,6 +1,7 @@
+#!/usr/bin/env node
+
 import chalk from "chalk";
 import commander from "commander";
-import { nodeRequire } from "../src";
 import { assistant } from "../src/assistant";
 import { Debug } from "../src/helper/debugger";
 import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
@@ -13,6 +14,8 @@ import { test } from "../src/test";
 
 const debug = Debug(__filename);
 
+const ownPkg = require("../../package.json");
+
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
@@ -20,7 +23,8 @@ process.on("unhandledRejection", err => {
   throw err;
 });
 
-const ownPkg = nodeRequire("../package.json");
+const ownPath = parsePath(__dirname, "../../");
+
 commander
   .name(ownPkg.name)
   .description(chalk.cyan("The workflow used by The Tower Edu Inc."))
@@ -62,7 +66,6 @@ commander
 
       const fatherPath = parsePath(process.cwd());
       const appPath = parsePath(fatherPath, name);
-      const ownPath = parsePath(__dirname, "..");
       const appName = name;
 
       debug(
@@ -77,7 +80,7 @@ commander
         },
         [TowerflowType.nodeApp].includes(appType) && {
           bin: {
-            [appName]: "dist/bin.js"
+            [appName]: "dist/bin/index.js"
           }
         }
       );
@@ -107,10 +110,9 @@ commander
   .description("Start to develop this project.")
   .action(() => {
     const appPath = process.cwd();
-    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownPath = parsePath(__dirname, "../");
 
     debug(
       `${chalk.greenBright(
@@ -126,10 +128,9 @@ commander
   .description("Build the optimized version for publish.")
   .action(() => {
     const appPath = process.cwd();
-    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownPath = parsePath(__dirname, "../");
 
     debug(
       `${chalk.greenBright(
@@ -157,9 +158,8 @@ commander
   .option("--remove-config", "Delete these config files.")
   .action((options: { generateConfig: boolean; removeConfig: boolean }) => {
     const appPath = process.cwd();
-    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appType = appPkgJson.towerflow.type;
-    const ownPath = parsePath(__dirname, "../");
 
     debug(
       `${chalk.greenBright(
@@ -184,10 +184,9 @@ commander
   .option("--env <env>", "The environment on which the test suits run.")
   .action(() => {
     const appPath = process.cwd();
-    const appPkgJson = nodeRequire(parsePath(appPath, "package.json"));
+    const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
-    const ownPath = parsePath(__dirname, "../");
 
     debug(
       `${chalk.greenBright(

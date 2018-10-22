@@ -12,7 +12,8 @@
     "removeComments": true,
     "strict": true,
     "alwaysStrict": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "./"
   },
   "include": ["src", "bin", "typings"]
 }

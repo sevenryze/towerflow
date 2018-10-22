@@ -17,6 +17,7 @@
           "private-instance-method"
         ]
       }
-    ]
+    ],
+    "no-console": false
   }
 }

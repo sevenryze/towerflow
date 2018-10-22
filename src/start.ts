@@ -3,6 +3,7 @@ import { checkRequiredFiles } from "./helper/check-required-files";
 import { Debug } from "./helper/debugger";
 import { parsePath } from "./helper/parse-path";
 import { BuildType, TowerflowType } from "./interface";
+import { runTsc } from "./tsc/run-tsc";
 import { runWebpack } from "./webpack/run-webpack";
 
 const debug = Debug(__filename);
@@ -48,21 +49,11 @@ export async function start(options: {
     case TowerflowType.nodeLib:
       debug(`Run webpack for node dev`);
 
-      runWebpack({
+      runTsc({
         type: BuildType.dev,
-        appName,
         appPath,
         appType,
-        distPath: parsePath(options.appPath, "dist"),
-        ownPath,
-        indexPath:
-          appType === TowerflowType.nodeApp
-            ? parsePath(appPath, "src/index.ts")
-            : parsePath(appPath, "lib/index.ts"),
-        binPath:
-          appType === TowerflowType.nodeApp
-            ? parsePath(appPath, "bin/index.ts")
-            : ""
+        ownPath
       });
       break;
     default:

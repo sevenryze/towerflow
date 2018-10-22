@@ -1,23 +1,22 @@
 import chokidar from "chokidar";
 import fsExtra from "fs-extra";
-import { TowerflowType } from "../interface";
-import { cleanSrcFolder } from "./clean-src-folder";
 import { Debug } from "./debugger";
 import { parsePath } from "./parse-path";
+import path from "path";
 
 const debug = Debug(__filename);
 
 export function watchAndcleanGeneratedFiles(
   appPath: string,
-  tsconfigPath: string,
-  appType: TowerflowType
+  tsconfigPath: string
 ) {
   debug(`Read tsconfig.json from: ${tsconfigPath}`);
   const tsconfigJson = require(tsconfigPath);
 
   const watchPaths: string[] = [];
   tsconfigJson.include.map((dir: string) => {
-    dir !== "typings" && watchPaths.push(parsePath(appPath, dir) + "/**/*.ts");
+    dir !== "typings" &&
+      watchPaths.push(parsePath(appPath, dir) + "/**/*.tsx?");
   });
 
   debug(`Create watcher with watch path: ${watchPaths}`);
@@ -30,7 +29,10 @@ export function watchAndcleanGeneratedFiles(
 
     const generatedFileSuffix = [".d.ts", ".d.ts.map", ".js", ".js.map"];
     generatedFileSuffix.map(suffix => {
-      const delFile = filePath.replace(/\.tsx?$/, suffix);
+      // TODO: Do not use as this is under concern.
+      const fileBasename = path.basename(filePath);
+      const delFileBasename = fileBasename.replace(/\.tsx?$/, suffix);
+      const delFile = parsePath(appPath, "dist");
 
       debug(`Delete file: ${delFile}`);
       fsExtra.removeSync(delFile);
@@ -39,9 +41,6 @@ export function watchAndcleanGeneratedFiles(
 
   process.on("exit", code => {
     debug(`process exit with code: ${code}`);
-
-    debug(`clean src folder`);
-    cleanSrcFolder(appPath, appType);
 
     debug(`clean chokidar watcher`);
     watcher && watcher.close();

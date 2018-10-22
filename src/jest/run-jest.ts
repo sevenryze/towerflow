@@ -23,6 +23,7 @@ export function runJest(options: {
   );
 
   const jestArgs = [
+    "jest",
     "--config",
     jestConfigPath,
     "--rootDir",
@@ -30,7 +31,7 @@ export function runJest(options: {
   ];
 
   debug(`Jest args: ${jestArgs}`);
-  const { status } = crossSpawn.sync("jest", jestArgs, {
+  const { status } = crossSpawn.sync("npx", jestArgs, {
     stdio: "inherit",
     cwd: appPath
   });

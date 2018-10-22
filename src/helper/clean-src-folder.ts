@@ -23,22 +23,6 @@ export function cleanSrcFolder(appPath: string, appType: TowerflowType) {
   debug(`source code folder clean complete`);
 }
 
-export function cleanDistFolder(appPath: string, appType: TowerflowType) {
-  switch (appType) {
-    case TowerflowType.nodeLib:
-    case TowerflowType.webLib:
-      cleanFolder([`${appPath}/lib`]);
-      break;
-    case TowerflowType.nodeApp:
-      cleanFolder([`${appPath}/src`, `${appPath}/bin`]);
-      break;
-    default:
-      console.log(`Not matched type`);
-  }
-
-  debug(`source code folder clean complete`);
-}
-
 /**
  * Clean the target folder.
  *

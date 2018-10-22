@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "target": "esnext",
     "allowSyntheticDefaultImports": true,
@@ -8,7 +8,6 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "dist-declarations",
     "sourceMap": true,
     "removeComments": true,
     "strict": true,

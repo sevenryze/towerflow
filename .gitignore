@@ -2,6 +2,7 @@ node_modules/
 
 dist/
 dist-declarations/
+tmp/
 
 test-web-app/
 test-web-lib/

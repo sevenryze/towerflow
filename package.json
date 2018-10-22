@@ -1,23 +1,21 @@
 {
   "name": "towerflow",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "The dev workflow used by The Great Tower Edu Inc. ",
   "files": [
     "dist/",
-    "dist-declarations/",
     "typings/",
     "template/"
   ],
   "bin": {
-    "towerflow": "dist/bin.js"
+    "towerflow": "dist/bin/index.js"
   },
-  "main": "dist/index.js",
-  "types": "dist-declarations/src/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
-    "dev": "webpack --watch",
-    "production": "webpack --mode production",
-    "webpack-stats": "webpack --profile --json > stats.json",
-    "test": "DEBUG=towerflow:* node src/workflow-test/node-app/ts-dev.js"
+    "dev": "tsc --watch",
+    "production": "tsc",
+    "test": ""
   },
   "towerflow": {
     "type": "node-app"
