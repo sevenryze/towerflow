@@ -21,13 +21,7 @@ module.exports = {
 
     filename: "[name].js",
 
-    libraryTarget: "commonjs2",
-
-    //devtoolModuleFilenameTemplate: ".[resource-path]"
-    devtoolModuleFilenameTemplate: info => {
-      console.log(info.absoluteResourcePath);
-      return info.resourcePath;
-    }
+    libraryTarget: "commonjs2"
   },
 
   resolve: {

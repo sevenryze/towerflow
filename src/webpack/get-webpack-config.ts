@@ -1,7 +1,7 @@
 import CleanWebpackPlugin from "clean-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import TerserPlugin from "terser-webpack-plugin";
 import path from "path";
+import TerserPlugin from "terser-webpack-plugin";
 import webpack from "webpack";
 import nodeExternals from "webpack-node-externals";
 import { Debug } from "../helper/debugger";
@@ -49,8 +49,8 @@ export function getWebpackConfig(options: {
     },
 
     context: path.join(appPath),
-    externals: matchWebCase(appType, type) ? undefined : [nodeExternals()],
-    target: matchWebCase(appType, type) ? "web" : "node",
+    externals: isWebCase ? undefined : [nodeExternals()],
+    target: isWebCase ? "web" : "node",
     node: false,
 
     output: {
@@ -92,7 +92,9 @@ export function getWebpackConfig(options: {
                   ownPath,
                   `template/${appType}/config/tsconfig.json`
                 ),
-                context: appPath // 必须提供app项目的目录，参见ts-loader说明
+                // Fix the no matched files ts error.
+                context: appPath,
+                onlyCompileBundledFiles: true
               }
             }
           ]
@@ -133,14 +135,6 @@ export function getWebpackConfig(options: {
     },
 
     plugins: [
-      // TODO: Clarify how to use this plugin and watchOptions.
-      new webpack.WatchIgnorePlugin([
-        /\.js$/,
-        /\.js.map$/,
-        /\.d\.ts$/,
-        /\.d\.ts\.map$/
-      ]),
-
       new CleanWebpackPlugin(
         [path.join(appPath, "dist"), path.join(appPath, "dist-declarations")],
         {
@@ -216,7 +210,7 @@ export function getWebpackConfig(options: {
           };
 
     config.output!.filename = "[name].js";
-    config.output!.libraryTarget = "commonjs2";
+
     config.output!.devtoolModuleFilenameTemplate = info => {
       if (/(^webpack|^external)/.test(info.absoluteResourcePath)) {
         debug(`Return origin path: ${info.absoluteResourcePath}`);
@@ -231,15 +225,20 @@ export function getWebpackConfig(options: {
       return result;
     };
 
-    config.plugins!.push(
-      ...[
-        new webpack.BannerPlugin({
-          banner: "#!/usr/bin/env node",
-          raw: true,
-          entryOnly: true
-        })
-      ]
-    );
+    // Web-lib no need for this.
+    if (appType === TowerflowType.nodeLib) {
+      config.output!.libraryTarget = "commonjs2";
+
+      config.plugins!.push(
+        ...[
+          new webpack.BannerPlugin({
+            banner: "#!/usr/bin/env node",
+            raw: true,
+            entryOnly: true
+          })
+        ]
+      );
+    }
   }
 
   return config;
