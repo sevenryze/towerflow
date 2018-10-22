@@ -7,48 +7,46 @@
 <!-- code_chunk_output -->
 
 * [目录](#目录)
-* [正文](#正文)
-* [注意](#注意)
+* [应用类型](#应用类型)
+* [node-app](#node-app)
+* [node-lib](#node-lib)
+* [web-app](#web-app)
+* [web-lib](#web-lib)
+* [附录 1 - 各种 loader 的错误提示格式](#附录-1-各种-loader-的错误提示格式)
+	* [原始的 tsloader 错误提示](#原始的-tsloader-错误提示)
+	* [原始的 tslint 错误提示](#原始的-tslint-错误提示)
 
 <!-- /code_chunk_output -->
 
 <!-- prettier-ignore-end -->
 
-# 正文
+# 应用类型
 
-# 类型
-
-1. node-app: 可直接运行的主运行程序。一般需要被部署在生产服务器上。
-1. node-cli: 一个命令行应用，一般作为某一个 node-lib 的外壳。
-1. node-lib: 作为一个库存在。
+1. node-app: 可直接运行的主运行程序。当需要被部署在生产服务器上时，主要使用 src/index.ts 文件进行开发，此时的 bin/index.ts 文件仅作为占位使用；当希望发布 cli 应用时，情况正相反。
+1. node-lib: 通常用来发布一个 node 库。
 1. web-app: 一个完整的 web 应用。
-1. web-lib: 作为一个前端组件库存在，需要同时具备单组件调试功能。
+1. web-lib: 作为一个前端组件库存在，同时具备单组件（human-testing）调试功能。
 
-# 注意
+在开发 lib 时，我们需要指定编译后的 js 版本而不是直接发布 ts 源代码以供用户源代码级编译。这是一种权衡和考量。
+我们预设发布 node-lib 的版本为`esnext`，而发布 web-lib 的版本为`es2015`。
 
-1. 编写代码的过程中，尽量以 template 目录下的配置文件为准。即：如果你需要使用一些与目录结构相关的功能时.
+# node-app
 
-"./src/app.ts
-Module Warning (from ../node_modules/tslint-loader/index.js):
-[7, 1]: unused expression, expected an assignment or function call
-"
+1. 编译后的**dirname 和**filename 固定为`dist`和`dist/index.js, dist/bin.js`。请注意路径应用问题。
 
-"C:\Users\duguagua\Project\towerflow\test-app\src\app.ts
-./src/app.ts
-Towerflow pack [1m[31mcode: 2304,severity: error,content: Cannot find name 'f'.,file: C:\Users\duguagua\Project\towerflow\test-app\src\app.ts,line: 7,character: 1,context: C:\Users\duguagua\Project\towerflow\test-app[39m[22m"
+# node-lib
 
-C:\Users\duguagua\Project\towerflow\test-app\src\app.ts
-./src/app.ts
-Towerflow pack code: 2304,severity: error,content: Cannot find name 'f'.,file: C:\Users\duguagua\Project\towerflow\test-app\src\app.ts,line: 7,character: 1,context: C:\Users\duguagua\Project\towerflow\test-app
+1. 编译后的**dirname 和**filename 固定为`dist`和`dist/index.js, dist/bin.js`。请注意路径应用问题。
 
-c:\Users\duguagua\Project\towerflow\test-app\src\app.ts
-./src/app.ts
-[tsl] ERROR in c:\Users\duguagua\Project\towerflow\test-app\src\app.ts(7,1)
-TS2304: Cannot find name 'f'.
+# web-app
+
+# web-lib
+
+# 附录 1 - 各种 loader 的错误提示格式
 
 ## 原始的 tsloader 错误提示
 
-```
+```js
 ERROR in c:\Users\duguagua\Project\towerflow\src\webpack\run-webpack.ts
 ./src/webpack/run-webpack.ts
 [tsl] ERROR in c:\Users\duguagua\Project\towerflow\src\webpack\run-webpack.ts(13,1)
@@ -57,7 +55,7 @@ ERROR in c:\Users\duguagua\Project\towerflow\src\webpack\run-webpack.ts
 
 ## 原始的 tslint 错误提示
 
-```
+```js
 WARNING in ./src/webpack/format-webpack-messages.ts
 Module Warning (from ./node_modules/tslint-loader/index.js):
 [21, 33]: Shadowed name: 'message'
