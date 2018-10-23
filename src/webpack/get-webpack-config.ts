@@ -3,7 +3,6 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
 import webpack from "webpack";
-import nodeExternals from "webpack-node-externals";
 import { Debug } from "../helper/debugger";
 import { parsePath } from "../helper/parse-path";
 import { BuildType, TowerflowType } from "../interface";
@@ -49,15 +48,10 @@ export function getWebpackConfig(options: {
     },
 
     context: path.join(appPath),
-    externals: isWebCase ? undefined : [nodeExternals()],
-    target: isWebCase ? "web" : "node",
-    node: false,
 
     output: {
       // This path must be platform specific!
-      path: path.join(distPath),
-
-      pathinfo: type === BuildType.dev
+      path: path.join(distPath)
     },
 
     resolve: {
@@ -135,12 +129,9 @@ export function getWebpackConfig(options: {
     },
 
     plugins: [
-      new CleanWebpackPlugin(
-        [path.join(appPath, "dist"), path.join(appPath, "dist-declarations")],
-        {
-          root: path.join(appPath)
-        }
-      )
+      new CleanWebpackPlugin([path.join(appPath, "dist")], {
+        root: path.join(appPath)
+      })
     ],
 
     // Opt out the sourcemap function for production
@@ -148,13 +139,7 @@ export function getWebpackConfig(options: {
     devtool: type === BuildType.dev ? "source-map" : false,
 
     watchOptions: {
-      ignored: [
-        "**/*.js",
-        "**/*.js.map",
-        "**/*.d.ts",
-        "**/*.d.ts.map",
-        "node_modules"
-      ]
+      ignored: ["**/*.js", "**/*.js.map", "**/*.d.ts.map", "node_modules"]
     }
   };
 
