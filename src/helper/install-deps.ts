@@ -6,8 +6,14 @@ const debug = Debug(__filename);
 export function installDeps(
   dependencies: string[],
   devDependencies: string[],
+  useCnpm: boolean,
   verbose: boolean
 ) {
+  let tool = "npm";
+  if (useCnpm) {
+    tool = "cnpm";
+  }
+
   if (dependencies.length > 0) {
     const args = ["install", "--save", "--loglevel", "error"].concat(
       dependencies
@@ -18,7 +24,7 @@ export function installDeps(
     }
 
     debug(`Depndencies install args: ${args}`);
-    install(args);
+    install(args, tool);
   }
 
   if (devDependencies.length > 0) {
@@ -31,12 +37,12 @@ export function installDeps(
     }
 
     debug(`devDepndencies install args: ${args}`);
-    install(args);
+    install(args, tool);
   }
 }
 
-function install(npmArgs: string[]) {
-  const { status } = crossSpawn.sync("npm", npmArgs, { stdio: "inherit" });
+function install(npmArgs: string[], tool: string) {
+  const { status } = crossSpawn.sync(tool, npmArgs, { stdio: "inherit" });
   if (status !== 0) {
     throw {
       command: `npm ${npmArgs.join(" ")}`

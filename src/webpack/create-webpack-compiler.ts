@@ -2,7 +2,6 @@ import chalk from "chalk";
 import webpack from "webpack";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
-import { TowerflowType } from "../interface";
 
 const debug = Debug(__filename);
 
@@ -23,10 +22,8 @@ if (isSmokeTest) {
 
 export function createWebpackCompiler(options: {
   config: webpack.Configuration;
-  appName: string;
-  appType: TowerflowType;
 }) {
-  const { appName, config, appType } = options;
+  const { config } = options;
 
   debug(`Start to create webpack instance`);
   const isInteractive = process.stdout.isTTY;

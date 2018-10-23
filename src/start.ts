@@ -9,12 +9,11 @@ import { runWebpack } from "./webpack/run-webpack";
 const debug = Debug(__filename);
 
 export async function start(options: {
-  appName: string;
   appPath: string;
   appType: TowerflowType;
   ownPath: string;
 }) {
-  const { appName, ownPath, appPath, appType } = options;
+  const { ownPath, appPath, appType } = options;
 
   debug(`Check if required files exists`);
   // TODO: Warn and crash if required files are missing
@@ -25,35 +24,30 @@ export async function start(options: {
   switch (options.appType) {
     case TowerflowType.webApp:
     case TowerflowType.webLib:
-      debug(`Run webpack-dev-server for web dev`);
-
       runWebpack({
-        type: BuildType.dev,
-        appName,
         appPath,
-        ownPath,
         appType,
+        buildType: BuildType.dev,
         distPath: parsePath(options.appPath, "dist"),
-        publicDirPath:
-          options.appType === TowerflowType.webApp
-            ? `${options.appPath}/public`
-            : `${options.appPath}/human-test/public`,
+        ownPath,
         indexPath:
           options.appType === TowerflowType.webApp
             ? `${options.appPath}/src/index.tsx`
-            : `${options.appPath}/human-test/index.tsx`
+            : `${options.appPath}/human-test/index.tsx`,
+        publicDirPath:
+          options.appType === TowerflowType.webApp
+            ? `${options.appPath}/public`
+            : `${options.appPath}/human-test/public`
       });
       break;
 
     case TowerflowType.nodeApp:
     case TowerflowType.nodeLib:
-      debug(`Run webpack for node dev`);
-
       runTsc({
-        type: BuildType.dev,
         appPath,
         appType,
-        ownPath
+        ownPath,
+        type: BuildType.dev
       });
       break;
     default:

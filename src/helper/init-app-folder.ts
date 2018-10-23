@@ -9,21 +9,31 @@ import { parsePath } from "./parse-path";
 const debug = Debug(__filename);
 
 export function initAppFolder(options: {
-  ownPath: string;
   appType: TowerflowType;
   appPath: string;
-  preDefinedPackageJson: object;
+  ownPath: string;
   isBypassNpm: boolean;
+  preDefinedPackageJson: object;
+  useCnpm: boolean;
 }) {
+  const {
+    useCnpm,
+    appPath,
+    appType,
+    ownPath,
+    preDefinedPackageJson,
+    isBypassNpm
+  } = options;
+
   debug(`Copy template files to app folder`);
-  const templatePath = parsePath(options.ownPath, "template", options.appType);
+  const templatePath = parsePath(ownPath, "template", appType);
   debug(`templateDir: ${templatePath}`);
 
   if (fsExtra.existsSync(templatePath)) {
     try {
-      fsExtra.copySync(templatePath, options.appPath, {
+      fsExtra.copySync(templatePath, appPath, {
         filter: src => {
-          if (checkBypassFiles(options.appType, src)) {
+          if (checkBypassFiles(appType, src)) {
             debug(`Bypass copy template file: ${src}`);
             return false;
           }
@@ -47,17 +57,15 @@ export function initAppFolder(options: {
   // See: https://github.com/npm/npm/issues/1862
   try {
     fsExtra.moveSync(
-      parsePath(options.appPath, "gitignore"),
-      parsePath(options.appPath, ".gitignore")
+      parsePath(appPath, "gitignore"),
+      parsePath(appPath, ".gitignore")
     );
   } catch (err) {
     // Append if there's already a `.gitignore` file there
     if (err.code === "EEXIST") {
-      const data = fsExtra.readFileSync(
-        parsePath(options.appPath, "gitignore")
-      );
-      fsExtra.appendFileSync(parsePath(options.appPath, ".gitignore"), data);
-      fsExtra.unlinkSync(parsePath(options.appPath, "gitignore"));
+      const data = fsExtra.readFileSync(parsePath(appPath, "gitignore"));
+      fsExtra.appendFileSync(parsePath(appPath, ".gitignore"), data);
+      fsExtra.unlinkSync(parsePath(appPath, "gitignore"));
     } else {
       throw err;
     }
@@ -80,17 +88,17 @@ export function initAppFolder(options: {
 
   delete tempPkgJson.dependencies;
   delete tempPkgJson.devDependencies;
-  tempPkgJson = Object.assign({}, options.preDefinedPackageJson, tempPkgJson);
+  tempPkgJson = Object.assign({}, preDefinedPackageJson, tempPkgJson);
   debug(`Finally package.json: ${JSON.stringify(tempPkgJson, null, 2)}`);
 
   debug(`Write to app folder`);
   fsExtra.writeFileSync(
-    parsePath(options.appPath, "package.json"),
+    parsePath(appPath, "package.json"),
     JSON.stringify(tempPkgJson, null, 2) + os.EOL
   );
 
   debug(`Change CWD to app path`);
-  process.chdir(options.appPath);
+  process.chdir(appPath);
   debug(`CWD: ${process.cwd()}`);
 
   console.log("Installing packages. This might take a couple of minutes.");
@@ -110,10 +118,10 @@ export function initAppFolder(options: {
   );
   console.log();
 
-  if (!options.isBypassNpm) {
+  if (!isBypassNpm) {
     debug(`Begin to install deps and dev-deps`);
     try {
-      installDeps(dependencies, devDependencies, false);
+      installDeps(dependencies, devDependencies, useCnpm, false);
     } catch (error) {
       console.log(error);
       return;

@@ -1,5 +1,7 @@
 import webpackDevServer from "webpack-dev-server";
-import path from "path";
+import { Debug } from "../helper/debugger";
+
+const debug = Debug(__filename);
 
 export function getWebpackDevServerConfig(options: {
   appPath: string;
@@ -7,8 +9,10 @@ export function getWebpackDevServerConfig(options: {
 }): webpackDevServer.Configuration {
   const { appPath, ownPath } = options;
 
+  debug(`Get appPath: ${appPath}, ownPath: ${ownPath}`);
+
   return {
-    compress: false,
+    compress: true,
 
     overlay: true,
 

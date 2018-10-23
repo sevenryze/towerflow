@@ -9,12 +9,11 @@ import { runWebpack } from "./webpack/run-webpack";
 const debug = Debug(__filename);
 
 export async function production(options: {
-  appName: string;
   appPath: string;
   appType: TowerflowType;
   ownPath: string;
 }) {
-  const { appName, ownPath, appPath, appType } = options;
+  const { ownPath, appPath, appType } = options;
 
   debug(`Check if required files exists`);
   // TODO: Warn and crash if required files are missing
@@ -25,14 +24,13 @@ export async function production(options: {
   switch (options.appType) {
     case TowerflowType.webApp:
       runWebpack({
-        type: BuildType.production,
-        appName,
         appPath,
-        ownPath,
         appType,
+        buildType: BuildType.production,
         distPath: parsePath(options.appPath, "dist"),
-        publicDirPath: `${options.appPath}/public`,
-        indexPath: `${options.appPath}/src/index.tsx`
+        ownPath,
+        indexPath: `${options.appPath}/src/index.tsx`,
+        publicDirPath: `${options.appPath}/public`
       });
       break;
 
@@ -40,10 +38,10 @@ export async function production(options: {
     case TowerflowType.nodeLib:
     case TowerflowType.webLib:
       runTsc({
-        type: BuildType.production,
         appPath,
         appType,
-        ownPath
+        ownPath,
+        type: BuildType.production
       });
       break;
     default:

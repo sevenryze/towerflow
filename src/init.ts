@@ -15,10 +15,11 @@ export async function init(options: {
   appPath: string;
   appType: TowerflowType;
   fatherPath: string;
-  ownPath: string;
   isBypassNpm: boolean;
   isForce: boolean;
+  ownPath: string;
   preDefinedPackageJson: object;
+  useCnpm: boolean;
 }) {
   const { appName, appType, appPath, isForce } = options;
 

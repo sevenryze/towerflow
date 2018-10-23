@@ -41,23 +41,27 @@ commander
       chalk.redBright("USE WITH CAUTION")
   )
   .option("--bypass-npm", "Bypass the npm install step.")
+  .option("--use-cnpm", "Use cnpm as npm install tool")
   .action(
     (
       name: string,
       cmdOptions: {
+        bypassNpm: boolean;
         force: boolean;
         template: TowerflowType;
-        bypassNpm: boolean;
+        useCnpm: boolean;
       } = {
-        bypassNpm: true,
+        bypassNpm: false,
         force: false,
-        template: TowerflowType.webLib
+        template: TowerflowType.webLib,
+        useCnpm: false
       }
     ) => {
       const {
         bypassNpm: isBypassNpm,
         template: appType,
-        force: isForce
+        force: isForce,
+        useCnpm
       } = cmdOptions;
       if (!matchTowerflowTypes(appType)) {
         console.error(`Not support this template: ${appType}, exit.`);
@@ -100,7 +104,8 @@ commander
         appType,
         preDefinedPackageJson,
         isBypassNpm,
-        isForce
+        isForce,
+        useCnpm
       });
     }
   );
@@ -120,7 +125,7 @@ commander
       )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
     );
 
-    start({ appPath, appName, ownPath, appType });
+    start({ appPath, ownPath, appType });
   });
 
 commander
@@ -139,7 +144,6 @@ commander
     );
 
     production({
-      appName,
       appPath,
       ownPath,
       appType
