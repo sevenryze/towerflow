@@ -67,17 +67,17 @@ export async function init(options: {
   console.log(chalk.cyan(`  ${displayedCommand} start`));
   console.log("    Starts the development process.");
   console.log();
-  console.log(chalk.cyan(`  npm run build`));
-  console.log("    Bundles the app into static files.");
+  console.log(chalk.cyan(`  npm run production`));
+  console.log("    Build the production version of app.");
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} test`));
   console.log("    Starts the test suits.");
   console.log();
-  console.log(chalk.cyan(`  ${displayedCommand} run config-files`));
-  console.log(
-    "    Show the using configuration files of this process, additionally, you could use " +
-      `${chalk.green("--generate")} or ${chalk.green("--remove")} flag.`
-  );
+  console.log(chalk.cyan(`  ${displayedCommand} run generate-config`));
+  console.log(`Generate and update the config files for IDE supplementary.`);
+  console.log();
+  console.log(chalk.cyan(`  ${displayedCommand} run remove-config.`));
+  console.log(`Delete these config files.`);
   console.log();
   console.log("We suggest that you begin by typing:");
   console.log();
@@ -85,4 +85,6 @@ export async function init(options: {
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
   console.log();
   console.log("Towerflow hopes you happy hacking!");
+  console.log();
+  console.log(`         --- Made by sevenryze, For love and peace`);
 }
