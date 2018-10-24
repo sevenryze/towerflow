@@ -3,22 +3,28 @@
   "rules": {
     "no-unused-expression": [true, "allow-fast-null-checks"],
     "member-ordering": [
-      false,
+      true,
       {
         "order": [
           "public-static-field",
+          "public-static-method",
           "public-instance-field",
-          "public-constructor",
           "public-instance-method",
+          "public-constructor",
+          "protected-static-field",
+          "protected-static-method",
+          "protected-instance-field",
           "protected-instance-method",
+          "protected-constructor",
           "private-static-field",
+          "private-static-method",
           "private-instance-field",
-          "private-constructor",
-          "private-instance-method"
+          "private-instance-method",
+          "private-constructor"
         ]
       }
     ],
-    "no-implicit-dependencies": false,
+    "no-implicit-dependencies": [true, "dev"],
     "jsx-no-multiline-js": false
   }
 }
