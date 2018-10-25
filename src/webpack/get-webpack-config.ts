@@ -45,6 +45,12 @@ export function getWebpackConfig(options: {
 
     context: path.join(appPath),
 
+    // For support browser debug usage
+    node: {
+      __filename: true,
+      __dirname: true
+    },
+
     entry: {
       main: `${indexPath}`
     },
