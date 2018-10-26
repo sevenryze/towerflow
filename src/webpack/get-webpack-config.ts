@@ -174,10 +174,12 @@ export function getWebpackConfig(options: {
                   "@babel/preset-env",
                   // or whatever your project requires
                   // See https://github.com/browserslist/browserslist#full-list
-                  {
-                    targets: "defaults",
-                    useBuiltIns: "usage"
-                  }
+                  buildType === BuildType.production
+                    ? {
+                        targets: "defaults",
+                        useBuiltIns: "usage"
+                      }
+                    : {}
                 ],
                 "@babel/preset-react",
                 "@babel/preset-typescript"
@@ -220,22 +222,6 @@ export function getWebpackConfig(options: {
     );
 
     config.plugins!.push(new webpack.HotModuleReplacementPlugin());
-  } else {
-    config.module!.rules.push({
-      test: /\.tsx?$/,
-      enforce: "pre",
-      use: [
-        {
-          loader: "tslint-loader",
-          options: {
-            configFile: parsePath(
-              ownPath,
-              `template/${appType}/config/tslint.json`
-            )
-          }
-        }
-      ]
-    });
   }
 
   return config;
