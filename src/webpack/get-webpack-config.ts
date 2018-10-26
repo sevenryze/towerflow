@@ -168,21 +168,20 @@ export function getWebpackConfig(options: {
               cacheDirectory: true,
               cacheCompression: false,
               babelrc: false,
-              presets: [
-                [
-                  "@babel/preset-env",
-                  // or whatever your project requires
-                  // See https://github.com/browserslist/browserslist#full-list
-                  buildType === BuildType.production
-                    ? {
-                        targets: "defaults",
+              presets: (buildType === BuildType.dev
+                ? []
+                : [
+                    [
+                      "@babel/preset-env",
+                      // or whatever your project requires
+                      // See https://github.com/browserslist/browserslist#full-list
+                      {
+                        targets: "last 2 versions",
                         useBuiltIns: "usage"
                       }
-                    : {}
-                ],
-                "@babel/preset-react",
-                "@babel/preset-typescript"
-              ],
+                    ]
+                  ]
+              ).concat(["@babel/preset-react", "@babel/preset-typescript"]),
               plugins: [
                 "@babel/plugin-syntax-dynamic-import",
                 // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
