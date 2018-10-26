@@ -106,19 +106,20 @@ module.exports = {
             cacheDirectory: true,
             cacheCompression: false,
             babelrc: false,
-            presets: [
-              [
-                "@babel/preset-env",
-                // or whatever your project requires
-                // See https://github.com/browserslist/browserslist#full-list
-                {
-                  targets: "last 2 versions",
-                  useBuiltIns: "usage"
-                }
-              ],
-              "@babel/preset-react",
-              "@babel/preset-typescript"
-            ],
+            presets: (false
+              ? []
+              : [
+                  [
+                    "@babel/preset-env",
+                    // or whatever your project requires
+                    // See https://github.com/browserslist/browserslist#full-list
+                    {
+                      targets: "last 2 versions",
+                      useBuiltIns: "usage"
+                    }
+                  ]
+                ]
+            ).concat(["@babel/preset-react", "@babel/preset-typescript"]),
             plugins: [
               "@babel/plugin-syntax-dynamic-import",
               // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
@@ -135,7 +136,13 @@ module.exports = {
   devtool: "nosources-source-map",
 
   watchOptions: {
-    ignored: ["**/*.js", "**/*.js.map", "**/*.d.ts", "**/*.d.ts.map", "**/node_modules/**"]
+    ignored: [
+      "**/*.js",
+      "**/*.js.map",
+      "**/*.d.ts",
+      "**/*.d.ts.map",
+      "**/node_modules/**"
+    ]
 
     // Aggregate all the watch to 2 minutes and trigger by maunal.
     // aggregateTimeout: 2 * 1000
