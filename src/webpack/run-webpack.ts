@@ -1,6 +1,4 @@
 import chalk from "chalk";
-import Webpack from "webpack";
-import webpackDevServer from "webpack-dev-server";
 import { clearConsole } from "../helper/clear-console";
 import { Debug } from "../helper/debugger";
 import { BuildType, TowerflowType } from "../interface";
@@ -29,25 +27,15 @@ export function runWebpack(options: {
   debug(`Gnerate webpack config file`);
   const webpackConfig = getWebpackConfig(options);
 
-  let webpackDevServerConfig: Webpack.Configuration | undefined;
-
-  if (buildType === BuildType.dev) {
-    debug(`Get webpack-dev-server config file`);
-    webpackDevServerConfig = getWebpackDevServerConfig(options);
-
-    debug(`Add wds hot module reload entry scripts`);
-    webpackDevServer.addDevServerEntrypoints(
-      webpackConfig,
-      webpackDevServerConfig
-    );
-  }
-
   debug(`Create webpack compiler.`);
   const compiler = createWebpackCompiler({
     config: webpackConfig
   });
 
   if (buildType === BuildType.dev) {
+    debug(`Get webpack-dev-server config file`);
+    const webpackDevServerConfig = getWebpackDevServerConfig(options);
+
     debug(`Create webpack dev server with configured webpack instance`);
     const devServer = createWebpackDevServer(compiler, webpackDevServerConfig!);
 
