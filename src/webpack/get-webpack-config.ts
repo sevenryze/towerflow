@@ -121,7 +121,6 @@ export function getWebpackConfig(options: {
         {
           // TODO: How to process css files?
           test: /\.css$/,
-          exclude: /node_modules/,
           use: [
             {
               loader: "style-loader/url",
