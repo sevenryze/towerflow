@@ -123,7 +123,7 @@ export function initAppFolder(options: {
     try {
       installDeps(dependencies, devDependencies, useCnpm, false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return;
     }
   } else {
