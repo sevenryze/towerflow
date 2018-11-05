@@ -28,6 +28,7 @@ export function generateTempTsconfig(
     tsconfigJson.compilerOptions.declarationDir &&
     parsePath(`${appPath}/${tsconfigJson.compilerOptions.declarationDir}`);
 
+  // Let the structure of output dir be same as project's one
   tsconfigJson.compilerOptions.rootDir = parsePath(`${appPath}`);
 
   const tmpTsconfigPath = parsePath(ownPath, "tmp/tsconfig.json");
