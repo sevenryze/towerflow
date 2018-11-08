@@ -197,7 +197,7 @@ export function getWebpackConfig(options: {
 
     // Opt out the sourcemap function for production
     // as the minified version sourcemap is not matched with origin source.
-    devtool: buildType === BuildType.dev ? "nosources-source-map" : false,
+    devtool: buildType === BuildType.dev ? "source-map" : false,
 
     watchOptions: {
       ignored: [
