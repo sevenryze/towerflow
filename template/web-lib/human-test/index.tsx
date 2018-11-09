@@ -11,10 +11,23 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-ReactDOM.render(
-  <>
-    <GlobalStyle />
-    <App />
-  </>,
-  document.getElementById("root")
-);
+const render = (RootComponent: any) => {
+  ReactDOM.render(
+    <>
+      <GlobalStyle />
+
+      <RootComponent />
+    </>,
+    document.getElementById("root")
+  );
+};
+
+render(App);
+
+if (process.env.NODE_ENV !== "production") {
+  if ((module as any).hot) {
+    (module as any).hot.accept("./app", () => {
+      render(App);
+    });
+  }
+}
