@@ -11,6 +11,15 @@
       "url": "http://localhost:8080",
       "smartStep": true,
       "skipFiles": ["**/node_modules/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch current file using ts-node",
+      "args": ["${relativeFile}"],
+      "cwd": "${workspaceRoot}",
+      "smartStep": true,
+      "runtimeArgs": ["-r", "ts-node/register"]
     }
   ]
 }

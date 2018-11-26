@@ -10,15 +10,22 @@
       "request": "launch",
       "program": "${workspaceFolder}/bin/index.js",
       "args": ["start"],
-      "cwd": "${workspaceFolder}/test-app",
+      "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,
-      "console": "integratedTerminal",
       "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
       "env": {
         "DEBUG": "towerflow:*"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch current file using ts-node",
+      "args": ["${relativeFile}"],
+      "cwd": "${workspaceRoot}",
+      "runtimeArgs": ["-r", "ts-node/register"]
     }
   ]
 }
