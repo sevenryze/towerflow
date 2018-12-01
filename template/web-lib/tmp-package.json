@@ -7,6 +7,7 @@
     "start": "towerflow start",
     "production": "towerflow production",
     "test": "towerflow test --env=jsdom",
+    "publish-to-npm": "npm run test && npm run production && npm publish --access public",
     "generate-config": "towerflow assistant --generate-config",
     "remove-config": "towerflow assistant --remove-config"
   },
