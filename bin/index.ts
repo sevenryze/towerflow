@@ -35,13 +35,9 @@ commander
   .command("init <name>")
   .description("Initialize the project: [name] with the specific template.")
   .option("--template [template]", "The template should we use to manipulate.")
-  .option(
-    "--force",
-    "Force delete and re-init the target directory. " +
-      chalk.redBright("USE WITH CAUTION")
-  )
+  .option("--force", "Force delete and re-init the target directory. " + chalk.redBright("USE WITH CAUTION"))
   .option("--bypass-npm", "Bypass the npm install step.")
-  .option("--use-cnpm", "Use cnpm as npm install tool")
+  .option("--use-cnpm", "Use cnpm as npm install tool.")
   .action(
     (
       name: string,
@@ -54,15 +50,10 @@ commander
         bypassNpm: false,
         force: false,
         template: TowerflowType.webLib,
-        useCnpm: false
+        useCnpm: false,
       }
     ) => {
-      const {
-        bypassNpm: isBypassNpm,
-        template: appType,
-        force: isForce,
-        useCnpm
-      } = cmdOptions;
+      const { bypassNpm: isBypassNpm, template: appType, force: isForce, useCnpm } = cmdOptions;
       if (!matchTowerflowTypes(appType)) {
         console.error(`Not support this template: ${appType}, exit.`);
         process.exit(1);
@@ -72,29 +63,19 @@ commander
       const appPath = parsePath(fatherPath, name);
       const appName = name;
 
-      debug(
-        `${chalk.greenBright(
-          "Init command"
-        )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
-      );
+      debug(`${chalk.greenBright("Init command")}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);
 
       const preDefinedPackageJson = Object.assign(
         {
-          name: appName
+          name: appName,
         },
         [TowerflowType.nodeApp].includes(appType) && {
           bin: {
-            [appName]: "dist/bin/index.js"
-          }
+            [appName]: "dist/bin/index.js",
+          },
         }
       );
-      debug(
-        `preDefinedPackageJson: ${JSON.stringify(
-          preDefinedPackageJson,
-          null,
-          2
-        )}`
-      );
+      debug(`preDefinedPackageJson: ${JSON.stringify(preDefinedPackageJson, null, 2)}`);
 
       init({
         appName,
@@ -105,7 +86,7 @@ commander
         preDefinedPackageJson,
         isBypassNpm,
         isForce,
-        useCnpm
+        useCnpm,
       });
     }
   );
@@ -119,11 +100,7 @@ commander
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
 
-    debug(
-      `${chalk.greenBright(
-        "Start command"
-      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
-    );
+    debug(`${chalk.greenBright("Start command")}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);
 
     start({ appPath, ownPath, appType });
   });
@@ -137,16 +114,12 @@ commander
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
 
-    debug(
-      `${chalk.greenBright(
-        "Production command"
-      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
-    );
+    debug(`${chalk.greenBright("Production command")}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);
 
     production({
       appPath,
       ownPath,
-      appType
+      appType,
     });
   });
 
@@ -178,7 +151,7 @@ commander
       appType,
       isGenerateConfig: options.generateConfig,
       isRemoveConfig: options.removeConfig,
-      ownPath
+      ownPath,
     });
   });
 
@@ -192,17 +165,13 @@ commander
     const appName = appPkgJson.name;
     const appType = appPkgJson.towerflow.type;
 
-    debug(
-      `${chalk.greenBright(
-        "Test command"
-      )}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`
-    );
+    debug(`${chalk.greenBright("Test command")}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);
 
     test({
       appName,
       appPath,
       appType,
-      ownPath
+      ownPath,
     });
   });
 
