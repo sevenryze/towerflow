@@ -20,6 +20,10 @@
 
 <!-- prettier-ignore-end -->
 
+# Working In Progress
+
+We are under the merging progress, from gitlab server to github public OSS.
+
 # 应用类型
 
 1. node-app: 可直接运行的主运行程序。当需要被部署在生产服务器上时，主要使用 src/index.ts 文件进行开发，此时的 bin/index.ts 文件仅作为占位使用；当希望发布 cli 应用时，情况正相反。
