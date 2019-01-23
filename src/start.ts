@@ -17,7 +17,7 @@ export async function start(options: {
 
   debug(`Check if required files exists`);
   // TODO: Warn and crash if required files are missing
-  if (!checkRequiredFiles()) {
+  if (!checkRequiredFiles(appPath)) {
     process.exit(1);
   }
 

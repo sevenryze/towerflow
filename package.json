@@ -44,6 +44,7 @@
     "jest": "^23.6.0",
     "klaw-sync": "^6.0.0",
     "prettier": "^1.15.3",
+    "semver": "^5.6.0",
     "style-loader": "^0.23.1",
     "ts-jest": "^23.10.5",
     "ts-loader": "^5.3.3",
