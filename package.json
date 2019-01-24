@@ -1,6 +1,6 @@
 {
   "name": "towerflow",
-  "version": "1.3.14",
+  "version": "1.3.15",
   "description": "The dev workflow used by The Great Tower Edu Inc.",
   "files": [
     "dist/",
@@ -27,7 +27,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/sevenryze/towerflow.git"
+    "url": "git+https://github.com/sevenryze/towerflow.git"
   },
   "author": "sevenryze",
   "license": "ISC",
