@@ -5,10 +5,6 @@ import { parsePath } from "./parse-path";
 import fs from "fs";
 import chalk from "chalk";
 
-type Dependencies = {
-  [name: string]: string
-};
-
 const debug = Debug(__filename);
 
 export function checkRequiredFiles(appPath: string): boolean {
