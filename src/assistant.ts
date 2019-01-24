@@ -29,7 +29,7 @@ export async function assistant(options: {
 
   debug(`Check required files exists`);
   // Warn and crash if required files are missing
-  if (!checkRequiredFiles()) {
+  if (!checkRequiredFiles(appPath)) {
     process.exit(1);
   }
 

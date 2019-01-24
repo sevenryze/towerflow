@@ -14,8 +14,7 @@ export async function test(options: {
   const { appName, ownPath, appPath, appType } = options;
 
   debug(`Check if required files exists`);
-  // TODO: Warn and crash if required files are missing
-  if (!checkRequiredFiles()) {
+  if (!checkRequiredFiles(appPath)) {
     process.exit(1);
   }
 
