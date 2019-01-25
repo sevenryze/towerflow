@@ -74,10 +74,10 @@ export async function init(options: {
   console.log("    Starts the test suits.");
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} run generate-config`));
-  console.log(`Generate and update the config files for IDE supplementary.`);
+  console.log(`    Generate and update the config files for IDE supplementary.`);
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} run remove-config.`));
-  console.log(`Delete these config files.`);
+  console.log(`    Delete these config files.`);
   console.log();
   console.log("We suggest that you begin by typing:");
   console.log();
@@ -86,5 +86,5 @@ export async function init(options: {
   console.log();
   console.log("Towerflow hopes you happy hacking!");
   console.log();
-  console.log(`         --- Made by sevenryze, For love and peace`);
+  console.log(`         --- Made by sevenryze and cris xu, For love and peace`);
 }

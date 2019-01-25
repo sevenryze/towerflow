@@ -11,6 +11,7 @@
     "strict": true,
     "alwaysStrict": true,
     "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "plugins": [
       {
         "name": "typescript-styled-plugin"

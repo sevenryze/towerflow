@@ -12,6 +12,7 @@
     "strict": true,
     "alwaysStrict": true,
     "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "outDir": "dist",
     "plugins": [
       {
