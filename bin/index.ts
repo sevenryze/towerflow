@@ -92,6 +92,15 @@ commander
     }
   );
 
+  commander
+    .command("list")
+    .description("List support templates.")
+    .action(() => {
+      list({
+        ownPath
+      });
+    });
+
 commander
   .command("start")
   .description("Start to develop this project.")
@@ -175,15 +184,6 @@ commander
       ownPath,
     });
   });
-
-commander
-  .command("list")
-  .description("List support templates.")
-  .action(() => {
-    list({
-      ownPath
-    });
-  })
 
 commander.parse(process.argv);
 
