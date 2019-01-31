@@ -4,52 +4,50 @@ import fs from 'fs';
 import { parsePath } from "./helper/parse-path";
 
 /**
- * @typedef TableHeader
- * @property {string} value table header name
- * @property {string} headerColor table header color
- * @property {string} align table header text align
- */
-/**
  * create table header
- * @param {string} name table header
- * @return {TableHeader}
+ * @param name - table header name
+ * @returns table header structure
  */
 function createTableHeader(name: string) {
     return {
+        /**
+         * table header name
+         */
         value: name,
+        /**
+         * table header color
+         */
         headerColor: 'green',
+        /**
+         * table header text align
+         */
         align: 'left'
     };
 }
 
 /**
- * @type {Array<TableHeader>} table headers
+ * table headers
  */
 const tableHeaders = [
     createTableHeader('Name'),
     createTableHeader('Description'),
 ];
 
-/**
- * @typedef {TableStyle}
- * @property {string} headerAlign table header text align
- */
-/**
- * @type {TableStyle} table style
- */
 const tableStyle = {
-    headerAlign: 'left' 
+    /**
+     * table header text align
+     */
+    headerAlign: 'left'
 };
 
 /**
- * @typedef ListOptions
- * @property {string} ownPath towerflow path
- */
-/**
- * List commond
- * @param {ListOptions} options
+ * List command
+ * @param ownPath - list command options
  */
 export function list(options: {
+    /**
+     * towerflow own path
+     */
     ownPath: string
 }) {
     const { ownPath } = options;
