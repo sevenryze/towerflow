@@ -11,6 +11,7 @@ import { TowerflowType } from "../src/interface";
 import { production } from "../src/production";
 import { start } from "../src/start";
 import { test } from "../src/test";
+import { list } from '../src/list';
 
 const debug = Debug(__filename);
 
@@ -90,6 +91,15 @@ commander
       });
     }
   );
+
+  commander
+    .command("list")
+    .description("List support templates.")
+    .action(() => {
+      list({
+        ownPath
+      });
+    });
 
 commander
   .command("start")
