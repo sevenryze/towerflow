@@ -13,6 +13,8 @@
     "strict": true,
     "alwaysStrict": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "outDir": "dist",
     "plugins": [
       {
