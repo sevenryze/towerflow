@@ -8,10 +8,10 @@ import { matchTowerflowTypes } from "../src/helper/match-towerflow-types";
 import { parsePath } from "../src/helper/parse-path";
 import { init } from "../src/init";
 import { TowerflowType } from "../src/interface";
+import { list } from '../src/list';
 import { production } from "../src/production";
 import { start } from "../src/start";
 import { test } from "../src/test";
-import { list } from '../src/list';
 
 const debug = Debug(__filename);
 
