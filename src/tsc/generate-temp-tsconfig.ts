@@ -14,8 +14,9 @@ export function generateTempTsconfig(tsconfigPath: string, appPath: string, ownP
   tsconfigJson.exclude =
     tsconfigJson.exclude && tsconfigJson.exclude.map((item: string) => parsePath(`${appPath}/${item}`));
 
-  tsconfigJson.typeRoots =
-    tsconfigJson.typeRoots && tsconfigJson.typeRoots.map((item: string) => parsePath(`${appPath}/${item}`));
+  tsconfigJson.compilerOptions.typeRoots =
+    tsconfigJson.compilerOptions.typeRoots &&
+    tsconfigJson.compilerOptions.typeRoots.map((item: string) => parsePath(`${appPath}/${item}`));
 
   tsconfigJson.compilerOptions.outDir =
     tsconfigJson.compilerOptions.outDir && parsePath(`${appPath}/${tsconfigJson.compilerOptions.outDir}`);
