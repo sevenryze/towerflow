@@ -5,28 +5,55 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "npm start",
+      "name": "Launch main file using node",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/index.js",
-      "args": ["start"],
+      "program": "${workspaceFolder}/dist/src/ApiGateway/main.js",
       "cwd": "${workspaceFolder}",
       "sourceMaps": true,
       "autoAttachChildProcesses": true,
       "smartStep": true,
+      "showAsyncStacks": true,
+      "runtimeArgs": ["--nolazy"],
       "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
-      "env": {
-        "DEBUG": "towerflow:*"
-      }
+      "env": {}
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch current file using ts-node",
-      "args": ["${relativeFile}"],
+      "args": ["./${relativeFile}"],
       "cwd": "${workspaceRoot}",
       "smartStep": true,
-      "runtimeArgs": ["-r", "ts-node/register"]
+      "outputCapture": "std", // 解决显示到process.stdout.write的内容不显示的问题
+      "showAsyncStacks": true,
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"] // Passes in the --nolazy arg for node, which tells v8 to compile your code ahead of time, so that breakpoints work correctly
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest All",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["--runInBand"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "env": {}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Jest Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["./${relativeFile}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      },
+      "env": {}
     }
   ]
 }

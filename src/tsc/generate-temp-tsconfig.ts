@@ -5,24 +5,20 @@ import { parsePath } from "../helper/parse-path";
 
 const debug = Debug(__filename);
 
-export function generateTempTsconfig(
-  tsconfigPath: string,
-  appPath: string,
-  ownPath: string
-) {
+export function generateTempTsconfig(tsconfigPath: string, appPath: string, ownPath: string) {
   const tsconfigJson = require(tsconfigPath);
 
   tsconfigJson.include =
-    tsconfigJson.include &&
-    tsconfigJson.include.map((item: string) => parsePath(`${appPath}/${item}`));
+    tsconfigJson.include && tsconfigJson.include.map((item: string) => parsePath(`${appPath}/${item}`));
 
   tsconfigJson.exclude =
-    tsconfigJson.exclude &&
-    tsconfigJson.exclude.map((item: string) => parsePath(`${appPath}/${item}`));
+    tsconfigJson.exclude && tsconfigJson.exclude.map((item: string) => parsePath(`${appPath}/${item}`));
+
+  tsconfigJson.typeRoots =
+    tsconfigJson.typeRoots && tsconfigJson.typeRoots.map((item: string) => parsePath(`${appPath}/${item}`));
 
   tsconfigJson.compilerOptions.outDir =
-    tsconfigJson.compilerOptions.outDir &&
-    parsePath(`${appPath}/${tsconfigJson.compilerOptions.outDir}`);
+    tsconfigJson.compilerOptions.outDir && parsePath(`${appPath}/${tsconfigJson.compilerOptions.outDir}`);
 
   tsconfigJson.compilerOptions.declarationDir =
     tsconfigJson.compilerOptions.declarationDir &&
@@ -34,10 +30,7 @@ export function generateTempTsconfig(
   const tmpTsconfigPath = parsePath(ownPath, "tmp/tsconfig.json");
 
   fsExtra.ensureFileSync(tmpTsconfigPath);
-  fsExtra.writeFileSync(
-    tmpTsconfigPath,
-    JSON.stringify(tsconfigJson, null, 2) + os.EOL
-  );
+  fsExtra.writeFileSync(tmpTsconfigPath, JSON.stringify(tsconfigJson, null, 2) + os.EOL);
 
   debug(`Generate tmp-tsconfig: ${tsconfigJson}`);
 
