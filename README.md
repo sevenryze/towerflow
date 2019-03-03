@@ -144,7 +144,7 @@ towerflow production
 towerflow init hello-word 
 ```
 
-### --template `<template>`
+### --template [template]
 
 指定需要初始化的项目类型
 
