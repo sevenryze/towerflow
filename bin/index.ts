@@ -92,19 +92,25 @@ commander
     }
   );
 
-  commander
-    .command("list")
-    .description("List support templates.")
-    .action(() => {
-      list({
-        ownPath
-      });
+commander
+  .command("list")
+  .description("List support templates.")
+  .action(() => {
+    list({
+      ownPath
     });
+  });
 
 commander
   .command("start")
   .description("Start to develop this project.")
-  .action(() => {
+  .option("--port [port]", "webpack-dev-server listen port")
+  .action((
+    cmdOptions: {
+      port: number
+    }
+  ) => {
+    const { port } = cmdOptions;
     const appPath = process.cwd();
     const appPkgJson = require(parsePath(appPath, "package.json"));
     const appName = appPkgJson.name;
@@ -112,7 +118,7 @@ commander
 
     debug(`${chalk.greenBright("Start command")}. appPath: ${appPath}, appType: ${appType}, ownPath: ${ownPath}`);
 
-    start({ appPath, ownPath, appType });
+    start({ appPath, ownPath, appType, port });
   });
 
 commander
