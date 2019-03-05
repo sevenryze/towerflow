@@ -12,8 +12,9 @@ export async function start(options: {
   appPath: string;
   appType: TowerflowType;
   ownPath: string;
+  port: number;
 }) {
-  const { ownPath, appPath, appType } = options;
+  const { ownPath, appPath, appType, port } = options;
 
   debug(`Check if required files exists`);
   if (!checkRequiredFiles(appPath)) {
@@ -24,6 +25,7 @@ export async function start(options: {
     case TowerflowType.webApp:
     case TowerflowType.webLib:
       runWebpack({
+        port,
         appPath,
         appType,
         buildType: BuildType.dev,

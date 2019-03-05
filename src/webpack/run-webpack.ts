@@ -17,8 +17,9 @@ export function runWebpack(options: {
   ownPath: string;
   indexPath: string;
   publicDirPath: string;
+  port?: number;
 }) {
-  const { buildType } = options;
+  const { appPath, ownPath, buildType, port = 8080 } = options;
 
   debug(`Check if on interactive TTY`);
   const isInteractive = process.stdout.isTTY;
@@ -34,13 +35,17 @@ export function runWebpack(options: {
 
   if (buildType === BuildType.dev) {
     debug(`Get webpack-dev-server config file`);
-    const webpackDevServerConfig = getWebpackDevServerConfig(options);
+    const webpackDevServerConfig = getWebpackDevServerConfig({
+      appPath,
+      ownPath,
+      port
+    });
 
     debug(`Create webpack dev server with configured webpack instance`);
     const devServer = createWebpackDevServer(compiler, webpackDevServerConfig!);
 
     debug(`Launch WebpackDevServer`);
-    devServer.listen(8080, "0.0.0.0", err => {
+    devServer.listen(port, "0.0.0.0", err => {
       if (err) {
         return console.log(err);
       }
