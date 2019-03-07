@@ -1,6 +1,6 @@
 # 简介
 
-towerflow 是一个面向使用typescript开发项目的流程化工具，适用于前端网站和nodejs等多钟项目的开发。
+towerflow 是一个面向使用typescript开发项目的流程化工具，适用于前端网站和nodejs等多种项目的开发。
 
 工具可在 macOS, linux, window 下运行。
 
