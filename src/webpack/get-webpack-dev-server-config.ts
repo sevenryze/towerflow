@@ -6,8 +6,9 @@ const debug = Debug(__filename);
 export function getWebpackDevServerConfig(options: {
   appPath: string;
   ownPath: string;
+  port: number;
 }): webpackDevServer.Configuration {
-  const { appPath, ownPath } = options;
+  const { appPath, ownPath, port } = options;
 
   debug(`Get appPath: ${appPath}, ownPath: ${ownPath}`);
 
@@ -29,7 +30,7 @@ export function getWebpackDevServerConfig(options: {
     quiet: true,
 
     host: "0.0.0.0",
-    port: 8080,
+    port,
 
     historyApiFallback: {
       // Paths with dots should still use the history fallback.
