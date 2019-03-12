@@ -122,9 +122,7 @@ export function getWebpackConfig(options: {
     },
 
     plugins: [
-      new CleanWebpackPlugin([path.join(appPath, "dist")], {
-        root: path.join(appPath),
-      }),
+      new CleanWebpackPlugin(),
 
       new HtmlWebpackPlugin({
         filename: "index.html",
